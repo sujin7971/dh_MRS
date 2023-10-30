@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egov.framework.plms.sub.lime.bean.mvc.mapper.meeting.LimeMeetingStatMapper">
+	<!-- 통계 계산시 사용할 회의 스케줄 필터링 테이블. 오늘 이전 승인처리된 회의스케줄만 조회-->
+	<sql id="withFilteredSchedule">
+	filtered_schedule AS (
+	  	SELECT *
+	  	FROM meeting_schedule
+	  	<where>
+	  		AND approvalStatus = 2 
+	  		AND holdingDate != CURDATE()
+	  		AND delYN = 'N'
+	  		<if test='startDate != null'>
+                AND holdingDate <![CDATA[ >= ]]> STR_TO_DATE(#{startDate},'%Y-%m-%d')
+            </if>
+            <if test='endDate != null'>
+                AND holdingDate <![CDATA[ <= ]]> STR_TO_DATE(#{endDate},'%Y-%m-%d')
+            </if>
+			<if test="officeCode neq null">
+			AND officeCode = #{officeCode}
+			</if>
+	  	</where>
+	)
+	</sql>
+	<!-- 통계 계산시 사용할 각 회의별 회의자료 총 페이지수의 합. 삭제되지 않은 회의자료만 통계 -->
+	<sql id="withMaterialPageStat">
+	material_pages AS (
+	  	SELECT fr.relatedEntityId as meetingId, SUM(IFNULL(fi.pageCount, 0)) as totalPages
+	  	FROM drive_file_relation fr
+	  	JOIN drive_file_info fi
+	  	ON fr.fileId = fi.fileId AND fr.relatedEntityType = 10
+	  	<where>
+	  	AND fr.relationType = 100
+	  	AND fi.delYN = 'N'
+	  	</where>
+	  	GROUP BY fr.relatedEntityId
+	)
+	</sql>
+	<!-- 통계 계산시 사용할 각 회의별 회의 참석자수의 합. 출석체크가 된 삭제되지 않은 참석자만 통계 -->
+	<sql id="withAttendeeCountStat">
+	attendee_count AS (
+	  	SELECT meetingId, COUNT(*) AS totalAttendees
+    	FROM meeting_attendee
+    	<where>
+    	AND delYN = 'N'
+    	AND attendYN = 'Y'
+    	</where>
+    	GROUP BY meetingId
+	)
+	</sql>
+	
+	<!-- 회사전체 용지 절약 통계 -->
+	<select id="getPaperlessStatForCompany" parameterType="egov.framework.plms.main.bean.mvc.entity.common.StatVO" resultType="integer">
+	/* LimeMeetingStatMapper getPaperlessStatForCompany */
+	/* NO_SQL_LOG */
+		WITH <include refid="withFilteredSchedule"></include>
+		, <include refid="withMaterialPageStat"></include>
+		, <include refid="withAttendeeCountStat"></include>
+		SELECT IFNULL(SUM(ac.totalAttendees * mp.totalPages), 0)
+		FROM attendee_count ac
+		JOIN material_pages mp 
+		ON ac.meetingId = mp.meetingId;
+	</select>
+	
+	<!-- 회사전체 총 회의 건 수 / 평균 회의시간 통계 -->
+	<select id="getMeetingCountAndAverageDurationStatForCompany" parameterType="egov.framework.plms.main.bean.mvc.entity.common.StatVO" resultType="egov.framework.plms.main.bean.mvc.entity.common.StatVO">
+	/* LimeMeetingStatMapper getMeetingCountAndAverageDurationStatForCompany */
+	/* NO_SQL_LOG */
+		WITH <include refid="withFilteredSchedule"></include>
+		SELECT 
+			"총 회의 건 수" as statName1,
+  			COUNT(*) as statValue1,
+  			"평균 회의시간" as statName2,
+  			AVG(TIMESTAMPDIFF(MINUTE, beginDateTime, finishDateTime)) as statValue2
+		FROM filtered_schedule
+	</select>
+	
+	<!-- 회사전체 회의 개최가 많았던 부서 TOP5 통계 -->
+	<select id="getTop5DepartmentWithMeetingForCompany" parameterType="egov.framework.plms.main.bean.mvc.entity.common.StatVO" resultType="egov.framework.plms.main.bean.mvc.entity.common.StatVO">
+	/* LimeMeetingStatMapper getTop5DepartmentWithMeetingForCompany */
+	/* NO_SQL_LOG */
+		WITH <include refid="withFilteredSchedule"></include>
+		SELECT 
+			deptId as refId, 
+			COUNT(*) AS statValue1
+		FROM filtered_schedule
+		GROUP BY deptId
+		ORDER BY statValue1 DESC
+		LIMIT 5
+	</select>
+	
+	<!-- 회사전체 월 회의 건 수 추이 -->
+	<select id="getMeetingMonthlyTrendForCompany" parameterType="egov.framework.plms.main.bean.mvc.entity.common.StatVO" resultType="egov.framework.plms.main.bean.mvc.entity.common.StatVO">
+	/* LimeMeetingStatMapper getMeetingMonthlyTrendForCompany */
+	/* NO_SQL_LOG */
+		WITH <include refid="withFilteredSchedule"></include>
+		SELECT 
+			DATE_FORMAT(holdingDate, '%Y') as refYear, 
+			DATE_FORMAT(holdingDate, '%m') as refMonth, 
+    		COUNT(*) as statValue1 
+		FROM filtered_schedule
+		GROUP BY refYear, refMonth
+	</select>
+	
+	<!-- 개인 용지 절약 통계 -->
+	<select id="getPaperlessStatForPersonal" parameterType="egov.framework.plms.main.bean.mvc.entity.common.StatVO" resultType="integer">
+	/* LimeMeetingStatMapper getPaperlessStatForCompany */
+	/* NO_SQL_LOG */
+		WITH <include refid="withFilteredSchedule"></include>
+		, <include refid="withMaterialPageStat"></include>
+		SELECT IFNULL(SUM(mp.totalPages), 0)
+		FROM meeting_attendee att
+		JOIN material_pages mp 
+		ON att.meetingId = mp.meetingId
+		AND att.userId = #{userId}
+		AND att.delYN = 'N';
+	</select>
+	
+	<!-- 개인 내가 진행한 회의 / 총 회의시간 -->
+	<select id="getMeetingCountAndTotalDurationStatForHosting" parameterType="egov.framework.plms.main.bean.mvc.entity.common.StatVO" resultType="egov.framework.plms.main.bean.mvc.entity.common.StatVO">
+	/* LimeMeetingStatMapper getMeetingCountAndTotalDurationStatForHosting */
+	/* NO_SQL_LOG */
+		WITH <include refid="withFilteredSchedule"></include>
+		SELECT 
+			"총 회의 건 수" as statName1,
+  			COUNT(*) as statValue1,
+  			"총 회의시간" as statName2,
+  			SUM(TIMESTAMPDIFF(MINUTE, total.beginDateTime, total.finishDateTime)) as statValue2
+		FROM (
+			SELECT meetingId, beginDateTime, finishDateTime
+			FROM filtered_schedule
+			WHERE scheduleType = "RENTAL"
+			AND writerId = #{userId}
+			
+			UNION ALL
+			
+			SELECT fs.meetingId, fs.beginDateTime, fs.finishDateTime
+			FROM filtered_schedule fs
+			JOIN meeting_attendee att
+			ON fs.meetingId = att.meetingId
+			AND fs.scheduleType = "FORMAL"
+			AND att.userId = #{userId}
+			AND attendRole = "HOST"
+		) total
+	</select>
+	
+	<!-- 개인 참여 회의 건 수 / 총 회의시간 -->
+	<select id="getMeetingCountAndTotalDurationStatForAttendance" parameterType="egov.framework.plms.main.bean.mvc.entity.common.StatVO" resultType="egov.framework.plms.main.bean.mvc.entity.common.StatVO">
+	/* LimeMeetingStatMapper getMeetingCountAndTotalDurationStatForAttendance */
+	/* NO_SQL_LOG */
+		WITH <include refid="withFilteredSchedule"></include>
+		SELECT 
+			"총 회의 건 수" as statName1,
+  			COUNT(*) as statValue1,
+  			"총 회의시간" as statName2,
+  			SUM(TIMESTAMPDIFF(MINUTE, beginDateTime, finishDateTime)) as statValue2
+		FROM filtered_schedule fs
+		JOIN meeting_attendee att
+		ON fs.meetingId = att.meetingId
+		AND fs.scheduleType = "FORMAL"
+		AND att.userId = #{userId}
+	</select>
+	
+	<!-- 개인 소속 사업소 회의 개최가 많았던 부서 TOP5 통계 -->
+	<select id="getTop5DepartmentWithMeetingForOffice" parameterType="egov.framework.plms.main.bean.mvc.entity.common.StatVO" resultType="egov.framework.plms.main.bean.mvc.entity.common.StatVO">
+	/* LimeMeetingStatMapper getTop5DepartmentWithMeetingForOffice */
+		WITH <include refid="withFilteredSchedule"></include>
+		SELECT 
+			deptId as refId, 
+			COUNT(*) AS statValue1
+		FROM filtered_schedule
+		GROUP BY deptId
+		ORDER BY statValue1 DESC
+		LIMIT 5
+	</select>
+	
+	<!-- 개인 참여 월 회의 건 수 추이 -->
+	<select id="getMeetingMonthlyTrendForPersonal" parameterType="egov.framework.plms.main.bean.mvc.entity.common.StatVO" resultType="egov.framework.plms.main.bean.mvc.entity.common.StatVO">
+	/* LimeMeetingStatMapper getMeetingMonthlyTrendForPersonal */
+	/* NO_SQL_LOG */
+		WITH <include refid="withFilteredSchedule"></include>
+		SELECT 
+			DATE_FORMAT(total.holdingDate, '%Y') as refYear, 
+			DATE_FORMAT(total.holdingDate, '%m') as refMonth, 
+    		COUNT(*) as statValue1
+		FROM (
+			SELECT meetingId, holdingDate
+			FROM filtered_schedule
+			WHERE scheduleType = "RENTAL"
+			AND writerId = #{userId}
+			
+			UNION ALL
+			
+			SELECT fs.meetingId, fs.holdingDate
+			FROM filtered_schedule fs
+			JOIN meeting_attendee att
+			ON fs.meetingId = att.meetingId
+			AND fs.scheduleType = "FORMAL"
+			AND att.userId = #{userId}
+		) total
+		GROUP BY refYear, refMonth
+	</select>
+</mapper>

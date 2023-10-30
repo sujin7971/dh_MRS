@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egov.framework.plms.sub.ewp.bean.mvc.mapper.mssql.EwpSmsMapper">
+	<insert id="doSndSms" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.alarm.EwpSmsVO" useGeneratedKeys="true">
+	/* EwpScTranMapper doSndSms */
+		INSERT 
+		INTO SC_TRAN (
+			  TR_SENDDATE
+			, TR_SENDSTAT
+			, TR_MSGTYPE
+			, TR_PHONE
+			, TR_CALLBACK
+			, TR_MSG
+		) VALUES (
+			  GetDate()
+			, #{trSendStat}
+			, #{trMsgType}
+			, #{trPhone}
+			, #{trCallback}
+			, #{trMsg}
+		)
+	</insert>
+</mapper>

@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egov.framework.plms.sub.ewp.bean.mvc.mapper.maria.board.EwpNoticeBoardMapper">
+	<!-- 공지사항 등록 -->
+	<insert id="postNotice" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.board.EwpNoticeBoardVO" useGeneratedKeys="true" keyProperty="noticeId">
+		/* EwpNoticeMapper postNotice */
+		INSERT INTO board_notice(writerId, officeCode, fixYN, title, contents)
+		VALUES(#{writerId}, #{officeCode}, #{fixYN}, #{title},#{contents})
+	</insert>
+	
+	<!-- 공지사항 삭제 -->
+	<update id="deleteNotice">
+		/* EwpNoticeMapper deleteNotice */
+		UPDATE board_notice
+		SET delYN = 'Y'
+		WHERE noticeId = #{noticeId}
+	</update>
+	
+	<!-- 공지사항 수정 -->
+	<update id="putNotice" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.board.EwpNoticeBoardVO">
+		/* EwpNoticeMapper putNotice */
+		UPDATE board_notice
+		<set>
+			, noticeId = noticeId
+			<if test="writerId != null and writerId != ''">
+				, writerId = #{writerId}
+			</if>
+			<if test="officeCode != null and officeCode != ''">
+				, officeCode = #{officeCode}
+			</if>
+			<if test="title != null and title != ''">
+				, title = #{title}
+			</if>
+			<if test="contents != null and contents != ''">
+				, contents = #{contents}
+			</if>
+			<if test="fixYN != null and fixYN != ''">
+				, fixYN = #{fixYN}
+			</if>
+		</set>
+		WHERE noticeId = #{noticeId}
+	</update>
+	
+	<!-- 공지사항 상세 조회 -->
+	<select id="getNoticeOne" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.board.EwpNoticeBoardVO">
+		/* EwpNoticeMapper getNoticeOne */
+		SELECT * FROM board_notice
+		WHERE noticeId = #{noticeId}
+	</select>
+	
+	<!-- 공지사항 리스트 조회 -->
+<!-- 	<select id="getNoticeList" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.board.EwpNoticeBoardVO" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.board.EwpNoticeBoardVO">
+		/* EwpNoticeMapper getNoticeList */
+		SELECT * FROM board_notice
+		<where>
+		<include refid="noticeListCondition"></include>
+		</where>
+		ORDER BY noticeId desc
+		<if test="offset neq null">
+			LIMIT #{offset}, #{limit}
+		</if>
+	</select> -->
+	<sql id="withNoticeFile">
+		notice_file AS (
+			SELECT fi.*, fr.relatedEntityId
+			FROM drive_file_relation fr 
+			LEFT JOIN
+				drive_file_info fi ON fi.fileId = fr.fileId AND fi.delYN = 'N'
+			<where>
+			AND fr.relatedEntityType = 21 
+			AND fr.relationType = 200
+			</where>
+		)
+	</sql>
+	<select id="getNoticeList" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.board.EwpNoticeBoardVO" resultMap="noticeWithFilesResultMap">
+		WITH <include refid="withNoticeFile"></include>
+		/* EwpNoticeMapper getNoticeList */
+		SELECT
+			bn.*,
+        	nf.*
+        FROM (
+        	SELECT *
+			FROM
+				board_notice bn
+			<where>
+				<include refid="noticeListCondition"></include>
+			</where>
+			ORDER BY
+				bn.regDateTime desc
+			<if test="offset neq null">
+				LIMIT #{offset}, #{limit}
+			</if>
+	        ) bn
+		LEFT JOIN
+			notice_file nf ON nf.relatedEntityId = bn.noticeId
+		ORDER BY
+				bn.regDateTime desc, bn.noticeId desc
+	</select>
+	<resultMap id="noticeWithFilesResultMap" type="egov.framework.plms.sub.ewp.bean.mvc.entity.board.EwpNoticeBoardVO">
+	    <id property="noticeId" column="noticeId" />
+	    <result property="writerId" column="writerId" />
+	    <result property="officeCode" column="officeCode" />
+	    <result property="fixYN" column="fixYN" />
+	    <result property="title" column="title" />
+	    <result property="contents" column="contents" />
+	    <result property="regDateTime" column="regDateTime" />
+	    <result property="modDateTime" column="modDateTime" />
+	    <result property="delYN" column="delYN" />
+	    <collection property="fileList" javaType="list" ofType="egov.framework.plms.main.bean.mvc.entity.file.FileInfoVO">
+	        <id property="fileId" column="fileId" />
+	        <result property="sourceId" column="sourceId" />
+	        <result property="uploaderId" column="uploaderId" />
+	        <result property="fileCategory" column="fileCategory" />
+	        <result property="uploadedFileName" column="uploadedFileName" />
+	        <result property="fileLabel" column="fileLabel" />
+	        <result property="fileExt" column="fileExt" />
+	        <result property="uuid" column="uuid" />
+	        <result property="fileSize" column="fileSize" />
+	        <result property="pageCount" column="pageCount" />
+	        <result property="fileStatus" column="fileStatus" />
+	        <result property="conversionStatus" column="conversionStatus" />
+	        <result property="pdfGeneratedYN" column="pdfGeneratedYN" />
+	        <result property="pageImagesGeneratedYN" column="pageImagesGeneratedYN" />
+	        <result property="webpGeneratedYN" column="webpGeneratedYN" />
+	        <result property="uploadDateTime" column="uploadDateTime" />
+	    </collection>
+	</resultMap>
+	<select id="getNoticeListCnt" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.board.EwpNoticeBoardVO" resultType="integer">
+		/* EwpNoticeMapper getNoticeList */
+		SELECT COUNT(*) FROM board_notice bn
+		<where>
+		<include refid="noticeListCondition"></include>
+		</where>
+	</select>
+	<sql id="noticeListCondition">
+		AND bn.delYN = 'N'
+		<if test='(startDate neq null and startDate != "") or (endDate neq null and endDate != "")'>
+			AND (STR_TO_DATE(bn.regDateTime, '%Y-%m-%d') BETWEEN STR_TO_DATE(IFNULL(#{startDate}, NOW()),'%Y-%m-%d') AND STR_TO_DATE(IFNULL(#{endDate}, NOW()),'%Y-%m-%d'))
+		</if>
+		<if test="officeCode != null and officeCode != ''">
+			AND (bn.officeCode = #{officeCode} OR bn.officeCode = '0000')
+		</if>
+		<if test="title != null and title != ''">
+			AND bn.title LIKE CONCAT('%',#{title},'%')
+		</if>
+		<if test="fixYN != null and fixYN != ''">
+			AND bn.fixYN = #{fixYN}
+		</if>
+	</sql>
+	
+	<select id="getFixedNoticeList" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.board.EwpNoticeBoardVO">
+		/* EwpNoticeMapper getFixedNoticeList */
+		SELECT * FROM board_notice
+		WHERE delYN = 'N'
+		AND fixYN = 'Y'
+		<trim prefix="AND" prefixOverrides="AND | OR">
+			<if test="officeCode != null and officeCode != ''">
+				AND officeCode = #{officeCode}
+			</if>
+			<if test="startDate != null and startDate != ''">
+				<![CDATA[
+				AND DATE_FORMAT(regDateTime, '%Y-%m-%d') >= DATE_FORMAT(#{startDate},'%Y-%m-%d')
+				]]>
+			</if>
+			<if test="endDate != null and endDate != ''">
+				<![CDATA[
+				AND DATE_FORMAT(regDateTime, '%Y-%m-%d') <= DATE_FORMAT(#{endDate},'%Y-%m-%d')
+				]]>
+			</if>
+			<if test="contents != null and contents != ''">
+				AND contents LIKE CONCAT('%',#{contents},'%')
+			</if>
+		</trim>
+		ORDER BY regDateTime desc
+	</select>
+	
+	<select id="getNotfixedNoticeList" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.board.EwpNoticeBoardVO">
+		/* EwpNoticeMapper getNotfixedNoticeList */
+		SELECT * FROM board_notice
+		WHERE delYN = 'N'
+		AND fixYN = 'N'
+		<trim prefix="AND" prefixOverrides="AND | OR">
+			<if test="officeCode != null and officeCode != ''">
+				AND officeCode = #{officeCode}
+			</if>
+			<if test="startDate != null and startDate != ''">
+				<![CDATA[
+				AND DATE_FORMAT(regDateTime, '%Y-%m-%d') >= DATE_FORMAT(#{startDate},'%Y-%m-%d')
+				]]>
+			</if>
+			<if test="endDate != null and endDate != ''">
+				<![CDATA[
+				AND DATE_FORMAT(regDateTime, '%Y-%m-%d') <= DATE_FORMAT(#{endDate},'%Y-%m-%d')
+				]]>
+			</if>
+			<if test="contents != null and contents != ''">
+				AND contents LIKE CONCAT('%',#{contents},'%')
+			</if>
+		</trim>
+		ORDER BY regDateTime desc
+			<if test=" !page.equals('') ">
+			LIMIT #{perpage} OFFSET #{page}
+			</if>
+	</select>
+</mapper>

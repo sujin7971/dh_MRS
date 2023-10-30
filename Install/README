@@ -1,0 +1,27 @@
+*Run Configuration: 
+-DJASYPT_PWD=L5f^D?R(6L4#
+-Dlog4jdbc.drivers=com.tmax.tibero.jdbc.TbDriver
+
+*Maven Build Goals: clean install -DskipTests -DJASYPT_PWD=L5f^D?R(6L4#
+
+*FFMPEG
+!!-c:v libwebp 명령어 없는 경우 PNG->WEBP변환시 용량 대폭 증가
+-이미지 변환: ffmpeg.exe -y -i **\*.png(**\*.jpg) -c:v libwebp **\*.webp
+-폴더대상 전체 변환 및 변환전 파일 제거: for %i in (폴더경로\*.png) do ffmpeg.exe -i "%i" -c:v libwebp "폴더경로\%~ni.webp" && del /f/q "%i"
+
+*명령어 참고
+-y 						override file if exist
+%~I                     Expands %I which removes any surrounding
+                        quotation marks ("").
+%~fI                    Expands %I to a fully qualified path name.
+%~dI                    Expands %I to a drive letter only.
+%~pI                    Expands %I to a path only.
+
+%~nI                    Expands %I to a file name only.
+%~xI                    Expands %I to a file extension only.
+
+%~sI                    Expands path to contain short names only.
+%~aI                    Expands %I to the file attributes of file.
+%~tI                    Expands %I to the date and time of file.
+%~zI                    Expands %I to the size of file.
+%~$PATH:I               Searches the directories listed in the PATH environment

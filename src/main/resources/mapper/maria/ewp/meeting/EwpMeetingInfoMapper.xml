@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egov.framework.plms.sub.ewp.bean.mvc.mapper.maria.meeting.EwpMeetingInfoMapper">
+	<insert id="postMeetingInfo" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.meeting.EwpMeetingInfoVO" useGeneratedKeys="true" keyProperty="meetingKey">
+	/* EwpMeetingInfoMapper postMeetingInfo */
+		INSERT INTO meeting_info (
+			writerKey,
+			title, contents, 
+			meetingStatus, elecYN, 
+			secretYN, hostSecuLvl, attendeeSecuLvl, observerSecuLvl, 
+			messengerYN, mailYN, smsYN
+		)
+		VALUES (
+			#{writerKey},
+			#{title}, #{contents}, 
+			IFNULL(#{meetingStatus}, "UNAPPROVAL"), IFNULL(#{elecYN}, 'N'), 
+			IFNULL(#{secretYN}, 'N'), IFNULL(#{hostSecuLvl}, 2), IFNULL(#{attendeeSecuLvl}, 2), IFNULL(#{observerSecuLvl}, 2), 
+			IFNULL(#{messengerYN}, 'N'), IFNULL(#{mailYN}, 'N'), IFNULL(#{smsYN}, 'N')
+		)
+	</insert>
+	<!-- 회의 기본 정보 업데이트. 가예약/예약 상태인 경우만 가능 -->
+	<update id="putMeetingInfo" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.meeting.EwpMeetingInfoVO">
+	/* EwpMeetingInfoMapper putMeeting */
+		UPDATE meeting_info 
+		<set>
+			<if test='writerKey != null'>				
+			,writerKey = #{writerKey}								</if>
+			<if test='title != null and title !=""'>				
+			,title = #{title} 										</if>
+			<if test='contents != null'>			
+			,contents = #{contents} 								</if>
+			<if test='meetingStatus != null'>			
+			,meetingStatus = #{meetingStatus}, stickyBit = 0 		</if>
+			<if test='elecYN != null'>			
+			,elecYN = #{elecYN}, stickyBit = 0						</if>
+			<if test='messengerYN != null'>			
+			,messengerYN = #{messengerYN}							</if>
+			<if test='mailYN != null'>			
+			,mailYN = #{mailYN}										</if>
+			<if test='smsYN != null'>			
+			,smsYN = #{smsYN}										</if>
+			<if test='secretYN != null'>		
+			,secretYN = #{secretYN}, stickyBit = 0 					</if>
+			<if test='hostSecuLvl != null'>			
+			,hostSecuLvl = #{hostSecuLvl}, stickyBit = 0 			</if>
+			<if test='attendeeSecuLvl != null'>			
+			,attendeeSecuLvl = #{attendeeSecuLvl}, stickyBit = 0 	</if>
+			<if test='observerSecuLvl != null'>			
+			,observerSecuLvl = #{observerSecuLvl}, stickyBit = 0 	</if>
+			, meetingKey = #{meetingKey}
+		</set>
+		<where>
+		AND meetingKey = #{meetingKey}
+		AND delYN = 'N'
+		</where>
+	</update>
+	<!-- 회의 기능 제한 값 -->
+	<update id="putMeetingStickyBit" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.meeting.EwpMeetingInfoVO">
+	/* NO_SQL_LOG */
+	/* EwpMeetingInfoMapper putMeetingStickyBit */
+		UPDATE meeting_info
+		SET stickyBit = #{stickyBit}
+		WHERE meetingKey = #{meetingKey}
+	</update>
+	<!-- 정식 회의 완전 삭제.-->
+	<delete id="deleteMeetingInfo" parameterType="integer">
+	/* ScheduleMapper deleteFormalSchedule */
+		UPDATE meeting_info SET delYN = 'Y'
+		<where>
+			AND meetingKey = #{meetingKey}
+		</where> 
+	</delete>
+	
+	<!-- 회의 기능 제한 값 -->
+	<select id="getMeetingStickyBit" parameterType="integer" resultType="integer">
+	/* NO_SQL_LOG */
+	/* EwpMeetingInfoMapper getMeetingStickyBit */
+		SELECT stickyBit
+		FROM meeting_info
+		WHERE meetingKey = #{meetingKey}
+	</select>
+	
+	<!-- 해당 회의에 대한 내용 -->
+	<select id="getMeetingInfoOne" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.meeting.EwpMeetingInfoVO">
+	/* EwpMeetingInfoMapper getMeetingInfoOne */
+	/* NO_SQL_LOG */
+		SELECT *
+		FROM meeting_info
+	 	<where>
+	 		AND meetingKey = #{meetingKey}
+		</where>
+	</select>
+	<select id="getMeetingInfoList" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.meeting.EwpMeetingInfoVO" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.meeting.EwpMeetingInfoVO">
+	/* EwpMeetingInfoMapper getMeetingInfoList */
+	/* NO_SQL_LOG */
+		SELECT *
+		FROM meeting_info
+	 	<where>
+	 		<if test='writerKey != null'>				
+			AND writerKey = #{writerKey}				</if>
+			<if test='meetingStatus != null'>			
+			AND meetingStatus = #{meetingStatus}		</if>
+			<if test='elecYN != null'>			
+			AND elecYN = #{elecYN}						</if>
+			<if test='messengerYN != null'>			
+			AND messengerYN = #{messengerYN}			</if>
+			<if test='mailYN != null'>			
+			AND mailYN = #{mailYN}						</if>
+			<if test='smsYN != null'>			
+			AND smsYN = #{smsYN}						</if>
+			<if test='secretYN != null'>		
+			AND secretYN = #{secretYN}					</if>
+			<if test='hostSecuLvl != null'>			
+			AND hostSecuLvl = #{hostSecuLvl}			</if>
+			<if test='attendeeSecuLvl != null'>			
+			AND attendeeSecuLvl = #{attendeeSecuLvl}	</if>
+			<if test='observerSecuLvl != null'>			
+			AND observerSecuLvl = #{observerSecuLvl}	</if>
+		</where>
+	</select>
+</mapper>

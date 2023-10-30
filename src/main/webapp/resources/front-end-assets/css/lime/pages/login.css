@@ -1,0 +1,8 @@
+@charset "UTF-8";
+.btn-check+.btn {
+    background-color: rgba(0,0,0,0.2);
+}
+.btn-check:checked+.btn {
+    background-Color: #2592f3;
+    color: #fff;
+}

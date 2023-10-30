@@ -1,0 +1,24 @@
+@charset "UTF-8";
+.gnbWrapPC {
+	overflow: hidden;
+}
+.gnbWrapPC li {
+	flex-direction: column;
+}
+.gnbWrapPC li > span {
+	display: block;
+	margin-top: 5px;
+	color: #fff;
+}
+@media screen and (max-width: 940px){
+	.gnbWrapPC {
+		overflow: initial;
+	}
+	.gnbWrapPC li {
+		flex-direction: row !important;
+	}
+	.gnbWrapPC li > span {
+		margin-top: 0px;
+		color: #000 !important;
+	}
+}

@@ -1,0 +1,1443 @@
+@charset "utf-8";
+
+************** SCROLLBAR chrome ***********/
+::-webkit-scrollbar {width:8px; height:8px}
+::-webkit-scrollbar-button:start:decrement, 
+::-webkit-scrollbar-button:end:increment {display:none; height:0; background:#333}
+::-webkit-scrollbar-track {background:none; -webkit-border-radius:10px; border-radius:10px}
+::-webkit-scrollbar-thumb {height:50px; width:50px; background:#727272; -webkit-border-radius:8px; border-radius:8px; -webkit-box-shadow:inset 0 0 4px rgba(0,0,0,.1)}
+
+/*************** index login **************/
+body {display:flex; overflow:auto}
+body.index {position:relative; display:flex; justify-content:center; align-items:center; padding:0 !important;
+background:url(../img/bg.jpg) 0 0 no-repeat; background-size:cover}
+body.index .loginContainer {width:300px; display:flex; flex-direction:column; align-items:center}
+body.index .loginContainer article {width:100%}
+body.index .sys_tit {width:100%; font-weight:bold; text-align:center; color:#034364; text-shadow:0 1px 3px rgb(0 0 0 / 30%); margin:0 0 60px}
+body.index .sys_tit > .ciEWP img {width:38%; height:auto; margin-bottom:30px}
+body.index .sys_tit > .ciTit {font-size:28px; text-align:center; white-space:nowrap}
+
+body.index .plms_tit {display:flex; align-items:center; justify-content:center; margin:0 0 10px}
+body.index .plms_tit > .ciSvg {width:26px; height:auto; margin-right:8px}
+body.index .plms_tit > .ciSvg .d {fill:#034364}
+body.index .plms_tit > .ciSubTit {font-size:10px; color:#034364; white-space:nowrap}
+
+body.index .loginBox {width:100%; z-index:1; position:relative; margin-bottom:40px; 
+  animation-name:s1; animation-duration:1s; animation-delay:0s; animation-fill-mode:both; animation-timing-function:ease}
+body.index .loginBox .inputDiv {display:flex; flex-direction:row; background-color:#fff; border-radius:3px; align-items:center; margin-bottom:12px; border: 1px solid #dcdcdc}
+body.index .loginBox .inputDiv input {border:none !important; flex:1; }
+body.index .loginBox .inputDiv label {margin:0 6px 0 10px; width:70px; font-size:14px; letter-spacing:0; border-right:1px solid #aaa; text-align:left}
+body.index .loginBox .btnLogin {width:100%}
+body.index .loginBox .loginFuction {text-align:center; margin:16px 0 20px; color:#000}
+body.index .copyright {width:100%; text-align:center; font-size:11px}
+
+body.index .waitingroom .ciSvg svg {width:60%}
+body.index .waitingroom .ment {text-align:center; margin-top:3em}
+body.index .waitingroom .ment p {font-size:1.2em; margin-bottom:1.2em; font-family:'Pretendard'; color:#034364}
+body.index .waitingroom .ment .loginBox {margin-top:3em}
+@keyframes s1 {
+  from	{opacity:0.2}
+  to  	{opacity:1}
+}
+
+/* @keyframes s3 {
+  0% 	  {opacity:0; top:-100px}
+  100%	{opacity:1; top:0}
+} */
+body.index .loginTabDiv {width:100%; display:flex; flex-direction:row; font-size:14px; margin-bottom:12px}
+body.index .loginTabDiv li {width:150px; list-style:none; padding:13px 10px; text-align:center; background-color:rgba(0,0,0,0.2); cursor:pointer; margin-bottom:-1px}
+body.index .loginTabDiv li:first-child {border-top-left-radius:3px; border-bottom-left-radius:3px}
+body.index .loginTabDiv li:last-child {border-top-right-radius:3px; border-bottom-right-radius:3px}
+body.index .loginTabDiv li.active {background-Color:#2592f3; color:#fff}
+
+@media screen and (max-width:300px) {
+  .loginContainer {width:94% !important}
+}
+
+/************************* 화면공통 **********************/
+.wrapper {width:100%; /* max-width:1600px; */ padding:20px 20px 20px 140px; display:flex; flex-direction:column; position:relative}
+.titDiv {display:flex; align-items:start; margin-bottom:16px; flex-flow:row wrap}
+.titDiv .backBtnDiv {flex:0 0 100%; display:flex; align-items:center; font-size:28px; color:#034364; height:30px}
+.titDiv .pageTit {display:inline-flex; align-items:center; font-size:20px; font-weight:700; height:30px; margin-right:20px; color:#034364}
+.titDiv .pageTit span+span {margin-left:6px}
+.titDiv .pageTit .dateSelect {text-decoration:underline; color:#005bad; cursor:pointer}
+.titDiv .pageTit .selectDiv {width:94px; min-height:30px; height:32px; margin-right:6px; font-size:20px}
+.titDiv .comment {padding:7px 6px; background-color:#ffd96f; color:#000; border-radius:15px; font-size:1em; line-height:1.2; font-weight:normal; word-break:break-all}
+.titDiv .comment::before {content:'\f05a'; font-family:'fa'; font-weight:700; margin-right:6px; color:#234c79;}
+.titDiv .help {width:24px; height:24px; margin-left:-8px;; border-radius:15px; font-size:1em; cursor:pointer}
+.titDiv .help::before {content:'\f128'; font-family:'fa'; font-weight:700; color:#234c79; background-color:#ffd96f; width:100%; height:100%; display:flex; align-items:center; justify-content:center; border-radius:50%}
+
+.titDiv .mobileSrchBtn {margin-left:auto; width:30px; height:30px; font-size:16px; text-align:center; display:none}
+.titDiv .viewOptionBtn {height:30px}
+
+.bodyDiv {overflow:auto; position:relative}
+.contentDiv {display:flex; width:100%; }
+.pageBtnDiv {display:flex; flex-direction:row; align-items:center; justify-content:flex-start; padding:20px 0; gap:10px; flex-flow:wrap}
+.pageBtnDiv button {min-width:100px}
+/* .pageBtnDiv button+button {margin-left:10px} */
+/* .pageBtnDiv > *+* {margin-left:10px} */
+@media (hover:hover) { /* 모바일에서 hover 제외. 브라우저에서만 작동 */
+  .listBodyDiv .row:hover {background-color:#f4f4f4 !important}
+}
+@media screen and (max-width:940px) {
+  .wrapper {padding:10px 10px 0}
+  .titDiv {margin-top:60px}
+  .titDiv .backBtnDiv {flex:unset; margin-right:14px}
+  .titDiv .pageTit {flex:1; font-size:18px; color:#213a63}
+  .titDiv .pageTit .selectDiv {width:94px; margin-right:6px; font-size:18px}
+  .titDiv .comment {flex:0 0 100%; margin-top:14px; order:3}
+  .titDiv .mobileSrchBtn {display:inline-flex; align-items:center; justify-content:center}
+  .titDiv .viewOptionBtn {margin-left:auto}
+  
+  .titDiv.scheduleWrite .pageTit {order:1}
+  .titDiv.scheduleWrite #callReg {order:2}
+  .titDiv.scheduleWrite .comment {flex:0 0 100%; margin-top:14px; order:3}
+}
+@media screen and (min-width:941px) {
+  .bodyDiv {overflow:auto}
+}
+
+
+
+
+
+/************************* GNB **********************/
+#gnb {z-index:10}
+#gnbScreen {width:100%; height:calc( 100% - 50px ); position:absolute; top:50px; left:0; background-color:rgba(0,0,0,0.4); z-index:10; display:none}
+.gnbWrapPC {display:flex; flex-direction:column; align-items:center; position:absolute; top:0; left:0; z-index:100; background-color:#234c79; height:100%}
+.gnbWrapPC .gnbInfo {width:90px; text-align:center; color:#fff; margin-bottom:10px; position:relative} 
+.gnbWrapPC .gnbInfo::after {content:''; width:70%; height:1px; background-color:#8da6c2; position:absolute; left:50%; bottom:-12px; transform:translateX(-50%)}
+.gnbWrapPC .ci img {width:100%; height:auto}
+.gnbWrapPC .ci .ciSvg {width:64%; fill:#fff; margin:0 auto}
+.gnbWrapPC .ci span {display:none}
+.gnbWrapPC .lct {margin:6px 0 20px; text-align:center}
+.gnbWrapPC .pgName {font-size:12px; font-family:'Pretendard'; margin:0 0 14px; font-weight:600; color:#fff}
+.gnbWrapPC .com {display:none; font-size:12px; font-weight:500; background-color:#e30000; color:#fff; margin-top:6px; padding:4px 0}
+.gnbWrapPC .userName {font-size:14px; font-weight:300; margin-top:10px; cursor:pointer}
+.gnbWrapPC .userName::before {content:'\f2bd'; font-family:'fa'; font-weight:700; margin-right:4px}
+.gnbWrapPC .userName:hover {color:#fff}
+.gnbWrapPC ul {width:90px; padding:20px 0; border-radius:50px}
+.gnbWrapPC li {display:flex; align-items:center; justify-content:center; padding:14px 0}
+.gnbWrapPC li i {font-size:28px; color:#8da6c2; transition:all 0.2s ease; position:relative}
+.gnbWrapPC li > span {display:none}
+.gnbWrapPC li i.fa-calendar::after {content:'MY'; font-family:'Pretendard'; font-size:0.4em; font-weight:600; color:#234c79; position:absolute; right:-1px; bottom:3px; width:100%; text-align:center}
+.btn-screen {position:absolute; top:30px; right:30px; display:flex; align-items:center; justify-content:center; cursor:pointer; color:rgba(0,0,0,0.5); z-index:5; display:none !important}
+.btn-screen::before {font-size:26px; font-family:'fa'; font-weight:500}
+.btn-screen.full::before {content:'\f31d'}
+.btn-screen.win::before {content:'\f78c'}
+
+@media screen and (min-width:941px) {
+  body.mm1 .mn1 i, 
+  body.mm12 .mn12 i, 
+  body.mm15 .mn15 i, 
+  body.mm2 .mn2 i,
+  body.mm3 .mn3 i,
+  body.mm4 .mn4 i,
+  body.mm5 .mn5 i,
+  body.mm6 .mn6 i {font-size:36px; color:#fff !important;  text-shadow:0 3px 0 rgba(0,0,0,0.1)}
+  body.mm1 .mn1 i::after {color:#2955b6}
+  .shy-menu-panel li:hover i {cursor:pointer; font-size:40px}
+  .shy-menu-panel li.mn12 .fa-large {position:relative}
+  .shy-menu-panel li.mn12 .fa-clock {font-size:0.7em; position:absolute; top:0.6em; right:-0.2em; z-index:1; opacity:1}
+  .shy-menu-panel li.mn12 .fa-clock::after {content:'.'; overflow:hidden; color:#588caa; font-size:0.1px; border-radius:10px; display:inline-block; background-color:#234c79; width:100%; height:100%; position:absolute; top:0; left:0; z-index:-1}
+  .shy-menu-panel li.mn5 .fa-lock {font-size:0.6em; position:absolute; top:0.6em; right:-0.2em; z-index:1; opacity:1; background-color:#234c79; border:2px solid #234c79; border-radius:8px}
+}
+
+@keyframes s2 {
+  from 	  {opacity:0; right:-200px}
+  to	{opacity:1; right:-14px}
+}
+@media screen and (max-width:940px) {
+  .gnbWrapPC {flex-direction:row; align-items:center; position:absolute; top:0; left:0px; padding:10px; z-index:10; width:100%; height:50px; color:#fff; background-color:#234c79; box-shadow:0 3px 10px rgb(0 0 0 / 12%);}
+  .gnbWrapPC .gnbInfo {padding:0; background-color:unset; margin-bottom:0} 
+  .gnbWrapPC .gnbInfo::after {display:none}
+  .gnbWrapPC .ci {font-size:28px; margin:0; white-space:nowrap; display:flex; align-items:center}
+  .gnbWrapPC .ci img {width:50px; height:50px; margin-left:-10px}
+  .gnbWrapPC .ci .ciSvg svg {height:21px; width:auto}
+  .gnbWrapPC .ci span {font-size:12px; font-weight:600; margin-left:7px; display:inline-block}
+  .gnbWrapPC .lct {display:none}
+  .gnbWrapPC .shy-menu {width:auto; margin-left:auto; text-align:right; display:flex; align-items:center}
+  .gnbWrapPC .shy-menu .userNameOnlyAndroid {display:inline-block; margin-right:14px; cursor:pointer; font-size:12px; font-weight:bold}
+  .gnbWrapPC .shy-menu .userNameOnlyAndroid::before {content:'\f2bd'; font-family:'fa'; font-weight:700; margin-right:6px}
+  .gnbWrapPC .shy-menu .shy-menu-hamburger {display:inline-block; color:rgba(0,0,0,0.4)}
+  .gnbWrapPC .shy-menu-panel {display:none; animation-name:s2; animation-duration:0.3s; animation-delay:0s; animation-fill-mode:both; animation-timing-function:ease}
+  .gnbWrapPC .shy-menu-panel li i {display:none}
+  .gnbWrapPC ul {width:250px; background-color:#fff; display:flex; flex-direction:column; border-radius:0; padding:0; box-shadow:-4px 4px 4px rgba(0,0,0,0.3)}
+  .gnbWrapPC li {width:100%; height:60px; justify-content:flex-start; padding:16px 10px 16px 20px; border:1px solid #555; position:relative}
+  .gnbWrapPC li::after {content:'\f105'; font-family:'fa'; font-size:18px; position:absolute; right:10px; top:20px}
+  .gnbWrapPC li+li {border-top:0}
+  .gnbWrapPC li i {width:40px; font-size:24px; color:#85c341}
+  .gnbWrapPC li > span {display:inline-block; font-size:16px; font-weight:bold}
+  .shy-menu {width:100%}
+  .shy-menu.is-open {position:absolute; top:10px; right:10px}
+  .shy-menu.is-open .shy-menu-panel {display:flex; margin-right:0; position:absolute; top:40px; right:-14px; color:#234c79}
+  .gnbWrapPC li.mn6 {color:#000}
+  .gnbWrapPC li.mn6 i {display:none}
+  .btn-screen {display:none}
+}
+
+/*** Hamburger ***/
+.userNameOnlyAndroid {display:none}
+.shy-menu-hamburger {width:30px; height:30px; display:block; position:relative; overflow:hidden; cursor:pointer; margin-left:auto; outline:none; display:none}
+.shy-menu-hamburger > .layer {background-color:#fff; border-radius:1px; display:block; height:2px; overflow:hidden; position:absolute; left:5px; width:18px}
+.shy-menu-hamburger .layer.top { top:7px; left:6px}
+.is-open .shy-menu-hamburger .layer.top {top:14px; left:6px; transform:rotate(45deg)}
+.shy-menu-hamburger .layer.mid { top:14px; left:6px }
+.is-open .shy-menu-hamburger .layer.mid {opacity:0; left:0;}
+.shy-menu-hamburger .layer.btm { top:21px; left:6px }
+.is-open .shy-menu-hamburger .layer.btm {top:14px; left:6px; transform:rotate(-45deg)}
+
+
+
+
+/************************* 회의스케줄 home.htm **********************/
+.bodyDiv.home {display:flex; flex-direction:row; height:100%; overflow:hidden}
+.bodyDiv.home > * {flex:1}
+
+.wrapper.home .titDiv {padding-left:10px}
+.homeCardListDiv {display:flex; flex-direction:column; align-content:flex-start; overflow:auto; counter-reset:chapter 0}
+.homeCardListDiv .container {overflow-y:auto; overflow-x:hidden; padding:4px; background-color:#e6e6e6;
+  border:1px solid #ccc; overflow-y:auto; border-radius:6px; height:100%}
+.homeCardListDiv .calendarDiv,
+.homeCardListDiv .cardDiv {width:100%; padding-bottom:20px; margin:0 0 4px; border-radius:6px; position:relative; background-color:#fff; border:1px solid silver; overflow:hidden}
+.homeCardListDiv .cardDiv:hover {border:1px solid #234c79}
+
+.homeCardListDiv .cardDiv .mPropertyDiv {margin-top:20px; margin-left:18px; height:30px; display:flex}
+.homeCardListDiv .cardDiv .mPropertyDiv > div+div {margin-left:6px}
+.homeCardListDiv .cardDiv .timePlaceDiv {display:flex; margin-top:20px; padding:0 20px; flex-direction:column; position:relative}
+.homeCardListDiv .cardDiv .timePlaceDiv > div+div {margin-top:4px}
+.homeCardListDiv .cardDiv .pubSecDiv {margin:16px 0 10px 20px}
+.homeCardListDiv .cardDiv .meetDate {font-size:15px}
+.homeCardListDiv .cardDiv .meetTit {font-size:16px; margin:10px 20px 10px 20px; line-height:1.2; word-break:keep-all}
+.homeCardListDiv .cardDiv .meetTit > div {line-height:1.4; margin-bottom:6px} 
+.homeCardListDiv .cardDiv .meetTit > span {display:inline-block !important; margin-right:6px}
+.homeCardListDiv .cardDiv .meetTit.publicY .open {display:none !important}
+.homeCardListDiv .cardDiv .meetHost {font-size:14px; padding:6px 10px; margin:0 0 0 20px; background-color:#efefef; border-radius:6px; display:inline-block }
+.homeCardListDiv .cardDiv .meetHost > span {margin-right:6px}
+.homeCardListDiv .cardDiv .meetHost > span:first-child {font-weight:bold}
+.homeCardListDiv .cardDiv.addCard {padding:0; height:200px; background-color:#e7e7e7; border:unset}
+.homeCardListDiv .cardDiv.addCard::after {content:'\f067'; font-family:'fa'; font-weight:500; font-size:90px; color:#6cbc07; display:flex; width:100%; height:100%; align-items:center; justify-content:center}
+.homeCardListDiv .cardDiv.addCard::before {content:'' !important}
+
+@media screen and (max-width:300px) {
+  .homeCardListDiv .cardDiv .meetTit, 
+  .homeCardListDiv .cardDiv .meetHost {text-align:center}
+  .homeCardListDiv .cardDiv .meetTime {font-size:32px !important}
+}
+@media screen and (max-width:760px) {  
+  .bodyDiv.home {display:flex; flex-direction:column; overflow:none !important}
+  .homeCardListDiv {overflow:unset; order:2; padding-top:unset !important}
+  .homeCardListDiv .titDiv {padding-right:0; margin:20px 0 10px}
+  .homeCardListDiv .titDiv .pageTit {flex:1}
+  .homeCardListDiv .container {padding:4px 4px 0}
+  .homeCardListDiv .calendarDiv, 
+  .homeCardListDiv .cardDiv {width:100%; height:auto; margin:0 0 4px}  
+  .homeCardListDiv .cardDiv {padding-bottom:40px}
+  .homeCardListDiv .cardDiv .meetTit {margin-top:20px !important}
+  .homeCardListDiv .cardDiv .meetTime {font-size:42px}
+  .homeCardListDiv .cardDiv.addCard {display:none}
+}
+@media screen and (max-width:940px) {
+  .homeCardListDiv {padding-top: 30px}
+  .homeCardListDiv .titDiv {margin:20px 0 10px}
+}
+
+.homeRightDiv {display:flex; flex-direction:column; margin-left:20px; overflow:auto}
+.homeRightDiv > * {display:flex; flex-direction:column}
+.homeRightDiv > .alarmSection {flex:1; overflow:auto}
+.homeRightDiv > .statSection {flex:1; margin-top:24px}
+.homeRightDiv > .noticeSection {flex:1; margin-top:24px; overflow:auto}
+
+.homeRightDiv > .alarmSection .container {flex:1; background-color:#e6e6e6; border:1px solid #ccc; padding:4px 4px 0; overflow-y:auto; border-radius:6px}
+.homeRightDiv > .alarmSection .pageTit > span:last-child {font-size:14px; font-weight:500; margin-left:auto }
+.homeRightDiv > .alarmSection .row {display:flex; padding:10px; margin-bottom:4px; background-color:#fff; border-radius:6px; border:1px solid #ccc; position:relative; cursor:pointer}
+.homeRightDiv > .alarmSection .row::after {content:''; width:4px; height:4px; background-color:red; border-radius:2px; position:absolute; top:5px; left:5px}
+.homeRightDiv > .alarmSection .row.done::after {content:''; display:none}
+.homeRightDiv > .alarmSection .row.done * {color:#aaa !important}
+
+.row.more {justify-content:center}
+.row.more::after {content:''; display:none}
+
+.homeRightDiv > .alarmSection .row > * {display:flex}
+.homeRightDiv > .alarmSection .host {flex:0 0 30px; height:30px; border-radius:50%; overflow:hidden; position:relative}
+.homeRightDiv > .alarmSection .host::before {content:'\f007'; font-family:'fa'; font-weight:700; color:#fff; background-color:#234c79; display:flex; align-items:center; justify-content:center; width:100%; height:100%}
+.homeRightDiv > .alarmSection .host > img {position:absolute; left:-1px; top:-1px; width:32px; height:32px}
+.homeRightDiv > .alarmSection .message {flex:1; margin-left:8px; align-items:center}
+.homeRightDiv > .alarmSection .message > div {flex:1; line-height:1.4}
+.homeRightDiv > .alarmSection .regDate {flex:0 0 70px; font-size:13px; color:#5892c5; align-items:center; margin-left:auto; text-align:right; font-weight:300}
+
+.homeRightDiv > .noticeSection .container {flex:1; background-color:#e6e6e6; border:1px solid #ccc; padding:4px 4px 0; overflow-y:auto; border-radius:6px}
+.homeRightDiv > .noticeSection .pageTit > span:last-child {font-size:14px; font-weight:500; margin-left:auto }
+.homeRightDiv > .noticeSection .row {display:flex; padding:10px; margin-bottom:4px; background-color:#fff; border-radius:6px; border:1px solid #ccc; position:relative; cursor:pointer}
+.homeRightDiv > .noticeSection .row.fixTop::after {content:'\f08d'; font-family:'fa'; font-size:18px; font-weight:700; color:#234c79; position:absolute; top:-3px; left:2px; transform:rotate(330deg)}
+.homeRightDiv > .noticeSection .row > * {display:flex}
+
+.homeRightDiv > .noticeSection .num {flex:0 0 40px; height:30px; border-radius:4px;text-align:center; position:relative; align-items:center; justify-content:center; background-color:#ededed}
+.homeRightDiv > .noticeSection .branch {border-radius:3px; background-color:#efefef; color:#000; font-size:13px; padding:2px 4px; display:inline-block; }
+.homeRightDiv > .noticeSection .message {flex:1; margin-left:8px; align-items:center}
+.homeRightDiv > .noticeSection .message > div {flex:1; line-height:1.4}
+.homeRightDiv > .noticeSection .regDate {flex:0 0 70px; font-size:13px; align-items:center; margin-left:auto; text-align:right; font-weight:300}
+
+#noticeModal .modal_content {max-width:90%}
+#noticeModal .modalBody {padding:40px}
+#noticeModal .tit {font-size:16px; font-weight:700}
+#noticeModal .content {font-size:15px; font-weight:500; line-height:1.4; white-space:pre-line}
+#noticeModal .regDate {font-size:14px; font-weight:500; text-align:right; margin-top:30px}
+#noticeModal .regDate > *+* {margin-left:8px}
+
+@media screen and (max-width:940px) {
+  .wrapper.home {padding:20px}
+  .homeRightDiv {padding-top: 30px !important}
+  .homeRightDiv .statSection,
+  .homeRightDiv .noticeSection {margin-top:0}
+  .homeRightDiv .alarmSection .titDiv,
+  .homeRightDiv .statSection .titDiv,
+  .homeRightDiv .noticeSection .titDiv {margin:20px 0 10px}
+}
+
+@media screen and (max-width:760px) {
+  .wrapper.home {padding:10px}
+  .bodyDiv.home {overflow:auto}
+  .homeRightDiv {overflow:unset}
+  #noticeModal .modalBody {padding:20px}
+  .homeRightDiv > .alarmSection {margin-top:unset !important; flex:unset}
+  .homeRightDiv > .alarmSection .titDiv {margin:20px 0 4px}
+  .homeRightDiv > .alarmSection .container {flex:unset; max-height:150px;}
+  .homeRightDiv > .statSection {margin-top:0 !important; display:none}
+  .homeRightDiv > .noticeSection {margin-top:0 !important; flex:unset}  
+  .homeRightDiv > .noticeSection .container {flex:unset; max-height:140px}
+
+  .homeRightDiv .noticeSection .titDiv {margin:10px 0 4px}
+  .homeCardListDiv .titDiv {margin:10px 0 4px}
+  .titDiv .pageTit {font-size:16px}
+}
+
+.homeRightDiv > .statSection .container {flex:1; display:flex; flex-direction:column; border-radius:6px; padding:1em !important; background:url(../img/stat_bg2.png), #a1e655; background-position:50% 100%; background-repeat:no-repeat; background-size:cover;}
+.homeRightDiv > .statSection .container .detail {flex:1; display:flex; flex-flow: row wrap}
+.homeRightDiv > .statSection .container .detail > article {flex:0 0 50%; text-align:center; display:flex; flex-direction:column; align-items:center; justify-content:center; position:relative}
+.homeRightDiv > .statSection .container .detail > article .item {font-size:18px; font-weight:700; margin-bottom:10px; color:#365215; z-index:1}
+.homeRightDiv > .statSection .container .detail > article .answer {font-size:24px; font-weight:700; color:#fff; text-shadow: 0 3px 4px rgb(0 0 0 / 20%); z-index:1}
+.homeRightDiv > .statSection .container .ment {font-size:14px; font-weight:400; color:#427d89; padding:1vh 1vw 0}
+
+.homeRightDiv > .statSection article::before {font-size:100px}
+.homeRightDiv > .statSection .paper::before {content:'\f0c5'; font-family:'fa'; font-weight:700; color:rgba(255,255,255,0.3); position:absolute; top:50%; left:50%; transform: translate(-50%,-50%)}
+.homeRightDiv > .statSection .money::before {content:'\f81d'; font-family:'fa'; font-weight:700; color:rgba(255,255,255,0.3); position:absolute; top:50%; left:50%; transform: translate(-50%,-50%)}
+.homeRightDiv > .statSection .co2::before {content:'\f3b3'; font-family:'fa'; font-weight:700; color:rgba(255,255,255,0.3); position:absolute; top:50%; left:50%; transform: translate(-50%,-50%)}
+.homeRightDiv > .statSection .water::before {content:'\f043'; font-family:'fa'; font-weight:700; color:rgba(255,255,255,0.3); position:absolute; top:50%; left:50%; transform: translate(-50%,-50%)}
+.homeRightDiv > .statSection article::before {font-size:100px}
+
+
+
+@media screen and (max-width:760px) {
+  .homeRightDiv {margin-left:0}
+  .homeRightDiv > .statSection .container .detail {flex-direction:row; flex-flow:unset; margin:2vw 0}
+  .homeRightDiv > .statSection .container .detail > article {flex:1 1 25%; margin: 3vw 0;}
+  .homeRightDiv > .statSection .container .detail > article .item {font-size:2.3vw; margin-bottom:1.5vw}
+  .homeRightDiv > .statSection .container .detail > article .answer {font-size:2.7vw}
+  .homeRightDiv > .statSection article::before {font-size:12vw}
+}
+@media screen and (max-width:540px) {
+  .homeRightDiv > .statSection .container .detail {flex-flow:row wrap}
+  .homeRightDiv > .statSection .container .detail > article {flex:1 1 50%}
+  .homeRightDiv > .statSection .container .detail > article .item {font-size:3.7vw; margin-bottom:1.5vw}
+  .homeRightDiv > .statSection .container .detail > article .answer {font-size:4.7vw}
+
+}
+
+
+
+/************************* 회의스케줄 schedule.htm **********************/
+.addBtnDiv {width:60px; height:60px; position:absolute; bottom:10px; right:10px; font-size:30px; cursor:pointer;  display:flex; align-items:center; justify-content:center; border-radius:14%; background:#6cbc07; color:#fff; border:unset}
+.cardListDiv {display:flex; flex-flow:row wrap; align-content:flex-start; counter-reset:chapter 0}
+.cardListDiv .calendarDiv,
+.cardListDiv .cardDiv {height:360px; margin:0 10px 10px 0; border-radius:6px; position:relative; background-color:#fff; overflow:hidden; border:1px solid #d3d3d3}
+.cardListDiv .cardDiv:hover {border-color:#234c79}
+.cardListDiv .cardDiv .mPropertyDiv {margin-top:20px; margin-left:18px; height:30px; display:flex}
+.cardListDiv .cardDiv .mPropertyDiv > div+div {margin-left:6px}
+.cardListDiv .cardDiv .timePlaceDiv {display:flex; margin-top:30px; padding:0 20px; flex-direction:column; position:relative}
+.cardListDiv .cardDiv .timePlaceDiv > div+div {margin-top:4px}
+.cardListDiv .cardDiv .pubSecDiv {margin:40px 0 10px 20px}
+.cardListDiv .cardDiv .meetTit {font-size:16px; margin:10px 20px 10px 20px; line-height:1.2}
+.cardListDiv .cardDiv .meetTit > div {line-height:1.4; margin-bottom:6px} 
+.cardListDiv .cardDiv .meetTit > span {display:inline-block !important; margin-right:6px}
+.cardListDiv .cardDiv .meetTit.publicY .open {display:none !important}
+.cardListDiv .cardDiv .meetHost {font-size:14px; padding:6px 10px; margin:16px 20px 0 20px; background-color:#efefef; border-radius:6px; display:inline-block }
+.cardListDiv .cardDiv .meetHost > span {margin-right:6px}
+.cardListDiv .cardDiv .meetHost > span:first-child {font-weight:bold}
+.cardListDiv .cardDiv.addCard {order:3}
+.cardListDiv .cardDiv.addCard::after {content:'\f067'; font-family:'fa'; font-weight:500; font-size:90px; color:#6cbc07; display:flex; width:100%; height:100%; align-items:center; justify-content:center}
+.cardListDiv .cardDiv.addCard::before {content:'' !important}
+
+/* #meetingTypeModal .cateBtnDiv {display:flex; flex-direction:row; align-items:center} */
+/* #meetingTypeModal .cateBtnDiv > div {flex:1; border-radius:3px; display:flex; align-items:center; justify-content:center} */
+/* #meetingTypeModal .cateBtnDiv label > span {display:block; text-align:center; font-size:20px; font-weight:700; padding:20px 0; height:unset;} */
+/* #meetingTypeModal .cateBtnDiv label > span span {display:block; text-align:center; font-size:16px; font-weight:700; margin-top:10px} */
+/* #meetingTypeModal .optionBtnDiv {display:flex; flex-direction:row; align-items:center; justify-content:center; margin:26px 0 10px; font-size:16px} */
+/* #meetingTypeModal .optionBtnDiv input[type='checkbox'] {flex:0 0 24px; width:24px; height:24px; margin-right:10px;} */
+/* #meetingTypeModal .tm::before {content:'\f0e7'; font-family:'fa'; font-weight:700; font-size:24px; color:#073064; margin-right:12px; position:absolute; left:40px} */
+/* #meetingTypeModal .sm::before {content:'\f017'; font-family:'fa'; font-weight:700; font-size:24px; color:#073064; margin-right:6px; position:absolute; left:35px} */
+
+@media screen and (max-width:300px) {
+  .cardListDiv .cardDiv .meetTit, 
+  .cardListDiv .cardDiv .meetHost {text-align:center}
+  .cardListDiv .cardDiv .meetTime {font-size:32px !important}
+}
+@media screen and (max-width:760px) {  
+  .bodyDiv {overflow:none !important}
+  .cardListDiv .calendarDiv, 
+  .cardListDiv .cardDiv {width:100%; height:auto; margin:0 0 10px}  
+  .cardListDiv .cardDiv {padding-bottom:40px}
+  .cardListDiv .cardDiv .meetTit {margin-top:20px !important}
+  .cardListDiv .cardDiv .meetTime {font-size:42px}
+  .cardListDiv .cardDiv.addCard {display:none}
+}
+@media screen and (min-width:761px) {
+  .cardListDiv .calendarDiv, 
+  .cardListDiv .cardDiv {width:calc( 100% / 2 - 10px)}
+  .cardListDiv .cardDiv .timePlaceDiv {flex-direction:column}
+}
+@media screen and (min-width:1200px) {
+  .cardListDiv .calendarDiv, 
+  .cardListDiv .cardDiv  {width:calc( 100% / 3 - 20px)}
+}
+@media screen and (min-width:1400px) {
+  .cardListDiv .calendarDiv, 
+  .cardListDiv .cardDiv  {width:calc( 100% / 4 - 10px)}
+}
+
+.cardDiv:before {counter-increment:chapter; content:counter(chapter); font-size:160px; color:rgba(0,0,0,0.05); position:absolute; right:-4%; bottom:0; font-family:'Pretendard'; font-weight:600}
+.cardDiv {cursor:pointer}
+/*
+			구분(예약대상)에 따라
+				.mr 회의실 (meeting room)
+				.lr 강의실 (lecture room)
+				.at 강당 (auditorium)
+				.tm 즉시회의 (temporary meeting)
+
+			회의 스케줄 상태(status) 에 따라
+				.s0 승인대기 
+				.s1 예약승인됨 
+				.s2 사용중
+				.s3 종료됨
+				.s4 취소됨 (신청자의 자의적 취소)
+				.s5 승인불가 (관리자에 의한 취소)
+
+			회의 참석(attend) 여부에 따라
+				.a1 참석자 (필수 참석)
+				.a2 참관자 (선택 참석)
+
+				.a3 참석했음
+				.a4 불참했음
+
+      .secu 기밀회의
+			.elec	전자회의
+			.my 	내가 주최하는 회의
+			.writer 내가 대리로 등록한 회의
+*/
+.cardDiv.s0 {background-color:#fff}
+.cardDiv.s1 {color:#000}
+.cardDiv.s2 {color:#000}
+.cardDiv.s3 {background-color:#e8e8e8  !important; color:#b1b1b1 !important; border:1px solid #ccc}
+.cardDiv.s4 {background-color:#e8e8e8; color:#b1b1b1}
+
+.cardDiv.writer {color:#333}
+.cardDiv .electDoc {display:none}
+.cardDiv .attend {display:none; font-weight:500; border-radius:20px; white-space:nowrap; height:30px; padding:0 10px; align-items:center}
+.cardDiv .mandatory {background-color:#234c79; color:#fff; white-space:nowrap }
+.cardDiv .mandatory::after {content:'필수참석'}
+.cardDiv .option {background-color:#ffffff; color:#034364; border:1px solid #034364; white-space:nowrap}
+.cardDiv .option::after {content:'선택참석'}
+.cardDiv .finishIn {background-color:#b1b1b1; color:#e7e7e7; white-space:nowrap; padding:8px 14px; width:auto}
+.cardDiv .finishIn::after {content:'참석'}
+.cardDiv .finishNo {background-color:#b1b1b1; color:#e7e7e7; white-space:nowrap; padding:8px 14px; width:auto}
+.cardDiv .finishNo::after {content:'불참'}
+.cardDiv .finish {color:rgba(255,255,255,0.7); background-color:rgba(0,0,0,0.4); white-space:nowrap; padding:8px 14px; width:auto}
+.cardDiv .finish::after {content:'종료'}
+.cardDiv .count {display:inline-flex; align-items:center; padding:0 16px; height:30px; background-color:#ff8d00; color:#fff; align-self:center; font-weight:500; border-radius:20px}
+.cardDiv .myTab {background-color:#234c79; color:#fff; font-size:14px; padding:26px 32px 6px; transform:rotate(45deg); position:absolute; top:-10px; right:-38px; white-space:nowrap; display:none}
+.cardDiv .myTab::after {content:'내회의'; font-weight:bold}
+.cardDiv .regTab {position:absolute; top:-9px; right:-42px; white-space:nowrap; background-color:#9d9d9d; color:#fff; font-size:14px; padding:26px 32px 6px; transform:rotate(45deg); display:none}
+.cardDiv .regTab::after {content:'대리등록'; letter-spacing:-1px}
+.cardDiv .cancelTab {padding:8px 16px; color:#8a0000; border-radius:20px; background-color:#d8d8d8; white-space:nowrap; display:none}
+.cardDiv .cancelTab::after {content:'회의취소'; font-weight:bold}
+.cardDiv .meetTime {font-size:52px; font-family:'Pretendard'; display:flex; align-items:center; letter-spacing:-1px}
+.cardDiv .meetTime span {font-size:20px; margin-left:6px}
+.cardDiv .meetPlace {font-size:22px; font-weight:bold}
+.blink {animation-name:s1; animation-duration:1.5s; animation-delay:0s; animation-fill-mode:both; animation-timing-function:ease; animation-iteration-count: infinite;}
+
+
+
+
+/* 카드안의 요소들 조건문 */ 
+.cardDiv .mDivision {display:inline-flex !important; font-weight:500; border-radius:0 20px 20px 0; height:30px; padding:0 16px; align-items:center; background-color:#234c79; color:#fff; margin-left:-20px; position:relative}
+.cardDiv.s1 .count {background-color:#2955b6}
+.cardDiv.s2 .count {background-color:#2955b6; animation-name:s1; animation-duration:1s; animation-delay:0s; animation-fill-mode:both; animation-timing-function:ease; animation-iteration-count:infinite}
+.cardDiv.s1.a1 .mandatory {display:inline-flex !important}
+.cardDiv.s1.a2 .option {display:inline-flex !important}
+.cardDiv.s2.a1 .mandatory {display:inline-flex !important}
+.cardDiv.s2.a2 .option {display:inline-flex !important}
+.cardDiv.s0 .count::after {content:'승인대기'}
+/* .cardDiv.s1 .count {display:none} 시작 10분전부터 카운트해야해서 none할수 없음.*/
+.cardDiv.s3 .electDoc {color:#b1b1b1 !important}
+.cardDiv.s2 .count::after {content:'사용중'}
+.cardDiv.s3 .security span::before {opacity:30%}
+.cardDiv.s3 .myTab, .cardDiv.s3 .regTab, .cardDiv.s4 .myTab, .cardDiv.s4 .regTab {background-color:#b1b1b1; color:#e7e7e7}
+.cardDiv.s3.a3 .finishIn {display:inline-flex !important}
+.cardDiv.s3.a4 .finishNo {display:inline-flex !important}
+.cardDiv.s3.a5 .finish {display:inline-flex !important}
+.cardDiv.s3 .count {display:none}
+.cardDiv.s3 .meetHost {background-color:#dedede}
+.cardDiv.s3 .mDivision {background-color:#b1b1b1; color:#e7e7e7}
+.cardDiv.s3::after {content:'사용완료'; font-size:30px; font-weight:500; color:#f0f0f0; width:50%; text-align:center; background-color:#6c6c6c3d; padding:8px; border-radius:4px;  position:absolute; left:50%; top:50%; transform:translate(-50%, -50%) rotate(-19deg)}
+.cardDiv.s4::after {content:'사용취소'; font-size:30px; font-weight:500; color:#f0f0f0; width:50%; text-align:center; background-color:#6c6c6c3d; padding:8px; border-radius:4px;  position:absolute; left:50%; top:50%; transform:translate(-50%, -50%) rotate(-19deg)}
+.cardDiv.s4 .electDoc {color:#b1b1b1 !important}
+.cardDiv.s4 .count {display:none}
+.cardDiv.s4 .meetTime, 
+.cardDiv.s4 .meetPlace, 
+.cardDiv.s4 .meetTit {text-decoration:line-through}
+.cardDiv.s4 .meetHost {background-color:#dedede}
+.cardDiv.s4 .mDivision {background-color:#b1b1b1; color:#e7e7e7}
+.cardDiv.s5::after {content:'승인불가'; font-size:30px; font-weight:500; color:#fff; width:50%; text-align:center; background-color:#c52424; padding:8px; border-radius:4px; position:absolute; left:50%; top:50%; transform:translate(-50%, -50%) rotate(-19deg)}
+.cardDiv.elec .electDoc {display:flex; position:relative; color:#234c79}
+.cardDiv.elec .electDoc::before {content:'\f3fc'; font-family:'fa'; font-size:30px; font-weight:700}
+.cardDiv.elec .electDoc::after {content:'\f304'; font-family:'fa'; font-size:16px; font-weight:900; position:absolute; left:22%; top:13%}
+.cardDiv.secu .pubSecDiv > span::before {content:'기밀회의'; padding:5px 0; border-radius:4px; background-color:#c52424; font-size:12px; font-weight:500; color:#fff; display:block; text-align:center; width:56px}
+/* .cardDiv.elec .pubSecDiv > span::before {content:'일반회의'; padding:5px 0; border-radius:4px; background-color:#ddd; font-size:12px; font-weight:500; color:#333; display:block; text-align:center; width:56px} */
+.cardDiv.s3.secu .pubSecDiv > span::before,
+.cardDiv.s4.secu .pubSecDiv > span::before {background-color:#b1b1b1; color:#e7e7e7}
+
+.cardDiv.my .myTab {display:inline-flex !important}
+.cardDiv.my .regTab {display:none}
+.cardDiv.writer .regTab {display:inline-flex !important}
+
+/* 회의구분 스케줄회의, 임시회의 */ 
+.cardDiv.mr .mDivision::before {content:'회의실'}
+.cardDiv.lr .mDivision::before {content:'강의실'}
+.cardDiv.at .mDivision::before {content:'강당'}
+.cardDiv.tm .mDivision::before {content:'즉시회의'}
+
+/* 모바일 플로팅 '쓰기' 버튼 */ 
+.floatingAddBtn {position:fixed; bottom:16px; left:calc( 50% - 20px ); background-color:#fff; border-radius:14%; border:1px solid #f1f1f1; width:56px; height:56px; box-shadow:0 6px 6px rgb(0 0 0 / 20%); color:#034364; cursor:pointer; z-index:5; background:#6cbc07; color:#fff }
+.floatingAddBtn:after {content:"\f067"; font-family:'fa'; font-size:30px; height:100%; display:flex; align-items:center; justify-content:center}
+
+@media (max-width:940px) {
+  .floatingAddBtn {left:calc( 50% - 80px)}
+  .addBtnDiv {display:none}
+}
+@media (max-width:760px) {
+  .floatingAddBtn {left:unset; right:20px}
+ 
+}
+
+/************************* 배정현황 schedule_calendar.htm **********************/
+.pageTit.dateplace {flex-direction:row}
+.pageTit.dateplace .radioDiv2 {margin-left:20px}
+.pageTit.dateplace .radioDiv2 label > span {min-width:130px}
+.pageTit.dateplace+.comment {flex:0 0 100%; margin-top:8px}
+
+@media (max-width:940px) {
+  .pageTit.dateplace {flex-direction:column; height:unset}
+  .pageTit.dateplace .radioDiv2 {width:100%; height:30px; margin:10px 0 0}
+  .pageTit.dateplace .radioDiv2 label > span {min-width:unset}
+  
+}
+
+.bodyDiv.scheduleListUpperDiv {display:flex; overflow-x:hidden; overflow-y:hidden}
+.scheduleListDiv {flex-direction:column; overflow-y:hidden; overflow-x:auto}
+.roomTitContainer {/* width:max-content; */ white-space:nowrap; flex:0 0 40px; display:flex}/* width:max-conten 가 ie 에서 불능. ie 에서는 width를 지정해줘야 함 */
+.roomTimeContainer{/* width:max-content; */ white-space:nowrap;  flex:1 1 auto; overflow-x:hidden; overflow-y:auto; display:flex; flex-direction:row}/* width:max-conten 가 ie 에서 불능. ie 에서는 width를 지정해줘야 함 */
+.roomTitContainer .roomTit  {width:160px; height:44px; display:inline-flex; flex-direction:column; align-items:start; justify-content:start; border-top-left-radius:8px; border-top-right-radius:8px; 
+  background-color:#dce8ed; font-weight:500; border:1px solid #588ba1; border-bottom:none; padding:0 1px; margin-right:3px; position:relative} 
+  .roomTitContainer .roomTit > .personnel {display:block; font-size:12px; color:#0f368b; margin:3px 3px 2px auto}
+.roomTitContainer .roomTit > .roomName {white-space:normal; font-size:12px; text-align:center;  margin:0 auto auto}
+
+.roomTimeContainer .room    {width:160px; display:inline-flex; flex-direction:column; margin-right:3px;}
+.roomTimeContainer .timeRow {flex:0 0 18px; background-color:#e0e6eb; position:relative; border:1px solid #588ba1}
+.roomTimeContainer .timeRow.selectable {flex:0 0 18px; background-color:#fff; position:relative; border:1px solid #588ba1}
+.roomTimeContainer .timeRow.selectable .timeText  {color:#333}
+.roomTimeContainer .timeRow+.timeRow {margin-top:-1px}
+.roomTimeContainer .timeText  {position:absolute; color:#85929d; left:0; right:0; top:0px; bottom:0; cursor:pointer}
+.roomTimeContainer .timeText .minute {display:none; font-family:arial; font-size:10px; position:absolute; top:-1px; right:4px; padding:1px 1px 0}
+.roomTimeContainer .timeText .username {font-size:14px !important; display:none}
+.roomTimeContainer .timeRow:nth-child(6n+1) .minute {display:block !important; font-size:16px; z-index:5; color:#3c5a7b; font-weight:700; left:0; right:0; top:0; bottom:0; background-color:unset}
+.roomTimeContainer .timeRow:nth-child(6n+1) .timeText.selected .minute {color:#fff}
+.roomTimeContainer .timeText.selected {background-color:#2592f3}
+.roomTimeContainer .timeText.selected .username {position:absolute; left:0; right:0; top:0; bottom:0; display:flex !important; align-items:center; justify-content:center; color:#fff !important}
+.roomTimeContainer .timeText.selected .minute {color:#fff}
+.roomTimeContainer .timeText.reserved {color:#000 !important; background-color:#c8dff0}
+.roomTimeContainer .timeText.reserved .username {position:absolute; left:0; right:0; top:0; bottom:0; display:flex !important; align-items:center; justify-content:center}
+
+.scheduleCalendarBtnDiv {flex-direction:row; align-items:center}
+.scheduleCalendarBtnDiv .f1 {display:inline-flex; gap:10px} 
+.scheduleCalendarBtnDiv .f2 {display:inline-flex; align-items:center; flex-direction:row; height:40px; border-bottom:2px solid #a2b3c3; font-size:14px; color:#000;font-weight:600;  padding:0; margin-left:16px}
+.scheduleCalendarBtnDiv .f2::before {content:'예약정보 :'; margin-right:10px}
+.scheduleCalendarBtnDiv .f2 > div+div {margin-left:10px}
+
+@media screen and (max-width:760px) {
+  .scheduleCalendarBtnDiv {flex-direction:column}
+  .scheduleCalendarBtnDiv .f2 {order:1; margin:0 0 10px; width:100%}
+  .scheduleCalendarBtnDiv .f1 {order:2; width:100%}
+  .pageBtnDiv .btn-silver {flex:1}
+  .pageBtnDiv .btn-white {flex:1}
+  .pageBtnDiv .btn-blue {flex:1 1 auto}
+}
+@media screen and (min-width:760px) {
+  .pageBtnDiv .btn-blue {width:130px}
+}
+
+/* 모달 - 회의정보 */
+#infoReservedMeeting .modal_content {max-width:400px}
+#infoReservedMeeting .meetingTitle {margin:40px 0; font-size:16px; font-weight:bold; line-height:1.2; text-align:center}
+#infoReservedMeeting .f1 {position:relative; width:100%}
+#infoReservedMeeting .f1::before {content:'\f10d'; font-family:'fa'; font-weight:bold; font-size:50px; color:rgba(100,100,100,0.1); position:absolute; top:0; left:0}
+#infoReservedMeeting .f1::after {content:'\f10e'; font-family:'fa'; font-weight:bold; font-size:50px; color:rgba(100,100,100,0.1); position:absolute; bottom:0; right:0}
+#infoReservedMeeting .f2 {background-color:#efefef; width:calc( 100% + 32px); background-color:#efefef; padding:16px; margin-bottom:20px}
+#infoReservedMeeting .f2 .row {display:flex; flex-direction:row; align-items:flex-start;}
+#infoReservedMeeting .f2 .row+.row {margin-top:8px; font-size:14px}
+#infoReservedMeeting .f2 .item {flex:0 0 65px; display:inline-block; padding:4px 0; background-color:#f1f1f1; text-align:center; border-radius:2px; margin-right:10px}
+#infoReservedMeeting .f2 .answer {flex:1 1 auto; white-space:normal; padding:1px 0 4px; line-height:1.4}
+#infoReservedMeeting .f2 .answer span {white-space:nowrap}
+
+.titDiv.timetable {gap:8px}
+.titDiv.timetable .pageTit {margin:2px 20px 2px 0}
+.titDiv.timetable .comment {margin:2px 0 2px auto}
+.titDiv.timetable .viewOptionBtn {height:34px; margin-left:20px}
+.textStyle {color:#2667a0; font-weight:700; font-size:1rem; text-align:center}
+.scdSrchDiv {border-radius:3px; display:flex; flex-direction:row; flex-flow:wrap; white-space:nowrap; margin:0 0px 16px 0; background-color:#e0e0e0; padding:7px 10px; gap:10px}
+.scdSrchDiv > * {display:flex; flex-direction:row}
+.scdSrchDiv .rowGroup {display:flex; flex-direction:row}
+.scdSrchDiv .row .item {display:flex; align-items:center; margin-right:4px; height:100%}
+.scdSrchDiv .row .item.mobileOnly {display:none}
+.scdSrchDiv .row .answer {display:flex; align-items:center; flex-direction:row}
+.scdSrchDiv .row .answer > span {padding:0 4px}
+.scdSrchDiv .row .answer .radioDiv {flex-flow:unset}
+.scdSrchDiv .row .date > div {flex:none; width:96px} 
+.scdSrchDiv .srchBtnDiv {display:flex; flex-direction:row; margin:4px 0; align-items:center}
+.scdSrchDiv .srchBtnDiv button+button {margin:0 8px 0 0}
+.scdSrchDiv .srchBtnDiv button.srch {min-width:86px}
+.scdSrchDiv .srchBtnDiv button.mobileReset {display:none}
+.scdSrchDiv .selectDiv {border:1px solid #aaa; border-radius:3px; height:34px}
+.scdSrchDiv .selectDiv label {background-color:#fff; border-radius:3px}
+@media screen and (-ms-high-contrast:active), (-ms-high-contrast:none) {
+  .scdSrchDiv .selectDiv {min-width:80px}
+}
+
+@media screen and (max-width:940px) {
+  .scdSrchDiv {border-radius:3px; margin-bottom:20px; flex-flow:row wrap; gap:6px}
+  .scdSrchDiv > * {flex:1 1 33%; height:36px}
+  .scdSrchDiv .rowGroup {display:flex; flex-direction:row; height:36px; margin:0 0 8px 0}
+  .scdSrchDiv .rowGroup .row {flex:1}
+  .scdSrchDiv .row .item {flex:0 0 60px}
+  .scdSrchDiv .row .item span {width:100%; text-align:left}
+  .scdSrchDiv .row .answer {flex:1; min-width:10px; justify-content:center;}
+  .scdSrchDiv .row .date > div {flex:1}
+  .scdSrchDiv .srchBtnDiv {margin:0}
+  .scdSrchDiv .srchBtnDiv button {flex:1}
+  .scdSrchDiv .srchBtnDiv button.srch {flex:1.5; order:3}
+  .scdSrchDiv .srchBtnDiv button+button {margin:0 0 0 8px}
+  .scdSrchDiv .srchBtnDiv button.mobileReset {display:block}
+  .scdSrchDiv .srchBtnDiv button.reset {display:none}
+}
+
+.scdSrchDiv .checkDiv {display:flex; align-items:center; height:100%}
+.scdSrchDiv .checkDiv label {display:block; height:100%}
+.scdSrchDiv .checkDiv label+label {margin-left:6px}
+.scdSrchDiv .checkDiv label span {background:#fff; height:100%; display:flex; align-items:center; border-radius:3px; cursor:pointer; padding:0 10px; border:1px solid #999; transition:all 0.3s ease}
+.scdSrchDiv .checkDiv input[type="checkbox"] {display:none}
+.scdSrchDiv .checkDiv input[type="checkbox"] + span::before {content:'\f14a'; font-family:'fa'; font-weight:300; font-size:20px; margin-right:8px; color:#999}
+.scdSrchDiv .checkDiv > label > input[type="checkbox"]:checked + span {background:#fff; border:1px solid #aaa; background-size:15px 13px; color:#000 !important}
+.scdSrchDiv .checkDiv > label > input[type="checkbox"]:checked + span::before {font-weight:bold; color:#307dc1}
+
+
+
+/************************* 배정현황 schedule_table.htm **********************/
+.bodyDiv.tableContainer {display:flex; flex-direction:column; overflow:auto; gap:10px}
+.tableDiv {width:100%; display:flex; flex-direction:column; background-color:#fff; padding:20px; border-radius:3px}
+.tableDiv .tableTitDiv {display:flex; flex-direction:row; align-items:center; margin-bottom:4px}
+.tableDiv .tableTitDiv .tableTit {font-size:16px; font-weight:600; margin-right:auto; display:flex; align-items:center}
+.tableDiv .tableTitDiv .tableTit::before {content:'\f105'; font-family:'fa'; display:inline-flex; color:#457dc5; margin-right:8px}
+.tableDiv .listHeaderDiv .row {align-items:center; border-top:1px solid #999; border-bottom:1px solid #999; background-color:#f1f1f1; font-size:13px; font-weight:600}
+.tableDiv .listHeaderDiv .row .item {justify-content:center; height:34px}
+.tableDiv .row {display:flex}
+.tableDiv .listBodyDiv .row {border-bottom:1px solid #999; align-items:flex-start}
+.tableDiv .row .item {display:flex; flex-direction:column; align-items:center; min-height:46px; padding:8px; position:relative; word-break:keep-all; flex-flow:wrap}
+
+.tableDiv .row .item.no {flex:0 0 60px; justify-content:center}
+.tableDiv .row .item.dateTime {flex:0 0 200px; font-weight:600}
+.tableDiv .row .item.dateTime .time {margin-left:10px}
+.tableDiv .row .item.title {flex:3; justify-content:flex-start; word-break:keep-all; line-height:1.2}
+.tableDiv .row .item.host {flex:2}
+.tableDiv .row .item.host > * {margin-right:6px}
+.tableDiv .row .item.status {flex:1; justify-content:center}
+.tableDiv .row .item.regDate {flex:1}
+.tableDiv .row .item .headerTip {font-weight:700; display:none}
+
+@media screen and (max-width:940px) {
+  .tableDiv {background-color:transparent; background-color:unset; padding:0}
+  .tableDiv .listHeaderDiv {display:none}
+  .tableDiv .listBodyDiv {overflow:auto}
+  .tableDiv .listBodyDiv .row {border:none; border-radius:3px; background-color:#fff; position:relative; padding:12px; margin-bottom:10px}
+  .tableDiv .row {flex-flow:wrap}
+  .tableDiv .row > * {flex:none; min-height:1px !important}
+  .tableDiv .row .no {display:none}
+  .tableDiv .row .dateTime {order:2; flex:unset !important; font-size:15px; display:inline-flex}
+  .tableDiv .row .title {order:3; flex:0 0 100% !important; font-size:16px; font-weight:600; padding:6px 0 12px; border-bottom:1px dashed #777}
+
+  .tableDiv .row .host {order:4; flex:1 1 60% !important; padding:12px 0 0; color:#868d9a;}
+  .tableDiv .row .status {order:1; flex:none !important; padding:3px 0 !important; display:inline-flex}  
+  .tableDiv .row .regDate {order:5; flex:1 !important; justify-content:flex-end; padding:12px 0 0; color:#868d9a;}
+  .tableDiv .row  > span.headerTip {display:inline-block}
+}
+
+
+
+/************************* 회의등록 schedule_write.htm **********************/
+.switchElec {position:relative; display:inline-block; width:110px; height:34px}
+.switchElec input {opacity:0; width:0; height:0}
+.switchElec .slider {position:absolute; cursor:pointer; top:0; left:0; right:0; bottom:0; background-color:#ccc; -webkit-transition:.4s; transition:.4s; font-weight:600; overflow:hidden}
+.switchElec .slider:before {position:absolute; content:"\f00c"; font-family:'fa'; font-weight:900; line-height:2; text-align:center; height:26px; width:26px; left:4px; bottom:4px; color:#999; background-color:white; -webkit-transition:.4s; transition:.4s; box-shadow:0 5px 4px rgb(0 0 0 / 26%)}
+.switchElec input:checked + .slider {background-color:#234c79}
+.switchElec input:focus + .slider {box-shadow:0 0 1px #ccc}
+.switchElec input:checked + .slider:before {-webkit-transform:translateX(76px); -ms-transform:translateX(76px); transform:translateX(76px); color:#0060d8}
+.switchElec input:checked + .slider:after {content:'전자회의'; width:60px; height:34px;  display:flex; align-items:center; justify-content:center; margin-left:16px; color:#FFF}
+.switchElec .slider::after {content:'전자회의'; width:60px; height:34px; display:flex; align-items:center; justify-content:center; margin-left:34px; color:#999}
+.switchElec .slider.round {border-radius:26px}
+.switchElec .slider.round:before {border-radius:50%}
+
+.scheduleWriteDiv {display:flex; flex-direction:row; /*max-width:1500px*/}
+.scheduleWriteDiv .row {margin-top:10px}
+.scheduleWriteDiv .formLDiv {flex:1; max-width:60%; font-size:14px; background-color:#fff; padding:16px; border-radius:3px; display:flex; flex-direction:column; border:1px solid #bbb}
+.scheduleWriteDiv .formLDiv .row {display:flex; flex-direction:row}
+.scheduleWriteDiv .formLDiv .row:first-child {margin-top:0}
+.scheduleWriteDiv .formLDiv .row .item {flex:0 0 100px; display:flex; align-items:center; font-weight:600; position:relative}
+.scheduleWriteDiv .formLDiv .row .item button {display:none}
+.scheduleWriteDiv .formLDiv .row .answer {flex:1; display:flex; flex-direction:row}
+.scheduleWriteDiv .formLDiv .tot {align-items:center}
+.scheduleWriteDiv .formLDiv .tot input {margin:0 6px; width:50px; text-align:center}
+.scheduleWriteDiv .formLDiv .tot label+input {margin-left:16px}
+
+.scheduleWriteDiv .formLDiv .statusRow {position:relative; margin-bottom:8px}
+.scheduleWriteDiv .formLDiv .statusRow::after {content:''; position:absolute; bottom:-6px; display:block; width:100%; height:1px;  border-bottom:1px solid #e1e1e1}
+.scheduleWriteDiv .formLDiv .statusRow .answer {flex-direction:column; padding-top:7px}
+.scheduleWriteDiv .formLDiv .statusRow .status {display:flex}
+.scheduleWriteDiv .formLDiv .statusRow .status span::before {padding:10px 0; width:110px}
+.scheduleWriteDiv .formLDiv .statusRow .approvalComment {padding:10px 0; line-height:1.4}
+.scheduleWriteDiv .formLDiv .statusRow.s5 .approvalComment {color:#c52424}
+@media screen and (max-width:940px) {
+  .scheduleWriteDiv .formLDiv .statusRow {flex-direction:row !important}
+}
+
+.scheduleWriteDiv .formRDiv {flex:1; margin-left:20px; background-color:#fff; padding:16px; border-radius:3px; display:flex; flex-direction:column; border:1px solid #bbb}
+.scheduleWriteDiv .formRDiv .row {display:flex; flex-direction:column}
+.scheduleWriteDiv .formRDiv .row+.row {margin-top:30px}
+.scheduleWriteDiv .formRDiv .row .item {display:flex; flex-direction:row; align-items:center}
+.scheduleWriteDiv .formRDiv .row .item .tit {font-weight:600; margin-right:auto}
+.scheduleWriteDiv .formRDiv .row .item button+button {margin-left:16px}
+.scheduleWriteDiv .formRDiv .row .answer {flex:1; display:flex; flex-direction:row}
+.scheduleWriteDiv .formRDiv .row.except.flex-direction-row+.row {margin-top:0}
+.scheduleWriteDiv .formRDiv .row.except.flex-direction-row .item {flex:0 0 100px}
+.scheduleWriteDiv .checkDiv input[type="checkbox"]:disabled + span::before {color:#367b32 !important}
+
+
+/*
+예약종류에 따라 입력필드가 달라짐. 전자회의에 한해서 참석자...,첨부파일,보안설정 을 할 수 있음
+	.elect  전자회의 (즉시회의 포함)
+*/
+.scheduleWriteDiv .electContent {display:none !important}
+.scheduleWriteDiv.elect .electContent {display:flex !important}
+.scheduleWriteDiv.elect .formLDiv > .line:last-child {display:none !important}
+
+@media screen and (max-width:1500px) {
+  .scheduleWriteDiv .formLDiv {max-width:unset}
+}
+
+.scheduleWriteDiv .row .item {height:40px}
+.scheduleWriteDiv .row.line {margin:16px 0 8px !important; height:0; border-top:1px solid #e1e1e1}
+.scheduleWriteDiv .row.comment .answer {line-height:1.4}
+.scheduleWriteDiv .row .dateTime input {text-align:center; width:46px}
+.scheduleWriteDiv .row .dateTime input:first-child {width:90px}
+.scheduleWriteDiv .row .dateTime input+input {margin-left:8px}
+.scheduleWriteDiv .row .btnRow {margin:10px 0}
+
+
+@media (max-width:500px) {
+  .radioDiv.publicLevel label span{display:block; padding-top:2px;}
+  /* .scheduleWriteDiv .row .dateTime input[type="text"] {flex:1} */
+}
+
+@media screen and (max-width:940px) {
+  .radioDiv label,
+  .checkDiv label {flex:1}
+  .scheduleWriteDiv .row.comment .item {display:none}
+  .scheduleWriteDiv .row.line {margin:16px 0 0 !important}
+  .scheduleWriteDiv .formLDiv .row .item button {display:block; margin-left:auto}
+  .scheduleWriteDiv .formLDiv .row .answer button {display:none}
+  .scheduleWriteDiv.elect .formLDiv > .line:last-child {display:flex !important}
+}
+
+.scheduleWriteDiv .row .answer .inputForm {display:flex; align-items:center; flex:1; border:1px solid #aaa; background-color:#f1f1f1; border-radius:3px; padding:5px 6px; font-size:14px; flex-flow:wrap}
+.scheduleWriteDiv .row .answer .inputForm+button {margin-left:4px}
+.scheduleWriteDiv .row .attend {display:inline-flex; margin:6px 16px 6px 0}
+.scheduleWriteDiv .row .attend > span {white-space:nowrap; margin-right:4px}
+.scheduleWriteDiv .row .answer .inputForm ul {padding:8px 0}
+.scheduleWriteDiv .row .answer .inputForm li+li {margin-top:10px}
+.radioComment {width:100%; padding:6px; line-height:1.4; background-color:#ffe785; border-radius:3px; margin-top:6px}
+
+.scheduleWriteDiv .infoMent {position:relative}
+.scheduleWriteDiv .infoMent .answer::before {content:"\f05a"; font-family:'fa'; font-size:18px; font-weight:700; color:#f5b001; margin-right:8px}
+.scheduleWriteDiv .infoMent .answer {position:relative; padding:6px 0; line-height:1.4; color:#333}
+
+.pageBtnDiv.adminUser {flex-direction:column; align-items:flex-start}
+.pageBtnDiv.adminUser .f1 {width:100%; display:flex; align-items:center; flex-direction:row; border-radius:4px; padding:6px 10px; background-color:#cedde9}
+.pageBtnDiv.adminUser .approvalMemo {flex:1; margin-left:20px}
+.pageBtnDiv.adminUser .f2 {margin:10px 0 0 0}
+
+@media screen and (max-width:940px) {
+  .scheduleWriteDiv {flex-direction:column !important; flex:none}
+  .scheduleWriteDiv.elect .formLDiv {flex:none; border-bottom:unset; border-bottom-left-radius:0; border-bottom-right-radius:0}
+  .scheduleWriteDiv .formRDiv {margin:0; flex:none; padding:0 20px 20px; border-top:unset; padding-top:10px !important; border-top-left-radius:0; border-top-right-radius:0}
+  .scheduleWriteDiv .formRDiv .row:first-child {margin-top:8px}
+
+  .scheduleWriteDiv .formLDiv .row:first-child {margin-top:0}
+  .scheduleWriteDiv .row {flex-direction:column !important; margin-top:10px}
+  .scheduleWriteDiv .row .item {flex:none !important; height:30px; display:flex; align-items:center; font-weight:bold}
+  .scheduleWriteDiv .row .answer .inputForm {min-height:40px}
+  /* .scheduleWriteDiv .row .dateTime input[type="text"] {flex:1} */
+  .scheduleWriteDiv .row.except {flex-direction:row !important}
+  .scheduleWriteDiv .row.except .item {height:40px !important; flex:0 0 76px !important; display:flex; align-items:center; font-weight:bold}
+  .scheduleWriteDiv .row.except .answer {padding-left:10px}
+  .scheduleWriteDiv .infoMent {margin-top:0 !important}
+  .scheduleWriteDiv .infoMent .item {display:none !important}
+
+  .pageBtnDiv.adminUser .f1 {width:100%}
+
+
+
+}
+@media screen and (max-width:760px) {
+  .pageBtnDiv.adminUser .f1 {flex-direction:column; align-items:start}
+  .pageBtnDiv.adminUser .approvalMemo {width:100%; margin-left:0}
+}
+
+/************************* 회의개요 schedule_view.htm **********************/
+.reportDiv {display:flex; flex-direction:row; align-items:center; border:1px solid #416fd4; border-radius:3px; padding:6px}
+.reportDiv .docuIcon {font-size:40px; color:#416fd4; margin-right:10px}
+.reportDiv button+.infoMent {margin-left:16px}
+/* 모달 - 파일변환 안내 */
+#fileStateModal .modalBody {max-width:400px}
+#fileStateModal .modalBody > div {width:100% !important}
+#fileStateModal .meetingTitle {margin:40px 0; font-size:16px; font-weight:bold; line-height:1.2; text-align:center}
+#fileStateModal .f1 {padding:16px 20px; border:1px solid silver; border-radius:5px; background-color:#f1f1f1}
+#fileStateModal .f1 .row {display:flex; flex-direction:row; align-items:flex-start;}
+#fileStateModal .f1 .row+.row {margin-top:8px; font-size:14px}
+#fileStateModal .f1 .item {flex:0 0 30px; display:inline-block; padding:4px; border-radius:2px; margin-right:10px; font-weight:bold}
+#fileStateModal .f1 .item > i {font-size:20px} 
+#fileStateModal .f1 .answer {flex:1 1 auto; white-space:normal; padding-top:6px; line-height:1.4}
+
+.formRDiv .tip::before {font-size:11px; font-weight:500; display:inline-flex; justify-content:center; align-items:center; text-align:center; width:40px; height:22px; border-radius:6px; text-decoration:none !important; color:#fff; margin-right:6px}
+.formRDiv .tip+div {padding-top:4px}
+.formRDiv .kOrigin > * {display:inline-flex !important}
+.formRDiv .kOrigin .tip::before {content:'원 본';  background-color:#878787}
+.formRDiv .kMydocu .tip::before {content:'판서본'; background-color:#00ad78}
+.formRDiv .kReport .tip::before {content:'회의록'; background-color:#005bad}
+.formRDiv .kRecord .tip::before {content:'녹 음'; background-color:#a600ad}
+.formRDiv .kPicture .tip::before {content:'사 진'; background-color:#a600ad}
+.formRDiv .kMemo .tip::before {content:'메모장'; background-color:#00ad78}
+
+
+
+/************************* 파일함 file_list.htm **********************/
+.listSrchDiv+.fileListDiv {padding-top:0; border-top-left-radius:0 !important; border-top-right-radius:0 !important}
+.listSrchDiv.file_list .selectDiv {min-width:76px}
+.listSrchDiv.file_list .row .freeText {min-width:260px}
+.listSrchDiv .row .date input[type='text'] {width:0px; text-align:center}
+@media screen and (max-width:940px) {  
+  .listSrchDiv.file_list .row .freeText {min-width:10px}
+  .listSrchDiv.file_list .row .none {display:none}
+  .listSrchDiv input[type='text'] {width:100% !important}
+}
+.fileListDiv {display:flex; flex-direction:column; /*max-width:1500px;*/ background-color:#fff; padding:20px; border-radius:3px}
+.fileListDiv .listHeaderDiv .row {align-items:center; border-top:1px solid #999; border-bottom:1px solid #999; background-color:#f1f1f1; font-size:13px; font-weight:bold}
+.fileListDiv .listHeaderDiv .row .item {justify-content:center; height:34px}
+.fileListDiv .row {display:flex}
+.fileListDiv .row .item {display:flex; flex-direction:column; align-items:center; min-height:46px; padding:8px; position:relative; word-break:keep-all; flex-flow:wrap}
+.fileListDiv .listBodyDiv .row {border-bottom:1px solid #ddd; align-items:flex-start}
+.fileListDiv .file ul {width:100%}
+.fileListDiv .file li {display:flex; flex-direction:row}
+.fileListDiv .file li .link {flex:1; padding:1px 0 0 8px; word-break:break-all; color:blue; line-height:1.2; cursor:pointer; display:flex}
+.fileListDiv .file li+li {margin-top:8px}
+/* 첨부파일의 종류에 따른 분류
+원본 add class="kOrigin"
+판서본 add class="kMydocu"
+회의록 add class="kReport" 
+사진 add class="kPicture" 
+녹음 add class="kRecord" 
+메모장 add class="kMemo" 
+*/
+.fileListDiv .file input[type=checkbox] {margin-top:2px}
+.fileListDiv .file .tip::before {font-size:11px; font-weight:500; display:inline-flex; justify-content:center; align-items:center; text-align:center; width:40px; height:22px; border-radius:4px; text-decoration:none !important; color:#fff; margin-right:6px}
+.fileListDiv .file .tip+div {padding-top:4px}
+.kOrigin > * {display:inline-flex !important}
+.kOrigin .tip::before {content:'원 본';  background-color:#878787}
+.kMydocu .tip::before {content:'판서본'; background-color:#00ad78}
+.kReport .tip::before {content:'회의록'; background-color:#005bad}
+.kRecord .tip::before {content:'녹 음'; background-color:#a600ad}
+.kPicture .tip::before {content:'사 진'; background-color:#a600ad}
+.kMemo .tip::before {content:'메모장'; background-color:#00ad78}
+
+.fileListDiv .row .item.no {flex:0 0 60px; justify-content:center}
+.fileListDiv .row .item.checkAll {flex:0 0 36px; justify-content:center}
+.fileListDiv .row .item.dateTime {flex:0 0 120px; justify-content:center}
+.fileListDiv .row .item.type {flex:0 0 80px; justify-content:center}
+.fileListDiv .row .item.title {flex:1.4; justify-content:start; word-break:keep-all}
+.fileListDiv .row .item.title div:first-child {font-size:15px; font-weight:600}
+.fileListDiv .row .item.title div:last-child {color:#888; margin-top:4px}
+.fileListDiv .row .item.file {flex:2}
+.fileListDiv .row .item.dateTime > div:first-child {font-size:15px; font-weight:600}
+.fileListDiv .row .item.dateTime > div:last-child { margin-top:4px}
+
+/* ie 에서 width는 padding을 포함한 사이즈*/
+/* @media screen and (-ms-high-contrast:active), (-ms-high-contrast:none) { 
+  .fileListDiv .row .item.no {flex:0 0 34px}
+  .fileListDiv .row .item.checkAll {flex:0 0 20px}
+  .fileListDiv .row .item.dateTime {flex:0 0 84px}
+  .fileListDiv .row .item.title {flex:1}
+  .fileListDiv .row .item.host {flex:0 0 124px}
+  .fileListDiv .row .item.open {flex:0 0 60px}
+  .fileListDiv .row .item.security {flex:0 0 60px}
+  .fileListDiv .row .item.file {flex:1}
+} */
+
+/* .secuN .security span::before {content:'일반회의'; padding:5px 0; border-radius:4px; background-color:#ddd; font-size:12px; font-weight:500; color:#333; display:block; text-align:center; width:56px} */
+/* .secuY .security span::before {content:'기밀회의'; padding:5px 0; border-radius:4px; background-color:#c52424; font-size:12px; font-weight:500; color:#fff; display:block; text-align:center; width:56px} */
+/* .secuN .security span+div, .secuY .security span+div {margin-left:6px} */
+/* .secretLvl1 .security span::before {content:'기밀회의'; padding:5px 0; border-radius:4px; background-color:#c52424; font-size:12px; font-weight:500; color:#fff; display:block; text-align:center; width:56px} */
+/* .secretLvl2 .security span::before {content:'기밀회의'; padding:5px 0; border-radius:4px; background-color:#e4a310; font-size:12px; font-weight:500; color:#fff; display:block; text-align:center; width:56px} */
+/* .secretLvl3 .security span::before {content:'기밀회의'; padding:5px 0; border-radius:4px; background-color:#d0d0d0; font-size:12px; font-weight:500; color:#fff; display:block; text-align:center; width:56px} */
+
+
+@media screen and (max-width:940px) {
+  .fileListDiv {background-color:transparent; background-color:unset; padding:0}
+  .fileListDiv .listHeaderDiv {display:none}
+  .fileListDiv .listBodyDiv {overflow:auto}
+  .fileListDiv .listBodyDiv .row {border:none; border-radius:3px; background-color:#fff; position:relative; padding:10px; margin-bottom:10px; border: 1px solid #cbcbcb; box-shadow: 0 4px 4px rgb(0 0 0 / 7%)}
+  .fileListDiv .row {flex-flow:wrap}
+  .fileListDiv .row > * {flex:none; min-height:1px !important}
+  .fileListDiv .row .no {display:none}
+  .fileListDiv .row .dateTime {order:1; flex:1 !important; min-width:none !important; max-width:none !important; height:36px; justify-content:flex-start !important}
+  .fileListDiv .row .dateTime > div+div {margin-left:10px}
+  .fileListDiv .row .item.dateTime > div:first-child {font-size:14px; font-weight:600}
+  .fileListDiv .row .item.dateTime > div:last-child {font-size:14px; font-weight:600; margin-top:unset}
+  .fileListDiv .row .item.type {flex:0 0 36px}
+  .fileListDiv .row .item.title div:last-child {color:#888; margin-top:4px; font-size:14px; font-weight:500}
+  .fileListDiv .row .open {order:2; flex:none !important; padding:8px 0px 8px 8px !important}
+  .fileListDiv .row .security {order:3; flex:none !important; padding:8px 0px 8px 8px !important}
+  .fileListDiv .row .title {order:4; flex:1 1 100% !important; justify-content:flex-start !important; font-size:15px; font-weight:bold; padding:10px 8px; border-radius:3px}
+  .fileListDiv .row .host {order:5; flex:1 1 100% !important; justify-content:flex-start !important;}
+  .fileListDiv .row .file {order:6}
+  .fileListDiv .row .file {flex:1 1 100% !important}
+}
+
+/************************* 통계 statistics.htm **********************/
+.radioDiv2 {display:flex; align-items:center; height:100%}
+.radioDiv2 label {flex:1; display:flex; align-items:center; height:100%}
+.radioDiv2 label+label {margin-left:-1px}
+.radioDiv2 label > span {background:#c2c2c2; color:#484848; min-width:90px; height:100%; position:relative; flex:1; display:flex; align-items:center; justify-content:center; cursor:pointer; padding:0 10px; border:1px solid #aaa; white-space:nowrap; transition:all 0.3s ease}
+.radioDiv2 label:first-child span {border-top-left-radius:3px; border-bottom-left-radius:3px}
+.radioDiv2 label:last-child span {border-top-right-radius:3px; border-bottom-right-radius:3px}
+.radioDiv2 input[type="radio"] {display:none !important}
+.radioDiv2 input[type="radio"]:checked+span {border-color:#aaa; background:#fff; color:#000}
+.radioDiv2 label:first-child input[type="radio"]+span {border-radius:20px 0 0 20px}
+.radioDiv2 label:last-child input[type="radio"]+span {border-radius:0 20px 20px 0}
+/* .radioDiv2 input[type="radio"]:checked+span::before {content:'\f058'; font-family:'fa'; color:#fff; font-weight:700; margin-right:8px} */
+
+@media screen and (max-width:760px) {
+  .radioDiv2 label > span {min-width:unset}
+}
+
+
+
+.statisticsSrchDiv {background-color:#e0e0e0; padding:14px 20px 14px; border-radius:3px; display:flex; flex-direction:row; justify-content:space-between}
+.statisticsSrchDiv .row {display:flex; flex-direction:row; height:34px; gap:8px}
+.statisticsSrchDiv .row .date {display:flex; align-items:center; flex-direction:row}
+.statisticsSrchDiv .row .date > div {flex:none; width:110px}
+.statisticsSrchDiv .row .date > span {padding:0 4px}
+.statisticsSrchDiv .row .date input[type='text'] {text-align:center} 
+.statisticsSrchDiv .selectDiv {border: 1px solid #aaa; border-radius: 3px; height: 34px; background-color: #fff}
+
+
+.statisticsSrchDiv form {width:100%}
+.statisticsTitDiv {display:flex; align-items:center; justify-content:center; font-size:26px; font-weight:bold; margin:26px 0}
+.statisticsTitDiv span {white-space:nowrap}
+.statisticsTitDiv > div {position:relative; padding:0 38px; text-align:center; line-height:1.4; color:#224560}
+.statisticsTitDiv > div::before {content:'\f10d'; font-family:'fa'; color:#396281; position:absolute; top:3px; left:0}
+.statisticsTitDiv > div::after  {content:'\f10e'; font-family:'fa'; color:#396281; position:absolute; bottom:5px; right:0}
+.statisticsTitDiv .pers {display:none}
+@media screen and (max-width:940px) {
+  .statisticsSrchDiv {padding:10px}
+  .statisticsTitDiv {font-size:19px}
+  .statisticsTitDiv > div {margin:0 10px}
+}
+@media screen and (max-width:760px) {
+  .statisticsSrchDiv {flex-direction:column; padding:10px; gap:8px}
+  .statisticsSrchDiv .row > div {flex:1}
+  .statisticsSrchDiv .row .radioDiv2 label {flex:1}
+  .statisticsSrchDiv .row .radioDiv2 label span {flex:1}
+  .statisticsSrchDiv .row .date {border:1px solid #aaa; border-radius:3px; padding:2px; background-color:#fff}
+  .statisticsSrchDiv .row .date > div {flex:1; min-width:86px; width:unset}
+  .statisticsSrchDiv .row .date input[type="text"] {border:none; background-color:transparent}
+  .statisticsSrchDiv .btn-srch {flex:none}
+}
+.statisticsBodyDiv {display:flex; flex-direction:row; margin-bottom:20px} /*; padding:20px; background-color:#fff*/
+.statisticsBodyDiv .box > *:not(.box) {flex-direction:column}
+.statisticsBodyDiv .container {flex:1; display:flex; align-items:flex-start; background-color:#e0e0e0;  border-radius:3px; padding:10px}
+.statisticsBodyDiv .container canvas {display:block; width:100% !important; height:100%; object-fit:contain !important; margin:auto}
+.statisticsBodyDiv > div {flex:1; display:flex}
+.statisticsBodyDiv > div+div {margin:0 0 0 10px}
+
+.statisticsBodyDiv > .box {flex-direction:column}
+.statisticsBodyDiv > .box > div {flex:1; display:flex}
+.statisticsBodyDiv > .box > div+div {margin:10px 0 0 0}
+
+.statisticsBodyDiv > .box > .box {display:flex; flex-direction:row}
+.statisticsBodyDiv > .box > .box > div {flex:1; display:flex}
+.statisticsBodyDiv > .box > .box > div+div {margin:0 0 0 10px}
+
+.statisticsBodyDiv > .box > .box > .box {display:flex; flex-direction:column}
+.statisticsBodyDiv > .box > .box > .box > div {flex:1; display:flex}
+.statisticsBodyDiv > .box > .box > .box > div+div {margin:10px 0 0 0}
+.statisticsBodyDiv > .box > .box > .box > div.pers {display:none}
+.statisticsBodyDiv .commonTit {font-size:15px; font-weight:bold; height:30px; display:flex; align-items:center}
+.statisticsBodyDiv .commonTit::before {content:''; display:inline-block; width:8px; height:8px; border-radius:6px; background-color:#396281; margin-right:8px}
+.statisticsBodyDiv .box_wordCloud img {width:100%; height:auto; object-fit:contain}
+.statisticsBodyDiv > .box > .box > .box .container {align-items:center; justify-content:center; font-size:22px; font-weight:600; color:#396281; padding:20px 0}
+.statisticsBodyDiv .container .cmnt {font-size:14px !important; font-weight:normal !important; padding:16px 16px 0; line-height:1.6; color:#888; text-shadow:none}
+/* @media screen and (-ms-high-contrast:active), (-ms-high-contrast:none) {
+  .statisticsBodyDiv > .box > .box {min-height:381px}
+  .statisticsBodyDiv .box_barGraph {min-height:300px}
+} */
+.statisticsBodyDiv .box_barGraph .container {max-height:300px}
+/* .statisticsBodyDiv .box_top5 .container {max-height:350px} */
+
+
+
+.statisticsBodyDiv .box_paper .container {background:url(../img/stat_bg1.png), #8bc8cc; background-position:150% 100%; background-repeat:no-repeat; background-size:80%; padding:1.5em 1em 1em !important}
+.statisticsBodyDiv .box_paper .container > div {width:100%}
+.statisticsBodyDiv .box_paper .container .tit {font-size:16px; text-align:center; color:#427d89; font-weight:500}
+.statisticsBodyDiv .box_paper .container .detail {display:flex; flex-direction:row; padding:1em 0}
+.statisticsBodyDiv .box_paper .container .detail > div {flex:1; text-align:center; padding:1em; position:relative}
+.statisticsBodyDiv .box_paper .container .detail > div+div::before {content:''; height:50%; width:1px; background-color:#65999c; position:absolute; left:0}
+.statisticsBodyDiv .box_paper .container .detail .item {font-size:20px; font-weight:600; margin-bottom:10px}
+.statisticsBodyDiv .box_paper .container .detail .answer {font-size:20px; font-weight:700}
+.statisticsBodyDiv .box_paper .container .ment {font-size:13px; font-weight:400; color:#427d89}
+
+@media screen and (max-width:500px) { /*자원절약의 3가지 항목을 위한 제한*/
+  .statisticsBodyDiv .box_paper .container {background-position:40% 100% !important; background-repeat:no-repeat; background-size:150%; padding:1.5em 1em 1em !important}
+  .statisticsBodyDiv .box_paper .container .detail {flex-direction:column}
+  .statisticsBodyDiv .box_paper .container .detail > div+div::before {content:''; height:1px; width:60%; background-color:#65999c; position:absolute; left:0; top:0; transform:translateX(30%)}
+}
+
+@media screen and (max-width:940px) {
+  .statisticsBodyDiv {flex-direction:column}
+  .statisticsBodyDiv > div+div {margin:10px 0 0 0}
+  .statisticsBodyDiv > .box > .box {display:flex; flex-direction:column}
+  .statisticsBodyDiv > .box > .box > div {flex:1}
+  .statisticsBodyDiv > .box > .box > div+div {margin:10px 0 0 0}
+  
+}
+
+
+/************************* 시스템 안내 help.htm **********************/
+.helpBody {display:flex; flex-direction:column; background-color:#fff; border-radius:6px; margin-right:20px}
+.helpBody hr {width:calc( 100% - 3em ); align-self:center; opacity:37%; height:1px; border-top:1px solid rgba(0,0,0,0.6)}
+.helpBody section {padding:1.8em}
+.helpBody section h3 {margin-bottom:1.2em; font-family:'Pretendard'; color:#034364}
+.helpBody section p {line-height:1.4em}
+@media screen and (max-width:940px) {
+  .helpBody {margin-right:0}
+}
+
+/************************* 회의록 작성 report.htm **********************/
+.reportFormDiv {display:flex; flex-direction:row; font-size:14px; background-color:#fff; padding:20px; border-radius:3px; display:flex; flex-direction:column}
+.reportFormDiv .row {display:flex; flex-direction:row}
+.reportFormDiv > .row+.row,
+.reportFormDiv > .rowGroup+.row,
+.reportFormDiv > .rowGroup+.rowGroup {margin-top:8px}
+.reportFormDiv .rowGroup {display:flex; flex-direction:row; align-items:center}
+
+.reportFormDiv .rowGroup > .row:first-child {flex:1}
+.reportFormDiv .rowGroup > .row:last-child {flex:1}
+.reportFormDiv .rowGroup > .row+.row {margin-left:20px}
+.reportFormDiv .rowGroup > .row+.row .item {flex:0 0 60px}
+
+
+.reportFormDiv .row .item {flex:0 0 100px; height:40px; display:flex; align-items:center; font-weight:bold}
+.reportFormDiv .row .answer {flex:1 1 auto; display:flex; flex-direction:row}
+.reportFormDiv .row .dateTime input[type="text"] {text-align:center; width:120px}
+.reportFormDiv .row .dateTime input[type="text"]+input[type="text"] {margin-left:8px}
+.reportFormDiv .row.line {margin:16px 0 8px !important; height:0; border-top:1px solid #999}
+.reportFormDiv .row.comment .answer {line-height:1.4}
+.reportFormDiv .row .item .confirmCount {color:#ca4239; font-weight:500}
+.reportFormDiv .row .attendSign .attendUser {font-size:13px; color:#aaa; word-break:keep-all}
+.reportFormDiv .row .attendSign .attendUser::before {content:'불참'; 
+  font-size:12px; font-weight:500; padding:2px 4px; background-color:#ccc; margin:0 6px 0 -35px; color:#555; border-radius:3px}
+.reportFormDiv .row .attendSign .signImg {min-height:30px}
+.reportFormDiv .row .attendSign .attendUser.a1 {color:#000}
+.reportFormDiv .row .attendSign .attendUser.a1::before  {content:'참석'; background-color:#cbe1eb; color:#000}
+.reportFormDiv .row .answer .inputForm {display:flex; align-items:center; flex:1; border:1px solid #aaa; background-color:#f1f1f1; border-radius:3px; padding:5px 6px; font-size:14px; flex-flow:wrap}
+.reportFormDiv .row .answer .inputForm > span {margin-right:6px}
+.reportFormDiv .row .attend {display:inline-flex; margin:6px 16px 6px 0}
+.reportFormDiv .row .attend > span {white-space:nowrap; margin-right:4px}
+.pageBtnDiv.report {flex-flow:wrap}
+
+
+
+@media screen and (max-width:940px) {  
+  .reportFormDiv {flex-direction:column !important; flex:none; padding:8px}
+  .reportFormDiv .row {flex-direction:column !important}
+  .reportFormDiv .row .item {flex:none !important; height:30px; display:flex; align-items:center; font-weight:bold}
+  .reportFormDiv .row .answer .inputForm {min-height:40px}
+  .reportFormDiv .row .dateTime input[type="text"] {flex:1}
+  .reportFormDiv .row .item .confirmCount {margin-left:10px}
+  .reportFormDiv .rowGroup {flex-direction:column; justify-content:center}
+  .reportFormDiv .rowGroup > .row {width:100% !important}
+  .reportFormDiv .rowGroup > .row+.row {margin-left:unset}
+  .reportFormDiv .row.comment .item {display:none}
+  .reportFormDiv .row.line {margin:16px 0 0 !important}
+}
+
+.attendSign ul {display:flex; flex:1; flex-flow:wrap}
+.attendSign ul li {margin:8px 8px 8px 35px; flex:1 1 180px; max-width:180px}
+.attendSign ul li .signImg > img {width:60%; height:auto}
+.attenderOpinionDiv {display:flex; flex-direction:row; font-size:14px; background-color:#cedde9; padding:20px; margin-top:10px;  border-radius:0 0 3px 3px; display:flex; flex-direction:column}
+.attenderOpinionDiv .titleDiv {font-size:16px; font-weight:600; color:#2667a0}
+.attenderOpinionDiv .titleDiv::before {content:'\f105'; font-family:'fa'; display:inline-flex; margin-right:8px}
+.attenderOpinionDiv .row {display:flex; flex-direction:row}
+.attenderOpinionDiv .row .item {flex:0 0 132px; height:40px; display:flex; align-items:center; font-weight:bold}
+.attenderOpinionDiv .row .answer {flex:1 1 auto; display:flex; flex-direction:row; flex-flow:row wrap}
+.attenderOpinionDiv > .row+.row,
+.attenderOpinionDiv > .rowGroup+.row,
+.attenderOpinionDiv > .rowGroup > .row+.row,
+.attenderOpinionDiv > .rowGroup+.rowGroup {margin-top:8px}
+.attenderOpinionDiv .confirmDiv .answer {gap:6px}
+.attenderOpinionDiv .confirmDiv .answer input[type='text'] {flex:1}
+.attenderOpinionDiv .row.line {margin:16px 0 27px !important; width:100%; height:0; border-top:1px solid #999; position:relative}
+.attenderOpinionDiv .row.line .btnRefresh {position:absolute; left:132px; top:6px; font-size:14px; background-color:#457dc5; color:#fff; padding:4px 10px; border-radius:20px; cursor:pointer;}
+
+.attenderOpinionDiv .checkDiv > label > input[type="checkbox"]:checked + span {background:#fff; border:1px solid #aaa; background-size:15px 13px; color:#000 !important}
+.attenderOpinionDiv .checkDiv > label > input[type="checkbox"]:checked + span::before {font-weight:bold; color:#307dc1}
+@media screen and (max-width:760px) {
+  .attenderOpinionDiv {padding:16px 8px}
+  .attenderOpinionDiv .confirmDiv {flex-direction:column}
+  .attenderOpinionDiv .confirmDiv .item {flex:unset}
+  .attenderOpinionDiv .row.line .btnRefresh {left:50%; transform:translateX(-50%)}
+}
+
+.attenderOpinionDiv .row.board .attender {flex:0 0 132px; display:flex; align-items:start; flex-direction:column} 
+.attenderOpinionDiv .row.board .attender > span{margin:0 8px 6px 0}
+.attenderOpinionDiv .row.board .comment {max-width:70%; display:flex; background-color:#fff; border-radius:0 10px 10px 10px; padding:10px; font-weight:500}
+.attenderOpinionDiv .row.board .comment span {line-height:1.4}
+.attenderOpinionDiv .row.board .comment i {font-weight:500; color:#ca4239; margin-left:6px; font-size:17px;  cursor:pointer}
+.attenderOpinionDiv .row.board .regDate {width:120px; display:flex; align-items:end; margin-left:10px}
+@media screen and (max-width:760px) {
+  .attenderOpinionDiv .row.board {flex-direction:column}
+  .attenderOpinionDiv .row.board .comment {max-width:100%}
+  .attenderOpinionDiv .row.board .regDate {width:100%; justify-content:end; padding:4px 10px 0 0}
+  .attenderOpinionDiv .row.board .attender {flex:0 0 100%; flex-direction:row}
+}
+.attenderOpinionDiv .checkDiv label span {border: 1px solid #d60000; color: #d60000}
+.attenderOpinionDiv .checkDiv input[type="checkbox"]+span {animation-name: s1; animation-duration: 1.5s; animation-delay: 0s; animation-fill-mode: both; animation-timing-function: ease; animation-iteration-count: infinite;}
+.attenderOpinionDiv .checkDiv input[type="checkbox"]:checked+span {animation:unset}
+
+
+/************************* 회의목록   내회의/부서회의  meeting_list_my.htm  metting_list_department.htm **********************/
+.radioTab {background-color:#ebebeb; padding:6px 6px 0; border-radius:3px; display:flex; align-items:flex-end; justify-content:flex-start}
+.radioTab label {display:flex; flex:0 0 140px}
+.radioTab label > span {width:100%; height:36px; background-color:#c2c2c2; color:#484848; font-size:14px; font-weight:600;  display:flex; align-items:center; justify-content:center; cursor:pointer}
+
+
+
+.radioTab input[type="radio"] {display:none !important}
+.radioTab input[type="radio"]:checked+span {background:#fff; color:#000}
+.bodyDiv.meeting-list+.pageBtnDiv {display:none}
+.listSrchDiv.file_list .rowGroup > .item {display:none}
+.listSrchDiv.file_list .rowGroup > .answer {display:flex; flex:1; flex-direction:row; gap:8px}
+.listSrchDiv.file_list .rowGroup > .answer > .row {flex:1}
+
+
+.listSrchDiv+.meetingListMyDiv {padding-top:0; border-top-left-radius:0 !important; border-top-right-radius:0 !important}
+.meetingListMyDiv {display:flex; flex-direction:column; background-color:#fff; padding:20px; border-radius:3px}
+.meetingListMyDiv .listHeaderDiv .row {align-items:center; border-top:1px solid #999; border-bottom:1px solid #999; background-color:#f1f1f1; font-size:13px; font-weight:600}
+.meetingListMyDiv .listHeaderDiv .row .item {justify-content:center; height:34px}
+.meetingListMyDiv .row {display:flex}
+.meetingListMyDiv .listBodyDiv .row {border-bottom:1px solid #999; align-items:flex-start}
+.meetingListMyDiv .listBodyDiv .row:hover {color:blue}
+.meetingListMyDiv .row .item {display:flex; flex-direction:column; align-items:center; min-height:46px; padding:8px; position:relative; word-break:keep-all; flex-flow:wrap}
+
+.meetingListMyDiv .row .item.no {flex:0 0 60px; justify-content:center}
+.meetingListMyDiv .row .item.checkAll {display:none}
+.meetingListMyDiv .row .item.status {flex:0 0 72px; justify-content:center}
+.meetingListMyDiv .row .item.type {flex:0 0 72px; justify-content:center}
+.meetingListMyDiv .row .item.elecDocs {flex:0 0 72px; justify-content:center}
+.meetingListMyDiv .row .item.dateTimeRoom {flex:0 0 200px}
+.meetingListMyDiv .row .item.dateTimeRoom > div+div {margin-top:4px}
+.meetingListMyDiv .row .item.dateTimeRoom > div:first-child {font-size:15px; font-weight:600}
+.meetingListMyDiv .row .item.dateTimeRoom .time {margin-left:10px}
+.meetingListMyDiv .row .item.dateTimeRoom .room {flex:0 0 140px; justify-content:center; word-break:break-all}
+.meetingListMyDiv .row .item.security {flex:0 0 72px; justify-content:center}
+.meetingListMyDiv .row .item.title {flex:1.5; justify-content:flex-start; word-break:keep-all; line-height:1.2}
+.meetingListMyDiv .row .item.host {flex:0 0 140px}
+.meetingListMyDiv .row .item.host > * {margin-right:6px}
+.meetingListMyDiv .row .item.attendUser {flex:1; flex-flow:wrap}
+.meetingListMyDiv .row .item.approvalComment {flex:1; flex-flow:wrap; line-height:1.4}
+.meetingListMyDiv .listBodyDiv .approvalComment {color:#c52424 }
+.meetingListMyDiv .row .item > span.headerTip {font-weight:700; display:none}
+.meetingListMyDiv .row .item.attendUser > span {margin-right:6px}
+.meetingListMyDiv .row .item.regDate {flex:0 0 100px}
+
+
+@media screen and (max-width:940px) {
+  .radioTab {margin-bottom:10px; padding:6px}
+  .radioTab label {display:flex; flex:1 1 140px}
+  .radioTab label > span {width:100%; height:36px; background-color:#c2c2c2; color:#484848; font-size:14px; font-weight:600;  display:flex; align-items:center; justify-content:center; cursor:pointer}
+  .radioTab label:first-child > span {border-top-left-radius:6px; border-bottom-left-radius:6px}
+  .radioTab label:last-child > span {border-top-right-radius:6px; border-bottom-right-radius:6px}
+  .listSrchDiv.file_list .rowGroup > .item {flex:0 0 76px; display:flex; align-items:center; margin-right:4px;}
+  .listSrchDiv.file_list .rowGroup > .answer > .row {padding:0}
+  .listSrchDiv.file_list .rowGroup > .answer > .row+.row {margin-left:8px}
+  
+  .meetingListMyDiv {background-color:transparent; background-color:unset; padding:0}
+  .meetingListMyDiv .listHeaderDiv {display:none}
+  .meetingListMyDiv .listBodyDiv {overflow:auto}
+  .meetingListMyDiv .listBodyDiv .row {border:none; border-radius:3px; background-color:#fff; position:relative; padding:12px; margin-bottom:10px; border: 1px solid #cbcbcb; box-shadow: 0 4px 4px rgb(0 0 0 / 7%)}
+  .meetingListMyDiv .row {flex-flow:wrap}
+  .meetingListMyDiv .row > * {flex:none; min-height:1px !important}
+  .meetingListMyDiv .row .item.checkAll {padding:9px 5px 9px 0}
+  .meetingListMyDiv .row .no {display:none}
+  .meetingListMyDiv .row .status {order:1; flex:none !important; padding:8px 0px 8px 4px !important}
+  .meetingListMyDiv .row .type {order:2; flex:0 0 36px} 
+  .meetingListMyDiv .row .elecDocs {order:3; flex:0 0 32px !important; padding:8px 0}
+  .meetingListMyDiv .row .dateTimeRoom {order:5; flex:unset !important; min-width:none !important; max-width:none !important; width:100%; justify-content:flex-start !important}
+  .meetingListMyDiv .row .dateTimeRoom > div:last-child {margin:0 0 0 10px !important; padding:0}
+  .meetingListMyDiv .row .dateTimeRoom .room {order:6; flex:1 !important; justify-content:flex-start !important; font-size:15px; font-weight:600; border-radius:3px}
+  .meetingListMyDiv .row .security {order:4; flex:none !important; padding:8px !important} 
+  .meetingListMyDiv .row .title {order:7; flex:0 0 100% !important; justify-content:flex-start !important; font-size:16px; font-weight: 600; color: #607a97; border-radius:3px; padding:0px 8px}
+  .meetingListMyDiv .row .host {order:8; flex:1 1 60% !important; justify-content:flex-start !important; color: #607a97; margin-top: -6px;}
+  .meetingListMyDiv .row .approvalComment {order:9; flex:0 0 100% !important; display:inline-block; font-size:14px; border-top:1px dashed #b2b2b2; padding:8px}
+  .meetingListMyDiv .row .approvalComment::before {content:'관리자메모'; font-size:12px; color:#fff; background-color: #a6a6a6; padding: 2px 4px; border-radius: 2px; margin-right:8px;}
+  .meetingListMyDiv .row .attendUser {order:9; flex:0 0 100% !important; justify-content:flex-start !important; font-size:14px; border-top:1px dashed #777; padding:8px}
+  .meetingListMyDiv .row  > span.headerTip {display:inline-block}
+  .meetingListMyDiv .row .attendUser > span {margin:3px 6px 3px 0}
+  .meetingListMyDiv .row .regDate {order:10; flex:1 !important; justify-content:flex-end}
+  .meetingListMyDiv .row .item.regDate .headerTip {display:inline-block}
+}
+
+
+/************************* 어드민 회의목록 관리 waiting_list.htm **********************/
+.waiting-list > .meetingListMyDiv .row .item.checkAll {display:flex !important}
+
+@media screen and (max-width:760px) {
+  .waiting-list+.pageBtnDiv > * {min-width:unset !important; width:unset !important; flex:unset !important}
+}
+
+/************************* 어드민 전체 회의목록 admin_meetinglist.htm **********************/
+.subTabDiv {background-color: #ebebeb; padding: 6px 6px 0; border-top-left-radius: 3px; border-top-right-radius: 3px; display: flex; align-items: flex-end; justify-content: flex-start}
+.subTabDiv .subTab {flex:0 1 120px; height:36px; border-top-left-radius:6px; border-top-right-radius:6px; background-color:#c2c2c2; color:#484848; font-size:14px; font-weight:600;padding:0 6px;
+  text-align:center; display:flex; align-items:Center; justify-content:center; cursor:pointer; word-break:keep-all}
+.subTabDiv .subTab+.subTab {margin-left:6px}
+.subTabDiv .subTab.focus {background-color:#fff; color:#000}
+
+@media screen and (max-width:940px) {
+  .subTabDiv {background-color:#ebebeb; border-top-left-radius:3px; border-top-right-radius:3px; display:flex; justify-content:flex-start; align-items:center; padding:6px; height:auto; margin-bottom:10px}
+  .subTabDiv .subTab {flex:1; border-radius:3px}
+}
+
+.row.s0 .status span::before {content:'승인대기'; padding:5px 0; border-radius:20px; background-color:#ff8d00; font-size:13px; font-weight:500; color:#fff; display:block; text-align:center; width:56px}
+.row.s1 .status span::before {content:'승인완료'; padding:5px 0; border-radius:20px; background-color:#2955b6; font-size:13px; font-weight:500; color:#fff; display:block; text-align:center; width:56px}
+.row.s2 .status span::before {content:'사용중'; padding:5px 0; border-radius:20px; background-color:#2955b6; font-size:13px; font-weight:500; color:#fff; display:block; text-align:center; width:56px}
+.row.s3 .status span::before {content:'사용완료'; padding:5px 0; border-radius:20px; background-color:#999; font-size:13px; font-weight:500; color:#fff; display:block; text-align:center; width:56px}
+.row.s4 .status span::before {content:'사용취소'; padding:5px 0; border-radius:20px; background-color:#999; font-size:13px; font-weight:500; color:#fff; display:block; text-align:center; width:56px}
+.row.s5 .status span::before {content:'승인불가'; padding:5px 0; border-radius:20px; background-color:#c52424 ; font-size:13px; font-weight:500; color:#fff; display:block; text-align:center; width:56px}
+
+.row.mr .type span::before {content:'회의실'; ; padding:5px 0; border-radius:20px; background-color:#034364; font-size:13px; font-weight:500; color:#fff; display:block; text-align:center; width:56px}
+.row.lr .type span::before {content:'강의실'; ; padding:5px 0; border-radius:20px; background-color:#034364; font-size:13px; font-weight:500; color:#fff; display:block; text-align:center; width:56px}
+.row.at .type span::before {content:'강 당'; ; padding:5px 0; border-radius:20px; background-color:#034364; font-size:13px; font-weight:500; color:#fff; display:block; text-align:center; width:56px}
+.row.tm .type span::before {content:'즉시회의'; ; padding:5px 0; border-radius:20px; background-color:#034364; font-size:13px; font-weight:500; color:#fff; display:block; text-align:center; width:56px}
+
+.row.elec .elecDocs span {color:#034364}
+.row.elec .elecDocs span::before {content:'\f3fc'; font-family:'fa'; font-size:23px; font-weight:700}
+.row.elec .elecDocs span::after {content:'\f304'; font-family:'fa'; font-size:13px; font-weight:900; position:absolute; left:50%; top:30%; transform:translateX(-50%)}
+
+/* .row.elec .security span::before {content:'일반'; padding:5px 0; border-radius:4px; background-color:#ddd; font-size:13px; font-weight:500; color:#333; display:block; text-align:center; width:56px} */
+.row.secu .security span::before {content:'기밀' !important; padding:5px 0; border-radius:4px; background-color:#c52424 !important; font-size:13px !important; font-weight:500; color:#fff !important; display:block; text-align:center; width:56px}
+
+/************************* 어드민 공지사항 관리 admin_notice.htm **********************/
+.listSrchDiv+.noticeDiv {
+  padding-top:0;
+  border-top-left-radius:0 !important;
+  border-top-right-radius:0 !important;
+}
+.noticeDiv {display:flex; flex-direction:column; background-color:#fff; padding:20px; border-radius:3px}
+.noticeDiv .listHeaderDiv .row {align-items:center; border-top:1px solid #999; border-bottom:1px solid #999; background-color:#f1f1f1; font-size:13px; font-weight:bold}
+.noticeDiv .listHeaderDiv .row .item {justify-content:center;height:34px}
+.noticeDiv .listBodyDiv .row {border-bottom:1px solid #999; align-items:flex-start}
+.noticeDiv .listBodyDiv .row:hover {cursor:pointer; color:blue}
+.noticeDiv .row {display:flex}
+.noticeDiv .row .item {display:flex; flex-direction:column; align-items:center; min-height:46px; padding:8px; position:relative; word-break:keep-all; flex-flow:wrap}
+.noticeDiv .row .item.no {flex:0 0 80px; justify-content:center}
+.noticeDiv .row .item.branch {flex:1; justify-content:start}
+.noticeDiv .row .item.topFix {flex:0 0 100px; justify-content:center}
+.noticeDiv .row .item.title {flex:3; justify-content:start; word-break:break-all}
+.noticeDiv .row .item.regdate {flex:1; justify-content:start}
+.noticeDiv .row.topFix .item.topFix span::after {content:'\f08d'; font-family:'fa'; font-weight:700; color:#307dc1}
+
+/* ie 에서 width는 padding을 포함한 사이즈
+@media screen and (-ms-high-contrast:active), (-ms-high-contrast:none) {
+  .noticeDiv .row .item.no {flex:0 0 34px; justify-content:center}
+} */
+.addNoticeModal .modal_content {width:80%; max-width:900px}
+.addNoticeModal .modal_content .modalBody {max-width:unset}
+.addNoticeModal .modal_content textarea {min-width:unset; width:100%}
+
+@media screen and (max-width:940px) {
+  .noticeDiv {background-color:transparent; background-color:unset; padding:0}
+  .noticeDiv .listHeaderDiv {display:none}
+  .noticeDiv .listBodyDiv {overflow:auto}
+  .noticeDiv .listBodyDiv .row {border-radius:3px; overflow:hidden; background-color:#fff; position:relative; padding:12px; border:unset}
+  .noticeDiv .listBodyDiv .row+.row {margin-top:6px}
+  .noticeDiv .row {flex-flow:wrap}
+  .noticeDiv .row > * {flex:none !important; min-height:1px !important}
+  .noticeDiv .row .no {display:none}
+  .noticeDiv .row .branch {order:1; display:inline-block; color:#656565; padding:6px; background-color:#d6e1eb; border-radius:3px;  margin-bottom:6px}
+  .noticeDiv .row .item.topFix {order:2; display:inline-flex; flex:0 0 30px}
+  .noticeDiv .row .item.title {order:4; width:100%; padding:10px 0 0}
+  .noticeDiv .row .item.regdate {order:3; margin-left:auto; display:inline-flex}
+}
+@media screen and (max-width:760px) {
+  .addNoticeModal .modal_content {width:calc( 100% - 20px)}
+}
+
+
+/************************* 어드민 장소 등록관리 admin_roomlist.htm **********************/
+.listSrchDiv+.roomListDiv {
+  padding-top:0;
+  border-top-left-radius:0 !important;
+  border-top-right-radius:0 !important;
+}
+.roomListDiv {display:flex; flex-direction:column; background-color:#fff; padding:20px; border-radius:3px}
+.roomListDiv .listHeaderDiv .row {align-items:center; border-top:1px solid #999; border-bottom:1px solid #999; background-color:#f1f1f1; font-size:13px; font-weight:bold}
+.roomListDiv .listHeaderDiv .row .item {justify-content:center; height:34px}
+.roomListDiv .row {display:flex}
+.roomListDiv .row .item {display:flex; flex-direction:column; align-items:center; min-height:46px; padding:8px; position:relative; word-break:keep-all; flex-flow:wrap}
+.roomListDiv .listBodyDiv .row {border-bottom:1px solid #999; align-items:flex-start}
+
+.roomListDiv .row .item.no {flex:0 0 50px; justify-content:center}
+.roomListDiv .row .item.branch {flex:0 0 120px;  word-break:break-all}
+.roomListDiv .row .item.category {flex:0 0 74px; justify-content:center}
+.roomListDiv .row .item.category span {padding:5px 0; border-radius:20px; background-color:#034364; font-size:13px; font-weight:500; color:#fff; display:block; text-align:center; width:56px}
+.roomListDiv .row .item.room {flex:1; word-break:break-all}
+.roomListDiv .row .item.size {flex:0 0 70px; justify-content:center; word-break:break-all}
+.roomListDiv .row .item.rent {flex:0 0 90px; justify-content:center; word-break:break-all}
+.roomListDiv .row .item.reason {flex:2; word-break:break-all}
+.roomListDiv .row .item.memo {flex:2;  word-break:break-all}
+.roomListDiv .row .item.delete {flex:0 0 60px; justify-content:center; word-break:break-all}
+.roomListDiv .row .item.order {flex:0 0 70px; justify-content:center; word-break:break-all}
+.roomListDiv .rent .rentY {background-color:#1cc000; color:#fff; padding:6px; border-radius:4px; white-space:nowrap}
+.roomListDiv .rent .rentY::after {content:'대여가능'; }
+.roomListDiv .rent .rentN {background-color:#c52424; color:#fff; padding:6px; border-radius:4px; white-space:nowrap}
+.roomListDiv .rent .rentN::after {content:'대여불가'; }
+.roomListDiv .listBodyDiv .row .room {font-size:14px; font-weight:bold; color:blue; text-decoration:underline; cursor:pointer}
+
+@media screen and (-ms-high-contrast:active), (-ms-high-contrast:none) { /* ie 에서 width는 padding을 포함한 사이즈*/
+  .roomListDiv .row .item.no {flex:0 0 34px; justify-content:center}
+}
+
+@media screen and (max-width:940px) {
+  .roomListDiv {background-color:transparent; background-color:unset; padding:0}
+  .roomListDiv .listHeaderDiv {display:none}
+  .roomListDiv .listBodyDiv {overflow:auto}
+  .roomListDiv .listBodyDiv .row {border-radius:3px; overflow:hidden; background-color:#fff; position:relative; padding:12px; border:unset}
+  .roomListDiv .listBodyDiv .row+.row {margin-top:6px}
+  .roomListDiv .row {flex-flow:wrap}
+  .roomListDiv .row > * {flex:none !important; min-height:1px !important}
+  .roomListDiv .row .no {display:none}
+  .roomListDiv .row .branch {display:inline-block; width:100%; font-size:15px; font-weight:bold; text-align:left;  color:#656565; padding:8px 0; margin-bottom:6px}
+  .roomListDiv .row .category {font-weight:bold; color:#656565; padding:0}
+  .roomListDiv .row .room {font-size:15px; font-weight:bold; padding:5px 0 0 8px;}
+  .roomListDiv .row .size {font-size:14px; padding:4px 0 0 9px;}
+  .roomListDiv .row .rent {font-size:13px; position:absolute; right:4px; top:4px}
+  .roomListDiv .row .reason {width:100%; color:#555; text-align:left; display:block; margin-top:8px; padding:8px 0}
+  .roomListDiv .row .memo {width:100%; color:#555; text-align:left; display:block; padding:8px 0}
+  .roomListDiv .row .delete, 
+  .roomListDiv .row .order {display:none}
+}
+#addRoomModal .modal_content {width:460px}
+
+
+/************************* 어드민 사용자 등록관리 admin_userlist.htm **********************/
+.listSrchDiv+.userListDiv {padding-top:0; border-top-left-radius:0 !important; border-top-right-radius:0 !important}
+.userListDiv {display:flex; flex-direction:column; background-color:#fff; padding:20px; border-radius:3px}
+.userListDiv .listHeaderDiv .row {align-items:center; border-top:1px solid #999; border-bottom:1px solid #999; background-color:#f1f1f1; font-size:13px; font-weight:bold}
+.userListDiv .listHeaderDiv .row .item {justify-content:start; height:34px}
+.userListDiv .row {display:flex}
+.userListDiv .row .item {display:flex; flex-direction:column; align-items:center; min-height:46px; padding:8px; position:relative; word-break:break-all; flex-flow:wrap}
+.userListDiv .listBodyDiv .row {border-bottom:1px solid #999; align-items:flex-start}
+.userListDiv .listBodyDiv .row:hover {cursor:pointer; color:blue}
+.userListDiv .listBodyDiv.assignee .row:hover {cursor:default !important; color:unset !important}
+.admin::after {content:'\f084'; font-family:'fa'; font-weight:bold; color:#ffd96f}
+.adminS::after {content:'\f521'; font-family:'fa'; font-weight:bold; color:#d40303}
+
+.userListDiv .listBodyDiv .row .name {font-size:16px; font-weight:bold}
+
+.userListDiv .row .item.no {flex:0 0 50px; justify-content:center}
+.userListDiv .row .item.comp {flex:1.5}
+.userListDiv .row .item.part {flex:2}
+.userListDiv .row .item.grade {flex:1.5}
+.userListDiv .row .item.name {flex:1}
+.userListDiv .row .item.compNo {flex:1}
+.userListDiv .row .item.mail {flex:2}
+.userListDiv .row .item.phone {flex:1.5}
+.userListDiv .row .item.phoneIn {flex:1}
+
+@media screen and (-ms-high-contrast:active), (-ms-high-contrast:none) { /* ie 에서 width는 padding을 포함한 사이즈*/
+  .userListDiv .row .item.no {flex:0 0 34px}
+  .userListDiv .row .item.name {flex:0 0 134px}
+  .userListDiv .row .item.compNo {flex:0 0 94px}
+  .userListDiv .row .item.phone {flex:0 0 104px}
+}
+
+@media screen and (max-width:940px) {
+  .userListDiv {background-color:transparent; background-color:unset; padding:0}
+  .userListDiv .listHeaderDiv {display:none}
+  .userListDiv .listBodyDiv {overflow:auto; gap:8px; display:flex; flex-direction:column}
+  .userListDiv .listBodyDiv .row {border:none; border-radius:3px; overflow:hidden; background-color:#fff; position:relative; padding:8px; align-items:center; flex-flow:row wrap; gap:12px}
+  .userListDiv .row {padding:16px !important}
+  .userListDiv .row > * {flex:unset !important; white-space:nowrap; padding:0 !important; min-height:1px !important; justify-content:flex-start !important}
+  .userListDiv .row .item.no {display:none}
+  /* .userListDiv .row .item.comp {width:100%} */
+  /* .userListDiv .row .item.part {width:40%} */
+  /* .userListDiv .row .item.grade {width:40%}  */
+  /* .userListDiv .row .item.name { width:30%} */
+  /* .userListDiv .row .item.compNo {width:30%; display:flex; align-items:center} */
+  .userListDiv .row .item.compNo::before {content:'사번'; font-size:11px; display:flex; align-items:center; background-color:#ddd; color:#000; padding:2px 4px; border-radius:4px; margin-right:3px}
+  /* .userListDiv .row .item.mail { width:30%; } */
+  /* .userListDiv .row .item.phone {width:30%; } */
+}
+#addMemberModal .modal_content {width:460px}
+
+
+
+
+/************************* 404 500 **********************/
+.wrapper.errorPage {padding:0 !important}
+.errorPage section {color:#fff; text-align:center}
+.errorPage .tit {font-weight:900; font-size:140px; color:#ddd}
+.errorPage .subTit {color:#d9d9d9; font-size:33px; margin-bottom:40px}
+.errorPage pre {font-family:'Pretendard'; font-size:15px; font-weight:500; color:#333; line-height:1.6; margin-bottom:20px}
+.errorPage .btnDiv span {margin:0 10px; color:#333}
+
+@media screen and (max-width:530px) {
+  .errorPage .tit {font-size:30vw}
+  .errorPage .subTit {font-size:7vw}
+}
+

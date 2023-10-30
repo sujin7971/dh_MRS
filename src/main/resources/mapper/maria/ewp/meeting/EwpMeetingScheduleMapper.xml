@@ -1,0 +1,227 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egov.framework.plms.sub.ewp.bean.mvc.mapper.maria.meeting.EwpMeetingScheduleMapper">
+	<insert id="postMeetingSchedule" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.meeting.EwpMeetingScheduleVO" useGeneratedKeys="true" keyProperty="skdKey">
+	/* EwpScheduleMapper postFormalSchedule */
+		INSERT INTO meeting_schedule(
+			meetingKey, reqKey, 
+			writerKey, 
+			skdHost, skdType, skdStatus, skdComment,
+			officeCode, deptId, roomKey, roomType, attendeeCnt,
+			holdingDate, beginDateTime, finishDateTime, expDateTime
+		)
+		SELECT
+			#{meetingKey}, #{reqKey},
+			#{writerKey}, 
+			#{skdHost}, IFNULL(#{skdType}, "RENTAL"), IFNULL(#{skdStatus}, 1), #{skdComment}, 
+			#{officeCode}, #{deptId}, #{roomKey}, IFNULL(#{roomType}, "MEETING_ROOM"), #{attendeeCnt},
+			DATE(#{beginDateTime}), #{beginDateTime}, #{finishDateTime}, DATE_ADD(#{finishDateTime}, INTERVAL 1 MINUTE)
+		FROM DUAL
+		WHERE NOT EXISTS (
+			SELECT *
+			FROM meeting_schedule
+			<where>
+			AND meetingKey != #{meetingKey}
+			AND skdStatus IN (1, 2)
+			AND roomType = IFNULL(#{roomType}, "MEETING_ROOM")
+		  	AND roomKey = #{roomKey}
+		  	AND beginDateTime <![CDATA[ < ]]> #{finishDateTime} 
+		  	AND finishDateTime <![CDATA[ > ]]> #{beginDateTime}
+		  	AND delYN = "N"
+			</where>
+		)
+	</insert>
+	<update id="putMeetingSchedule" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.meeting.EwpMeetingScheduleVO">
+	/* EwpScheduleMapper putSchedule */
+		UPDATE meeting_schedule
+		<set>
+			<if test='officeCode != null and officeCode !=""'>
+			  officeCode = #{officeCode}
+			</if>
+			<if test='deptId != null and deptId !=""'>
+			, deptId = #{deptId}
+			</if>
+			<if test='beginDateTime != null'>
+			, beginDateTime = #{beginDateTime}
+			, holdingDate = DATE(#{beginDateTime})
+			</if>
+			<if test='finishDateTime != null'>
+			, finishDateTime = #{finishDateTime}
+			, expDateTime = DATE_ADD(#{finishDateTime}, INTERVAL 1 MINUTE)
+			</if>
+			<if test='expDateTime != null and finishDateTime == null'>
+			, expDateTime = #{expDateTime}
+			</if>
+			<if test='skdHost != null'>
+			, skdHost = #{skdHost}
+			</if>
+			<if test='skdType != null'>
+			, skdType = #{skdType.code}
+			</if>
+			<if test='attendeeCnt != null'>
+			, attendeeCnt = #{attendeeCnt}
+			</if>
+			<if test="delYN != null and (delYN eq 'Y' or delYN eq 'N')">
+			,delYN = #{delYN}
+			</if>
+			, skdKey = #{skdKey}
+		</set>
+		<where>
+			AND skdKey = #{skdKey}
+			<if test='delYN eq null'>
+			AND delYN = 'N'
+			</if>
+			AND (
+				SELECT COUNT(*)
+				FROM meeting_schedule new_skd
+				JOIN meeting_schedule old_skd
+				ON old_skd.skdKey = #{skdKey}
+				<where>
+				AND new_skd.skdStatus IN (1, 2)
+				AND new_skd.skdKey != #{skdKey}
+				AND new_skd.roomType = IFNULL(#{roomType}, old_skd.roomType)
+			  	AND new_skd.roomKey = IFNULL(#{roomKey}, old_skd.roomKey)
+			  	AND new_skd.beginDateTime <![CDATA[ < ]]> IFNULL(#{finishDateTime}, old_skd.finishDateTime) 
+			  	AND new_skd.finishDateTime <![CDATA[ > ]]> IFNULL(#{beginDateTime}, old_skd.beginDateTime)
+			  	AND new_skd.delYN = "N"
+				</where>
+			) = 0
+		</where>
+	</update>
+	
+	<!-- 정식 회의 완전 삭제.-->
+	<delete id="deleteMeetingScheduleOne" parameterType="integer">
+	/* EwpScheduleMapper deleteFormalSchedule */
+		UPDATE meeting_schedule SET delYN = 'Y'
+		<where>
+			AND skdKey = #{skdKey}
+		</where> 
+	</delete>
+	
+	<select id="getMeetingScheduleOne" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.meeting.EwpMeetingScheduleVO">
+		/* EwpScheduleMapper getScheduleOne */
+		SELECT	
+		*
+		FROM meeting_schedule
+		<where>
+			AND skdKey = #{skdKey}
+		</where>
+	</select>
+	
+	<!-- 기준이 된 회의 바로 다음에 진행될 회의에 대한 정보 -->
+	<select id="getMeetingScheduleNextOne" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.meeting.EwpMeetingScheduleVO">
+		/* EwpScheduleMapper getMeetingScheduleNextOne */
+		SELECT
+		skd.*
+		FROM (
+			/* 현재 회의 바로 다음에 진행될 회의의 번호 조회 */
+			SELECT next.*
+			FROM meeting_schedule next
+			INNER JOIN (
+				SELECT *
+				FROM meeting_schedule
+				WHERE skdKey = #{skdKey}
+			) now
+			ON next.roomType = now.roomType 
+			AND next.roomKey = now.roomKey 
+			AND next.holdingDate = now.holdingDate
+			<where>
+			WHERE 
+			AND TIMESTAMPDIFF(SECOND, now.finishDateTime, next.beginDateTime) <![CDATA[>=]]> 0
+			AND next.skdStatus IN (1, 2)
+			</where>
+			LIMIT 1
+		) skd
+	</select>
+	
+	<select id="getAssignedMeetingScheduleOne" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.meeting.EwpMeetingScheduleVO">
+		/* EwpScheduleMapper getAssignedScheduleOne */
+		/* NO_SQL_LOG */
+		SELECT * FROM meeting_schedule
+		<where> 
+			AND meetingKey = #{meetingKey}
+			AND delYN = 'N'
+		</where>
+	</select>
+	
+	<select id="getMeetingScheduleList" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.meeting.EwpMeetingScheduleVO" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.meeting.EwpMeetingScheduleVO">
+		/* EwpMeetingScheduleMapper getScheduleList */
+		/* NO_SQL_LOG */
+		SELECT *
+		FROM meeting_schedule
+		<where>
+		<include refid="getScheduleListCondition"></include>
+		</where>
+	</select>
+	
+	<sql id="meetingScheduleStatListSearch">
+		SELECT DATE_FORMAT(holdingDate,'%Y-%m-%d') holdingDate, COUNT(*) count
+		FROM meeting_schedule skd 
+		JOIN meeting_info meet 
+		ON skd.meetingKey = meet.meetingKey 
+		AND skd.delYN = 'N' 
+		AND meet.delYN = 'N'
+		AND (skd.holdingDate BETWEEN STR_TO_DATE(IFNULL(#{startDate}, NOW()),'%Y-%m-%d') AND STR_TO_DATE(IFNULL(#{endDate}, NOW()),'%Y-%m-%d'))
+		<where>
+			AND 1 = FUNC_IS_USER_HAS_MEETING_AUTH(#{writerKey}, skd.meetingKey, 'FUNC_READ')
+		</where>
+		GROUP BY skd.holdingDate
+	</sql>
+	 
+	<sql id="getScheduleOnDate">
+	/* 지정일에 예정된 스케줄 목록 조회. 일자를 넘기지 않는 경우 당일 예정된 스케줄 목록 조회 */
+	/* EwpMeetingScheduleMapper getScheduleOnDate */
+		SELECT * 
+		FROM meeting_schedule 
+		WHERE holdingDate = STR_TO_DATE(IFNULL(#{holdingDate}, NOW()),'%Y-%m-%d')
+		AND delYN = 'N'
+	</sql>
+	<sql id="getScheduleWithinPeriod">
+	/* 일정기간에 예정된 스케줄 목록 조회. 범위를 넘기지 않는 경우 해당 조건을 당일로 설정해서 조회*/
+	/* EwpMeetingScheduleMapper getScheduleWithinPeriod */
+		SELECT * FROM meeting_schedule 
+		<where>
+			<![CDATA[
+			AND holdingDate >= STR_TO_DATE(IFNULL(#{startDate}, NOW()),'%Y-%m-%d') 
+			AND holdingDate <= STR_TO_DATE(IFNULL(#{endDate}, NOW()),'%Y-%m-%d')
+			]]>
+			AND delYN = 'N'
+		</where>
+	</sql>
+	<sql id="getScheduleOneCondition">
+		<choose>
+		<when test="skdKey neq null">
+			AND skdKey = #{skdKey}
+		</when>
+		<when test="reqKey neq null">
+			AND reqKey = #{reqKey}
+		</when>
+		<when test="meetingKey neq null">
+			AND meetingKey = #{meetingKey}
+		</when>
+		<otherwise>
+			AND 1 = 0
+		</otherwise>
+		</choose>
+	</sql>
+	<sql id="getScheduleListCondition">
+		<if test="skdStatus neq null">
+			AND skdStatus = #{skdStatus}
+		</if>
+		<if test="officeCode neq null">
+			AND officeCode = #{officeCode}
+		</if>
+		<if test="roomType neq null">
+			AND roomType = #{roomType}
+		</if>
+		<if test="roomKey neq null">
+			AND roomKey = #{roomKey}
+		</if>
+		<if test="skdHost neq null and skdHost != ''.toString()">
+			AND skdHost LIKE CONCAT('%',#{skdHost},'%')
+		</if>
+		<if test="delYN neq null and (delYN eq 'N' or delYN eq 'Y')">
+			AND delYN = #{delYN}
+		</if>
+	</sql>
+</mapper>

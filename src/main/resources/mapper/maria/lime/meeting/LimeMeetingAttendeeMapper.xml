@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egov.framework.plms.sub.lime.bean.mvc.mapper.meeting.LimeMeetingAttendeeMapper">
+	<!-- 회의 참석자 등록 -->
+	<insert id="postMeetingAttendee" parameterType="egov.framework.plms.main.bean.mvc.entity.meeting.MeetingAttendeeVO" useGeneratedKeys="true" keyProperty="attendId">
+	/* LimeMeetingAttendeeMapper postMeetingAttendee */
+		INSERT INTO meeting_attendee (userId, userName, deptId, meetingId, attendRole) 
+		SELECT #{userId}, #{userName}, #{deptId}, #{meetingId}, #{attendRole} FROM DUAL
+		<where>
+		AND NOT EXISTS (
+			SELECT *
+			FROM meeting_attendee
+			<where>
+			<if test='attendRole.code != "GUEST"'>
+			AND meetingId = #{meetingId}
+			</if>
+			AND userId = #{userId}
+			AND delYN = 'N'
+			</where>
+		)
+		</where>
+	</insert>
+	
+	<!-- 회의 참석자 수정 -->
+	<update id="putMeetingAttendee" parameterType="egov.framework.plms.main.bean.mvc.entity.meeting.MeetingAttendeeVO">
+	/* LimeMeetingAttendeeMapper putMeetingAttendee */
+		UPDATE meeting_attendee
+		<set>
+			<if test="attendRole != null"> 	
+			,attendRole = #{attendRole}							</if>
+			<if test="assistantYN != null"> 	
+			,assistantYN = #{assistantYN}							</if>
+			<if test="attendYN != null">	
+			,attendYN = #{attendYN}
+			,attendDateTime = NOW()								</if>
+			<if test="signYN != null">		
+			,signYN = #{signYN} 								</if>
+			<if test="signSrc != null">		
+			,signSrc = #{signSrc}								</if>
+			<if test="exitYN != null">		
+			,exitYN = #{exitYN}
+			,exitDateTime = NOW()								</if>
+		</set>
+		<where>
+			<if test="attendId != null"> AND attendId = #{attendId} 							</if>
+			<if test="meetingId != null"> AND meetingId = #{meetingId} 						</if>
+			<if test="userId != null"> AND userId = #{userId} 								</if>
+		</where>
+	</update>
+	
+	 <!-- 회의 참석자 삭제 -->
+	<delete id="deleteMeetingAttendeeOne">
+	/* LimeMeetingAttendeeMapper deleteMeetingAttendeeOne */
+		DELETE 
+		FROM meeting_attendee
+		<where>
+			<if test="attendId != null"> AND attendId = #{attendId} </if>
+		</where>
+	</delete>
+	
+	<!-- 회의 참석자 삭제 -->
+	<delete id="deleteMeetingAttendeeList" parameterType="egov.framework.plms.main.bean.mvc.entity.meeting.MeetingAttendeeVO">
+	/* LimeMeetingAttendeeMapper deleteMeetingAttendee */
+		DELETE 
+		FROM meeting_attendee
+		<where>
+			<if test="meetingId != null"> AND meetingId = #{meetingId} </if>
+			<if test="userId != null"> AND userId = #{userId} </if>
+			<if test="attendRole != null">AND attendRole = #{attendRole} </if>
+			<if test="meetingId == null and userId == null"> AND 1 = 0</if>
+		</where>
+	</delete>
+	
+	<resultMap id="attendeeMap" type="egov.framework.plms.main.bean.mvc.entity.meeting.MeetingAttendeeVO">
+		<id javaType="integer" column="attendId" property="attendId"></id>
+		<result javaType="integer" column="meetingId" property="meetingId"></result>
+		<result javaType="string" column="userId" property="userId"></result>
+		<result javaType="string" column="userName" property="userName"></result>
+		<result javaType="string" column="deptId" property="deptId"></result>
+		<result javaType="egov.framework.plms.main.core.model.enums.meeting.AttendRole" column="attendRole" property="attendRole"></result>
+		<result javaType="java.lang.Character" column="assistantYN" property="assistantYN"></result>
+		<result javaType="java.lang.Character" column="attendYN" property="attendYN"></result>
+		<result javaType="java.time.LocalDateTime" column="attendDateTime" property="attendDateTime"></result>
+		<result javaType="java.lang.Character" column="exitYN" property="exitYN"></result>
+		<result javaType="java.time.LocalDateTime" column="exitDateTime" property="exitDateTime"></result>
+		<result javaType="java.lang.Character" column="signYN" property="signYN"></result>
+		<result javaType="string" column="signSrc" property="signSrc"></result>
+		<result javaType="string" column="tempPassword" property="tempPassword"></result>
+		<result javaType="java.time.LocalDate" column="passwordExpiryDate" property="passwordExpiryDate"></result>
+		<association property="user" javaType="egov.framework.plms.main.bean.mvc.entity.organization.UserInfoVO">
+			<id javaType="string" column="userId" property="userId"></id>
+			<result javaType="string" column="userName" property="userName"></result>
+			<result javaType="string" column="deptId" property="deptId"></result>
+			<result javaType="string" column="deptName" property="deptName"></result>
+			<result javaType="string" column="titleName" property="titleName"></result>
+			<result javaType="string" column="positionName" property="positionName"></result>
+			<result javaType="string" column="rankName" property="rankName"></result>
+			<result javaType="string" column="personalCellPhone" property="personalCellPhone"></result>
+			<result javaType="string" column="officeDeskPhone" property="officeDeskPhone"></result>
+			<result javaType="string" column="email" property="email"></result>
+		</association>
+	</resultMap>
+	
+	<sql id="withJoinedAttendee">
+		with_attendee AS (
+			SELECT 	att.attendId, att.meetingId, att.attendRole, 
+					att.assistantYN, att.attendYN, att.attendDateTime, 
+					att.exitYN, att.exitDateTime, att.signYN, att.signSrc,
+					att.tempPassword, att.passwordExpiryDate,
+					user.userId, user.userName,
+					user.deptId, dept.deptName, 
+					user.titleName, user.positionName, user.rankName, 
+					user.personalCellPhone, user.officeDeskPhone, user.email
+			FROM meeting_attendee att
+			JOIN org_user_info user
+			ON att.userId = user.userId
+			JOIN org_dept_info dept
+			ON user.deptId = dept.deptId
+			WHERE att.delYN = 'N'
+		)
+	</sql>
+	
+	<!-- 참석자 고유키로 참석자키 조회 -->
+	<select id="getAttendId" parameterType="egov.framework.plms.main.bean.mvc.entity.meeting.MeetingAttendeeVO" resultType="integer">
+	/* LimeMeetingAttendeeMapper getAttendId */
+		SELECT attendId
+		FROM meeting_attendee
+		<where>
+		AND meetingId = #{meetingId}
+		AND userId = #{userId}
+		</where>
+	</select>
+	
+	<!-- 참석자 고유키로 참석자 조회 -->
+	<select id="getMeetingAttendeeOne" resultMap="attendeeMap">
+	/* LimeMeetingAttendeeMapper getMeetingAttendeeOne */
+		WITH <include refid="withJoinedAttendee"></include>
+		SELECT *
+		FROM with_attendee
+		WHERE attendId = #{attendId}
+	</select>
+	
+	<!-- 참석자 목록 조회 -->
+	<select id="getMeetingAttendeeList" parameterType="egov.framework.plms.main.bean.mvc.entity.meeting.MeetingAttendeeVO" resultMap="attendeeMap">
+	/* LimeMeetingAttendeeMapper getMeetingAttendeeList */
+		WITH <include refid="withJoinedAttendee"></include>
+		SELECT *
+		FROM with_attendee
+		<where>
+			<if test="attendId != null"> AND attendId = #{attendId} </if>
+			<if test="meetingId != null"> AND meetingId = #{meetingId} </if>
+			<if test="userId != null"> AND userId = #{userId} </if>
+			<if test='attendRole != null'>
+			AND attendRole = #{attendRole}
+			</if>
+			<if test='assistantYN != null'>
+			AND assistantYN = #{assistantYN}
+			</if>
+			<if test='attendYN != null'>
+			AND attendYN = #{attendYN}
+			</if>
+			<if test='exitYN != null'>
+			AND exitYN = #{exitYN}
+			</if>
+			<if test='signYN != null'>
+			AND signYN = #{signYN}
+			</if>
+		</where>
+	</select>
+</mapper>

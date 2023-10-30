@@ -1,0 +1,16 @@
+@charset "UTF-8";
+.bg-primary {
+    background-color: #2955b6!important;
+}
+.bg-secondary {
+    background-color: #999!important;
+}
+.bg-danger {
+    background-color: #c52424!important;
+}
+.bg-warning {
+    background-color: #ff8d00!important;
+}
+.bg-blue-light {
+    background-color: #f0f8ff!important;
+}

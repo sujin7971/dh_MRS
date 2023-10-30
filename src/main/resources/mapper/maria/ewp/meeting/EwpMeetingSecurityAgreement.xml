@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egov.framework.plms.sub.ewp.bean.mvc.mapper.maria.meeting.EwpMeetingSecurityAgreementMapper">
+	<!-- 서약서 작성 -->
+	<insert id="insertMeetingSecurityAgreementOne" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.meeting.EwpMeetingSecurityAgreementVO">
+	/* EwpMeetingSecurityAgreementMapper insertMeetingSecurityAgreementOne */
+		INSERT INTO meeting_security_agreement (attendId, meetingId, signSrc) 
+		VALUES (#{attendId}, #{meetingId}, #{signSrc})
+	</insert>
+	
+	 <!-- 서약서 삭제 -->
+	<delete id="deleteMeetingSecurityAgreementOne">
+	/* EwpMeetingSecurityAgreementMapper deleteMeetingSecurityAgreementOne */
+		DELETE 
+		FROM meeting_security_agreement
+		<where>
+			<if test="attendKey != null"> AND attendKey = #{attendKey} </if>
+		</where>
+	</delete>
+	
+	<!-- 참석자 고유키로 서약서 조회 -->
+	<select id="selectMeetingSecurityAgreementOne" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.meeting.EwpMeetingSecurityAgreementVO">
+	/* EwpMeetingSecurityAgreementMapper selectMeetingSecurityAgreementOne */
+		SELECT *
+		FROM meeting_security_agreement
+		WHERE attendId = #{attendId}
+	</select>
+	
+	<select id="selectMeetingSecurityAgreementAll" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.meeting.EwpMeetingSecurityAgreementVO">
+	/* EwpMeetingSecurityAgreementMapper selectMeetingSecurityAgreementAll */
+		SELECT *
+		FROM meeting_security_agreement
+		WHERE meetingId = #{meetingId}
+	</select>
+</mapper>

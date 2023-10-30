@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="egov.framework.plms.sub.ewp.bean.mvc.mapper.maria.admin.EwpManagerRosterMapper">
+	<select id="getAllRoomManagerList" parameterType="egov.framework.plms.main.bean.mvc.entity.admin.AdminRosterVO" resultType="egov.framework.plms.main.bean.mvc.entity.admin.AdminRosterVO">
+		/* AdminMapper getManagerAdminList */
+		SELECT 
+		userId,
+		officeCode,
+		deptId,
+		managerRole
+		FROM admin_manager_info
+		<where>
+		<if test='officeCode != null'>
+		AND officeCode = #{officeCode}
+		</if>
+		<if test='deptId != null'>
+		AND deptId = #{deptId}
+		</if>
+		<if test='userId != null'>
+		AND userId = #{userId}
+		</if>
+		AND managerRole IN ("MNG_ITEM_MR", "MNG_ITEM_ER", "MNG_ITEM_HALL")
+		</where>
+	</select>
+</mapper>

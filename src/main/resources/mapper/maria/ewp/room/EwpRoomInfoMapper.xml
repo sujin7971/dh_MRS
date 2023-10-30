@@ -1,0 +1,170 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egov.framework.plms.sub.ewp.bean.mvc.mapper.maria.room.EwpRoomInfoMapper">
+	<!-- 회의실 등록 -->
+	<insert id="insertRoomOne" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.room.EwpRoomInfoVO" useGeneratedKeys="true" keyProperty="roomKey">
+		/* EwpMariaRoomMapper insertRoomOne */
+		/* NO_SQL_LOG */
+		<selectKey keyProperty="roomKey" resultType="int" order="BEFORE">
+		/* NO_SQL_LOG */
+	        SELECT CASE 
+	            WHEN #{roomKey} IS NOT NULL THEN #{roomKey}
+	            WHEN (SELECT MAX(rm1.roomKey) FROM room_info rm1) + 1 <![CDATA[>=]]> 10000 THEN (SELECT MAX(rm2.roomKey) FROM room_info rm2) + 1
+	            ELSE 10000
+	        END
+	    </selectKey>
+		INSERT INTO room_info (
+			roomKey, roomType, officeCode, roomCode, 
+			roomName, roomLabel, roomSize, roomFloor, roomNote, 
+			rentYN, rentReason, 
+			regUser, modUser, 
+			syncYN, delYN
+		)
+		VALUES(
+			#{roomKey}, 
+			#{roomType}, #{officeCode}, #{roomCode}, 
+			#{roomName}, IFNULL(#{roomLabel}, #{roomName}), #{roomSize}, #{roomFloor}, #{roomNote}, 
+			#{rentYN}, #{rentReason}, 
+			#{regUser}, #{regUser}, 
+			IFNULL(#{syncYN}, 'N'), IFNULL(#{delYN}, 'N')
+		)
+		ON DUPLICATE KEY UPDATE 
+		<trim prefixOverrides=",">
+			<include refid="roomUpdateCondition"></include>
+		</trim>
+	</insert>
+	
+	<!-- 회의실 순서 변경 -->
+	<update id="updateRoomOne" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.room.EwpRoomInfoVO">
+	/* EwpMariaRoomMapper updateRoomOne */
+		UPDATE room_info
+		<set>
+			<include refid="roomUpdateCondition"></include>
+		</set>
+		<where>
+			<include refid="selectRoomOneCondition"></include>
+		</where>
+	</update>
+
+	<!-- 회의실 삭제 -->
+	<update id="updateRoomOneToDelete" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.room.EwpRoomInfoVO">
+	/* EwpMariaRoomMapper updateRoomOneToDelete */
+		UPDATE room_info
+		SET delYN = 'Y'
+		<where>
+		<include refid="selectRoomListCondition"></include>
+		</where>
+	</update>
+	
+	<select id="selectRoomOne" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.room.EwpRoomInfoVO" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.room.EwpRoomInfoVO">
+	/* EwpMariaRoomMapper selectRoomOne */
+		SELECT 
+		<include refid="selectJoinedRoom"></include>
+		FROM room_info
+		<include refid="joinOffice"></include>
+		<where>
+		<include refid="selectRoomOneCondition"></include>
+		</where>
+	</select>
+
+	<!-- 회의실 목록 -->
+	<select id="selectRoomList" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.room.EwpRoomInfoVO">
+	/* EwpMariaRoomMapper selectRoomList */
+		SELECT 
+		<include refid="selectJoinedRoom"></include>
+		FROM room_info
+		<include refid="joinOffice"></include>
+		<where>
+		<include refid="selectRoomListCondition"></include>
+		</where>
+		ORDER BY FIELD(roomType, "MEETING_ROOM", "EDU_ROOM", "HALL"), roomFloor, roomName
+	</select>
+	<sql id="selectJoinedRoom">
+		room_info.*, common_code.DTL_NM as officeName
+	</sql>
+	<sql id="joinOffice">
+		JOIN common_code
+		ON common_code.CLASS_CD = 'CD001'
+		AND room_info.officeCode = common_code.DTL_CD	
+	</sql>
+	<sql id="roomUpdateCondition">
+		<if test='roomName neq null'>
+		, roomName = #{roomName}
+		, roomFloor = (CASE
+            WHEN #{roomName} LIKE '%12층%' THEN 12 
+            WHEN #{roomName} LIKE '%11층%' THEN 11
+            WHEN #{roomName} LIKE '%10층%' THEN 10
+            WHEN #{roomName} LIKE '%9층%' THEN 9 
+            WHEN #{roomName} LIKE '%8층%' THEN 8 
+            WHEN #{roomName} LIKE '%7층%' THEN 7
+            WHEN #{roomName} LIKE '%6층%' THEN 6 
+            WHEN #{roomName} LIKE '%5층%' THEN 5
+            WHEN #{roomName} LIKE '%4층%' THEN 4
+            WHEN #{roomName} LIKE '%3층%' THEN 3
+            WHEN #{roomName} LIKE '%2층%' THEN 2
+		  	WHEN #{roomName} LIKE '%1층%' THEN 1 
+		  	ELSE roomFloor
+		END)
+		</if>
+		, roomLabel = (
+			CASE 
+				WHEN #{roomLabel} IS NOT NULL THEN #{roomLabel}
+				WHEN roomLabel IS NULL OR roomLabel = '' THEN roomName
+				ELSE roomLabel
+			END
+		)
+		<if test='roomSize neq null'>
+		, roomSize = #{roomSize}
+		</if>
+		<if test='roomFloor neq null'>
+		, roomFloor = #{roomFloor}
+		</if>
+		<if test='roomNote neq null'>
+		, roomNote = #{roomNote}
+		</if>
+		<if test='rentYN neq null'>
+		, rentYN = #{rentYN}
+		</if>
+		<if test='rentReason neq null'>
+		, rentReason = #{rentReason}
+		</if>
+		<if test='modUser neq null'>
+		, modUser = #{modUser}
+		</if>
+		<if test='delYN neq null'>
+		, delYN = #{delYN}
+		</if>
+	</sql>
+	<sql id="selectRoomListCondition">
+		<if test='officeCode neq null and !officeCode.equals("")'>
+		AND officeCode = #{officeCode}
+		</if>
+		<if test='roomKey neq null'>
+		AND roomKey = #{roomKey}
+		</if>
+		<if test='roomType neq null'>
+		AND roomType = #{roomType}
+		</if>
+		<if test='rentYN neq null'>
+		AND rentYN = #{rentYN}
+		</if>
+		<if test='syncYN neq null'>
+		AND syncYN = #{syncYN}
+		</if>
+		<if test='delYN neq null'>
+		AND delYN = #{delYN}
+		</if>
+	</sql>
+	<sql id="selectRoomOneCondition">
+		<choose>
+		<when test="roomCode neq null">AND roomCode = #{roomCode}</when>
+		<otherwise>
+		AND roomKey = #{roomKey}
+		AND roomType = #{roomType}
+		</otherwise>
+		</choose>
+		<if test='delYN neq null'>
+		AND delYN = #{delYN}
+		</if>
+	</sql>
+</mapper>

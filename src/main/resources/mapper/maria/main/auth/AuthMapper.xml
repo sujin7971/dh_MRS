@@ -1,0 +1,99 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egov.framework.plms.main.bean.mvc.mapper.auth.AuthMapper">
+	<insert id="postMeetingPermission" parameterType="egov.framework.plms.main.bean.mvc.entity.auth.ResourcePermissionVO"  useGeneratedKeys="true" keyProperty="permId">
+	/* NO_SQL_LOG */
+	/* AuthMapper postMeetingPermission */
+		INSERT INTO meeting_permission(permId, permLvl, permName, permDesc)
+		VALUES(#{permId}, #{permLvl}, #{permName}, #{permDesc})
+	</insert>
+	
+	<insert id="postMeetingGroup" parameterType="egov.framework.plms.main.bean.mvc.entity.auth.ResourceGroupVO">
+	/* NO_SQL_LOG */
+	/* AuthMapper postMeetingGroup */
+		INSERT INTO meeting_grp_permission(grpDiv, grpCode, meetingId, permId)
+		VALUES(#{grpDiv}, #{grpCode}, #{srcId}, #{permId})
+	</insert>
+	
+	<update id="putMeetingPermissionLvl" parameterType="egov.framework.plms.main.bean.mvc.entity.auth.ResourcePermissionVO">
+	/* NO_SQL_LOG */
+	/* AuthMapper putMeetingPermissionLvl */
+		UPDATE meeting_permission
+		SET permLvl = #{permLvl}
+		WHERE permId = #{permId}
+	</update>
+	
+	<delete id="deleteMeetingPermission" parameterType="integer">
+	/* NO_SQL_LOG */
+	/* AuthMapper postMeetingGroup */
+		DELETE
+		FROM meeting_permission
+		WHERE permId = #{permId}
+	</delete>
+	
+	<delete id="deleteMeetingGroup" parameterType="string">
+	/* NO_SQL_LOG */
+	/* AuthMapper postMeetingGroup */
+		DELETE
+		FROM meeting_grp_permission
+		WHERE grpId = #{grpId}
+	</delete>
+	
+	<!-- 회의 기능 권한값 표 -->
+	<select id="getMeetingAuthorityList" resultType="egov.framework.plms.main.bean.mvc.entity.auth.ResourceAuthorityVO">
+	/* NO_SQL_LOG */
+	/* AuthMapper getMeetingAuthorityList */
+		SELECT *
+		FROM auth_code
+		WHERE (authDiv = "MT")
+	</select>
+	
+	<!-- 회의 기능 권한값 표 -->
+	<select id="getFileAuthorityList" resultType="egov.framework.plms.main.bean.mvc.entity.auth.ResourceGroupVO">
+	/* NO_SQL_LOG */
+	/* AuthMapper getFileAuthorityList */
+		SELECT *
+		FROM auth_code
+		WHERE (authDiv = "COM" || authDiv = "FILE")
+	</select>
+	
+	<select id="getMeetingPermissionOne" parameterType="integer" resultType="egov.framework.plms.main.bean.mvc.entity.auth.ResourcePermissionVO">
+	/* NO_SQL_LOG */
+	/* AuthMapper getMeetingPermission */
+		SELECT permId, permLvl
+		FROM meeting_permission
+		WHERE permId = #{permId}
+	</select>
+	
+	<select id="getMeetingGroupOne" parameterType="string" resultType="egov.framework.plms.main.bean.mvc.entity.auth.ResourceGroupVO">
+	/* NO_SQL_LOG */
+	/* AuthMapper getMeetingGroup */
+		SELECT grpId, grpDiv, grpCode, meetingId, permId
+		FROM meeting_grp_permission
+		WHERE grpId = #{grpId}
+	</select>
+	
+	<select id="getMeetingGroupList" parameterType="egov.framework.plms.main.bean.mvc.entity.auth.ResourceGroupVO" resultType="egov.framework.plms.main.bean.mvc.entity.auth.ResourceGroupVO">
+	/* NO_SQL_LOG */
+	/* AuthMapper getMeetingGroup */
+		SELECT grpId, grpDiv, grpCode, meetingId, permId
+		FROM meeting_grp_permission
+		<where>
+		<if test='grpId != null'>
+		AND grpId = #{grpId}
+		</if>
+		<if test='grpDiv != null'>
+		AND grpDiv = #{grpDiv}
+		</if>
+		<if test='grpCode != null'>
+		AND grpCode = #{grpCode}
+		</if>
+		<if test='srcId != null'>
+		AND meetingId = #{srcId}
+		</if>
+		<if test='permId != null'>
+		AND permId = #{permId}
+		</if>
+		</where>
+	</select>
+</mapper>

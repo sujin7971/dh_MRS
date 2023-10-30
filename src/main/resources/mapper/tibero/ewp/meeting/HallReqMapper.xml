@@ -1,0 +1,421 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egov.framework.plms.sub.ewp.bean.mvc.mapper.tibero.meeting.HallReqMapper">
+	<select id="getHallReqOne" parameterType="integer" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.assign.EwpRoomReqVO">
+		/* HallAssignMapper getHallReqOne */
+		SELECT
+			T1.*
+		FROM (
+			SELECT
+			   TMR.SEQ_REQ	        							AS seqReq				/* 시퀀스 번호 */
+			   , 'HALL' 										AS roomType 			/* 강당 분류 코드 */
+			   , TMR.SEQ_HALL 									AS seqRoom				/* 강당 시퀀스 번호 */
+			   , TM.NAME             							AS name          		/* 강당 명 */
+			   , TO_CHAR(TMR.USE_DATE, 'YYYY-MM-DD')        	AS useDate       		/* 강당 사용 날짜 */
+			   , TMR.S_TIME          							AS sTime         		/* 강당 사용 시작 시간 */
+			   , TMR.E_TIME          							AS eTime         		/* 강당 사용 종료 시간 */
+			   , TMR.PURPOSE         							AS purpose       		/* 강당 사용 목적 */
+			   , TMR.HOST            							AS host          		/* 예약자 */
+			   , TMR.APP_STATUS      							AS appStatus     		/* 상태 */
+			   , TMR.APP_REASON     							AS appReason    		/* 결재사유 */
+			   , TMR.REG_DATE        							AS regDateTime       		/* 등록날짜 */
+			   , TMR.SAUPSO_ID									AS saupsoCd				/* saupsoCd */ 
+			   , TMR.REG_USER									AS regUser				/* regUser */
+			   , TMR.MAN_CNT									AS manCnt				/* manCnt */
+			   , TMR.ETC										AS etc					/* etc */
+			<include refid="getHallReqOneSql" />
+		)T1
+	</select>
+	<select id="getHallReqList" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.assign.EwpRoomReqVO" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.assign.EwpRoomReqVO">
+		/* HallAssignMapper getHallReqList */
+		SELECT *
+		FROM
+		(	
+			SELECT
+				ROWNUM, ROWNUM AS NUM, T1.*
+			FROM (
+				SELECT
+				   TMR.SEQ_REQ	        							AS seqReq				/* 시퀀스 번호 */
+				   , 'HALL' 										AS roomType 			/* 강당 분류 코드 */
+				   , TMR.SEQ_HALL 									AS seqRoom				/* 강당 시퀀스 번호 */
+				   , TM.NAME             							AS name          		/* 강당 명 */
+				   , TO_CHAR(TMR.USE_DATE, 'YYYY-MM-DD')        	AS useDate       		/* 강당 사용 날짜 */
+				   , TMR.S_TIME          							AS sTime         		/* 강당 사용 시작 시간 */
+				   , TMR.E_TIME          							AS eTime         		/* 강당 사용 종료 시간 */
+				   , TMR.PURPOSE         							AS purpose       		/* 강당 사용 목적 */
+				   , TMR.HOST            							AS host          		/* 예약자 */
+				   , TMR.APP_STATUS      							AS appStatus     		/* 상태 */
+				   , TMR.REG_DATE        							AS regDateTime       		/* 등록날짜 */
+				   , TMR.SAUPSO_ID									AS saupsoCd				/* saupsoCd */ 
+				   , TMR.REG_USER									AS regUser				/* regUser */
+				<include refid="getHallReqListSql" />
+				ORDER BY TMR.REG_DATE DESC, TMR.S_TIME
+			)T1
+			<if test="pageNo">
+			WHERE ROWNUM <![CDATA[ <= ]]> #{pageNo} * NVL(#{pageCnt}, 10)
+			</if>
+		)
+		<if test="pageNo">
+		WHERE NUM <![CDATA[ > ]]> (#{pageNo} - 1) * NVL(#{pageCnt}, 10)
+		</if>
+	</select>
+	<select id="getHallReqListCnt" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.assign.EwpRoomReqVO" resultType="int">
+		/* HallAssignMapper getHallReqListCnt */
+		SELECT
+		   COUNT(1)
+		<include refid="getHallReqListSql" />
+	</select>
+	<select id="checkHallReqValidation" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.assign.EwpRoomReqVO" resultType="int">
+		/* HallAssignMapper checkHallReqValidation */
+		SELECT 
+			COUNT(1)
+		FROM TBL_HALL_REQ
+		WHERE NVL(DEL_YN, 'N') = 'N'
+			AND APP_STATUS NOT IN ('3', '4')
+			AND SEQ_HALL = #{seqRoom}
+			AND TO_CHAR(USE_DATE, 'YYYY-MM-DD') = #{useDate} 
+			AND (S_TIME <![CDATA[<]]> #{eTime} AND E_TIME <![CDATA[>]]>  #{sTime})
+			<if test="seqReq != null">
+			AND NOT SEQ_REQ = #{seqReq}
+			</if>
+	</select>
+	<select id="checkHallReq5Day" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.assign.EwpRoomReqVO" resultType="int">
+		/* HallAssignMapper checkHallReq5Day */
+		<choose>
+		<when test="useDate neq null">
+		SELECT 
+			COUNT(1) 
+		FROM (
+			SELECT USE_DATE, COUNT(SEQ_REQ)
+			FROM TBL_HALL_REQ
+			<where>
+			AND NVL(DEL_YN, 'N') = 'N'
+			<if test="seqReq neq null">
+			AND NOT SEQ_REQ = #{seqReq}
+			</if> 
+			AND APP_STATUS NOT IN ('3', '4')
+			AND USE_DATE 
+				BETWEEN
+				(	<!-- (1:일, 2:월, 3:화, 4:수, 5:목, 6:금, 7:토) -->
+					SELECT
+					CASE WHEN TO_CHAR(TO_TIMESTAMP(#{useDate} , 'YYYY-MM-DD'),'D') = '7' 
+							THEN TO_CHAR(TO_TIMESTAMP(#{useDate} , 'YYYY-MM-DD') -5,'YYYYMMDD') 
+	       				 WHEN TO_CHAR(TO_TIMESTAMP(#{useDate} , 'YYYY-MM-DD'),'D') ='1'
+	       				 	THEN TO_CHAR(TO_TIMESTAMP(#{useDate} , 'YYYY-MM-DD') -6,'YYYYMMDD')
+	       				 ELSE TO_CHAR(TO_TIMESTAMP(#{useDate} , 'YYYY-MM-DD') -7,'YYYYMMDD') 
+      					END AS bef_day_check 
+     				FROM DUAL
+     			) AND TO_CHAR(TO_TIMESTAMP(#{useDate} , 'YYYY-MM-DD') -1,'YYYYMMDD')
+	     	AND REG_USER = #{regUser} 
+			</where>	  
+		     GROUP BY USE_DATE
+		     HAVING COUNT(SEQ_REQ) > 0 
+		 ) A				
+		</when>
+		<otherwise>
+		SELECT 0 FROM DUAL
+		</otherwise>
+		</choose>
+	 </select>
+	 <select id="getHallReqDetail" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.assign.EwpRoomReqVO" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.assign.EwpRoomReqVO">
+	 	/* HallAssignMapper getHallReqDetail */
+		SELECT 
+			TMR.SEQ_REQ 							AS seqReq         /* 시퀀스 번호 */
+			, TMR.SEQ_HALL 					AS seqRoom /* 강당 시퀀스 번호 */
+			, TMR.SAUPSO_ID 						AS saupsoCd       /* 사업소 ID */
+			, TMR.ORG_ID 							AS orgId          /* 조직 ID */
+		, (                                                       
+            SELECT                                                
+               OFFI_NM                                           
+            FROM SAP_HR.VIEW_ORG_ID
+            WHERE ORG_ID = TMR.ORG_ID                             
+               AND END_YMD = '99991231'                          
+         )                               			AS offiNm         /* VIEW_ORG_ID.OFFI_NM */
+         , (                                                       
+            SELECT                                                
+               NAME_HAN                                          
+            FROM SAP_HR.VIEW_SAWON_HR
+            WHERE SABUN = TMR.REG_USER                            
+         )                               			AS nameHan        /* VIEW_SAWON_HR.NAME_HAN */
+			, TMR.TEL_NO 							AS telNo          /* 전화번호 */
+			, TMR.USE_DATE						 	AS useDate        /* 강당 사용 날짜 */
+			, TMR.S_TIME 							AS sTime          /* 강당 사용 시간 */
+			, TMR.E_TIME 							AS eTime          /* 강당 사용 종료 시간 */
+			, TMR.PURPOSE 							AS purpose        /* 강당 사용 목적 */
+			, TMR.ETC 								AS etc            /* 기타사항 */
+			, TMR.HOST 								AS host           /* 예약자 */
+			, TMR.MAN_CNT 							AS manCnt         /* 강당 사용 인원 */
+			, TMR.APP_STATUS 						AS appStatus      /* 승인상태 */
+			, TMR.APP_REASON 						AS appReason      /* 특이사항 */
+			, TMR.REG_USER 							AS regUser        /* 신청자 */
+			, SV.MAILNO 							AS mailno         /* VIEW_SAWON_HR.MAILNO */
+		FROM TBL_HALL_REQ TMR 
+		LEFT JOIN SAP_HR.VIEW_SAWON_HR SV ON TMR.REG_USER = SV.SABUN
+		WHERE TMR.SEQ_REQ = #{seqReq}	
+	 </select>
+	 
+	 <insert id="doInsertHallReq" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.assign.EwpRoomReqVO">
+	 	/* HallAssignMapper doInsertHallReq */
+	 	<selectKey resultType="int" keyProperty="seqReq" order="BEFORE">
+			SELECT NVL(MAX(SEQ_REQ),0)+1 FROM TBL_HALL_REQ
+		</selectKey>
+	 	INSERT INTO 
+	 	TBL_HALL_REQ ( 
+			SEQ_HALL		
+		    , SEQ_REQ 
+			, SAUPSO_ID
+			, ORG_ID
+			, TEL_NO
+			, USE_DATE
+			, S_TIME
+			, E_TIME
+			, PURPOSE
+			, ETC
+			, HOST
+			, MAN_CNT
+			, REG_USER		
+			, REG_DATE	
+			, APP_STATUS
+			, APP_REASON		
+			, DEL_YN	
+		) SELECT
+			#{seqRoom}
+			<!-- , (SELECT NVL(MAX(SEQ_REQ),0)+1 FROM TBL_HALL_REQ)  -->
+			, #{seqReq}
+			, #{saupsoCd}
+			, #{orgId}
+			, #{telNo}
+			, #{useDate}
+			, #{sTime}
+			, #{eTime}
+			, #{purPose}
+			, #{etc}
+			, #{host}
+			, #{manCnt}
+         	, #{regUser}
+         	, sysdate                       
+         	, '1'
+            , '신청'
+			, 'N'
+		FROM DUAL
+		WHERE (
+			<include refid="insertHallReqValidation">
+				<property name="seqRoom" value="seqRoom"/>
+				<property name="useDate" value="useDate"/>
+				<property name="sTime" value="sTime"/>
+				<property name="eTime" value="eTime"/>
+			</include>
+		) = 0
+	 </insert>
+	 <update id="doUpdateHallReq" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.assign.EwpRoomReqVO">
+	 /* HallAssignMapper doUpdateHallReq */
+	 	UPDATE TBL_HALL_REQ 			
+		<set>
+			<if test="telNo neq null">
+			TEL_NO 						= #{telNo}
+			</if>
+			<if test="useDate neq null">
+			, USE_DATE 					= #{useDate}					<!-- => Validation Check로 인해 수정 제한 -->
+			</if>
+			<if test="sTime neq null and sTime neq ''.toString()">
+			, S_TIME 					= #{sTime}						<!-- => Validation Check로 인해 수정 제한 -->
+			</if>
+			<if test="eTime neq null and eTime neq ''.toString()">
+			, E_TIME 					= #{eTime}						<!-- => Validation Check로 인해 수정 제한 -->
+			</if>
+			<if test="purPose neq null">
+			, PURPOSE 					= #{purPose}
+			</if>
+			<if test="etc neq null">
+			, ETC 						= #{etc}
+			</if>
+			<if test="host neq null">
+			, HOST 						= #{host}
+			</if>
+			<if test="manCnt neq null">
+			, MAN_CNT 					= #{manCnt}
+			</if>
+			<if test="regUser neq null">
+			,MODIFY_USER 				= #{regUser}
+			</if>
+			<if test="appStatus neq null">
+			,APP_STATUS 				= #{appStatus}
+			</if>
+			<if test="appReason neq null">
+			,APP_REASON 				= #{appReason}
+			</if>
+			,MODIFY_DATE 				= sysdate
+		</set>			
+		<where>
+		AND SEQ_REQ = #{seqReq}
+		<if test="useDate neq null or sTime neq null or eTime neq null">
+		AND (
+			
+				<include refid="updateHallReqValidation">
+					<property name="seqReq" value="seqReq"/>
+					<property name="seqRoom" value="seqRoom"/>
+					<property name="useDate" value="useDate"/>
+					<property name="sTime" value="sTime"/>
+					<property name="eTime" value="eTime"/>
+				</include>
+		) = 0
+		</if>
+		</where>
+	 </update>
+	 <update id="doUpdateHallReqStatus" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.assign.EwpRoomReqVO">
+	 /* HallAssignMapper doUpdateHallReqStatus */
+	 	UPDATE TBL_HALL_REQ 			
+		<set>
+			<if test="regUser neq null">
+			,MODIFY_USER 				= #{regUser}
+			</if>
+			,APP_STATUS 				= #{appStatus}
+			<if test="appReason neq null">
+			,APP_REASON 				= #{appReason}
+			</if>
+			,MODIFY_DATE 				= sysdate
+		</set>			
+		<where>
+		AND SEQ_REQ = #{seqReq}
+		</where>
+	 </update>
+	 <update id="doDeleteHallReq" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.assign.EwpRoomReqVO">
+	 /* HallAssignMapper doDeleteHallReq */
+	 	UPDATE TBL_HALL_REQ 			
+		SET
+			MODIFY_USER = #{regUser}
+			, MODIFY_DATE 				= sysdate				
+			, DEL_YN = 'Y'			
+		WHERE SEQ_REQ = #{seqReq}	
+	 </update>
+	<!-- 사용신청 절차가 실패한 경우 티베로에 등록된 로우를 완전 삭제 -->
+	<update id="doDeleteFailedHallReq" parameterType="integer">
+	 /* HallAssignMapper doDeleteFailedHallReq */
+	 	DELETE 	
+		FROM TBL_HALL_REQ		
+		WHERE SEQ_REQ = #{seqReq}	
+	 </update>
+	<sql id="getHallReqOneSql">
+		FROM TBL_HALL_REQ TMR
+		LEFT JOIN TBL_HALL TM ON TM.SEQ_HALL = TMR.SEQ_HALL AND TM.DEL_YN = 'N'
+		WHERE TMR.DEL_YN = 'N'
+		AND TMR.SEQ_REQ = #{seqRoom}
+	</sql>
+	<sql id="getHallReqListSql">
+		FROM TBL_HALL_REQ TMR
+		LEFT JOIN TBL_HALL TM ON TM.SEQ_HALL = TMR.SEQ_HALL AND TM.DEL_YN = 'N'
+		WHERE TMR.DEL_YN = 'N'
+		<if test="endDate neq null and startDate neq null">
+			AND TO_DATE(TMR.USE_DATE, 'YYYY-MM-DD') BETWEEN #{startDate} AND #{endDate}
+		</if>
+		<if test="saupsoCd neq null and saupsoCd neq ''.toString()">
+			AND TMR.SAUPSO_ID = #{saupsoCd}
+		</if>
+		<!-- <if test="pValue neq null and pValue neq ''.toString() and  pValue eq 'ST'.toString() ">		/* 현재 현황 전부 호출 */
+			AND TMR.APP_STATUS IN ('1','2')
+		</if> -->
+		<if test="appStatus &gt; 0 ">
+			AND TMR.APP_STATUS = #{appStatus}
+		</if>
+		<if test="seqRoom &gt; 0">
+			AND TMR.SEQ_HALL = #{seqRoom}
+		</if>
+		<if test="regUser neq null and regUser neq ''.toString()">
+			AND TMR.REG_USER = #{regUser}
+		</if>
+		<if test="host neq null and host neq ''.toString()">
+			AND TMR.HOST LIKE ('%' || #{host} || '%' )
+		</if>
+	</sql>
+	
+	<sql id="insertHallReqValidation">
+		SELECT COUNT(*)
+		FROM TBL_HALL_REQ
+		WHERE NVL(DEL_YN, 'N') = 'N'
+			AND APP_STATUS NOT IN ('3', '4')
+			AND SEQ_HALL = #{seqRoom}
+			AND TO_CHAR(USE_DATE, 'YYYY-MM-DD') = #{useDate} 
+			AND (S_TIME <![CDATA[<]]> #{eTime} AND E_TIME <![CDATA[>]]>  #{sTime})
+	</sql>
+	<sql id="updateHallReqValidation">
+		SELECT COUNT(*)
+		FROM TBL_HALL_REQ NEW_REQ
+		JOIN TBL_HALL_REQ OLD_REQ
+		ON OLD_REQ.SEQ_REQ = #{seqReq}
+		<where>
+		AND NEW_REQ.APP_STATUS NOT IN ('3', '4')
+		AND NEW_REQ.SEQ_REQ != #{seqReq}
+		AND NEW_REQ.SEQ_HALL = NVL(#{seqRoom}, OLD_REQ.SEQ_HALL)
+		AND TO_CHAR(NEW_REQ.USE_DATE, 'YYYY-MM-DD') = NVL(#{useDate}, OLD_REQ.USE_DATE)
+		AND NEW_REQ.S_TIME <![CDATA[<]]> NVL(#{eTime}, OLD_REQ.E_TIME) 
+		AND NEW_REQ.E_TIME <![CDATA[>]]>  NVL(#{sTime}, OLD_REQ.S_TIME)
+		AND NVL(NEW_REQ.DEL_YN, 'N') = 'N'
+		</where>
+	</sql>
+	
+    <!-- 등록일시 기준 30일 전부터 당일의 10분전 회의실 배정요청건 조회 -->
+	<select id="getHallReqStatusList" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.assign.EwpRoomReqVO">
+		/* HallAssignMapper getHallReqStatusList */
+		/*30일 전부터 당일의 10분전 회의실 배정요청  */
+		SELECT 
+			SEQ_REQ AS seqReq,
+			SEQ_HALL AS seqRoom,
+			'HALL' AS roomType,
+			'RENTAL' AS skdType,			
+			NVL(SAUPSO_ID, ' ') AS saupsoCd,
+			NVL(TEL_NO, ' ') AS telNo,
+			NVL(TO_CHAR(USE_DATE, 'YYYY-MM-DD'), ' ') AS useDate,
+			NVL(S_TIME, ' ') AS sTime,
+			NVL(E_TIME, ' ') AS eTime,
+			NVL(PURPOSE, ' ') AS purPose,
+			NVL(ETC, ' ') AS etc,
+			NVL(HOST, ' ') AS host,
+			MAN_CNT AS manCnt,
+			NVL(ORG_ID , ' ')AS orgId,
+			NVL(REG_USER, ' ') AS regUser,
+			REG_DATE AS regDateTime,
+			NVL(MODIFY_USER, ' ') AS modifyUser,
+			MODIFY_DATE AS modDateTime,
+			NVL(APP_STATUS, ' ') AS appStatus,
+			NVL(APP_REASON, ' ') AS appReason,
+			NVL(APP_USER, ' ') AS appUser,
+			APP_DATE AS appDate,
+			NVL(DEL_YN, ' ') AS delYN
+		  FROM TBL_HALL_REQ WHERE REG_DATE BETWEEN SYSDATE - 30 AND SYSDATE - 5/(24*60)
+	</select>	
+	<!-- 해당 사용신청과 같은날 동일 강당에서 다음에 진행될 사용신청 조회 -->
+	<select id="getNextHallReqOne" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.assign.EwpRoomReqVO">
+		/* HallAssignMapper getNextHallReqOne */
+		SELECT  
+				SEQ_REQ	        							AS seqReq				/* 시퀀스 번호 */
+			   , 'HALL' 										AS roomType 			/* 강당 분류 코드 */
+			   , SEQ_HALL 									AS seqRoom				/* 강당 시퀀스 번호 */
+			   , TO_CHAR(USE_DATE, 'YYYY-MM-DD')        	AS useDate       		/* 강당 사용 날짜 */
+			   , S_TIME          							AS sTime         		/* 강당 사용 시작 시간 */
+			   , E_TIME          							AS eTime         		/* 강당 사용 종료 시간 */
+			   , PURPOSE         							AS purpose       		/* 강당 사용 목적 */
+			   , HOST            							AS host          		/* 예약자 */
+			   , APP_STATUS      							AS appStatus     		/* 상태 */
+			   , APP_REASON     							AS appReason    		/* 결재사유 */
+			   , REG_DATE        							AS regDateTime       		/* 등록날짜 */
+			   , SAUPSO_ID									AS saupsoCd				/* saupsoCd */ 
+			   , REG_USER									AS regUser				/* regUser */
+			   , MAN_CNT									AS manCnt				/* manCnt */
+			   , ETC										AS etc					/* etc */
+		FROM (
+			SELECT NEXT_REQ.*
+			FROM TBL_HALL_REQ NEXT_REQ
+			INNER JOIN (
+				SELECT *
+				FROM TBL_HALL_REQ
+				WHERE SEQ_REQ = #{seqReq}
+			) NOW_REQ
+			ON NEXT_REQ.SEQ_HALL = NOW_REQ.SEQ_HALL AND NEXT_REQ.USE_DATE = NOW_REQ.USE_DATE
+			WHERE NOW_REQ.S_TIME <![CDATA[<]]> NEXT_REQ.S_TIME
+			AND NEXT_REQ.APP_STATUS IN ('1', '2')
+			AND NEXT_REQ.DEL_YN = 'N'
+			ORDER BY NEXT_REQ.S_TIME 
+		)
+		WHERE ROWNUM = 1
+	</select>			
+</mapper>

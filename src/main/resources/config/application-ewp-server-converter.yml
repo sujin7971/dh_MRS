@@ -1,0 +1,26 @@
+#파일변환 톰캣 서버 설정
+application:
+  title: B-PLMS RE EWP-CONVERTER
+server:
+  type: converter
+  port: 7443
+  http: 9070
+config:
+  login:
+    sso:
+      enabled: false
+    plte:
+      enabled: false
+  scheduledTasks:
+    fileConversionScheduler: #파일 변환 처리
+      enabled: true
+    fileMaintenanceScheduler: #파일 관리
+      enabled: false
+    meetingApprovalScheduler: #회의 결재 처리
+      enabled: false     
+    syncResourceScheduler: #동서 경영지원서비스와 동기화
+      enabled: false
+    meetingMonitoringScheduler: #회의 모니터링 처리
+      enabled: false                     
+    alarmSendScheduler: #메신저 및 SMS 전송처리
+      enabled: false

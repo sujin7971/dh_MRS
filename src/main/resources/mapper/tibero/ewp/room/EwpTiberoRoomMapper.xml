@@ -1,0 +1,564 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egov.framework.plms.sub.ewp.bean.mvc.mapper.tibero.room.EwpTiberoRoomMapper">
+	<!-- 전체 회의실, 강의실, 강당 리스트 불러오기 -->
+	<select id="selectRoomList" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.room.EwpRoomInfoVO" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.room.EwpRoomInfoVO">
+		/* EwpRoomMapper selectRoomList */
+		SELECT 
+			* 
+		FROM 
+			(
+				SELECT
+					TM.SEQ_MEETINGROOM AS roomKey /* 미팅룸 고유키 */
+					, TM.SAUPSO_ID AS officeCode /* 사업소 번호 */
+					, TM.NAME AS roomName /* 미팅룸 이름 */
+					, 'MEETING_ROOM' AS roomType /* 미팅룸 종류 */
+					, TM.RENT_YN AS rentYN /* 미팅룸 대여 가능 여부 */
+					, TM.RENT_REASON AS rentReason /* 미팅룸 대여 불가 사유 */
+					, TM.DEL_YN AS delYn /* 삭제 여부 */
+					, TM.DESCRIPTION AS roomNote /* 기타 정보 */
+					, TM.S_CODE AS roomCode /* 고유번호 */
+					, TM.REG_DATE AS regDate /* 회의실 등록일 */
+					, 'Y' AS syncYN /* 경영지원서비스와 동기화됨 */
+				FROM 
+					TBL_MEETINGROOM TM
+				WHERE
+					TM.DEL_YN = 'N'
+				UNION ALL 
+				SELECT
+					TE.SEQ_EDUROOM AS roomKey /* 미팅룸 고유키 */
+					, TE.SAUPSO_ID AS officeCode /* 사업소 번호 */
+					, TE.NAME AS roomName /* 미팅룸 이름 */
+					, 'EDU_ROOM' AS roomType /* 미팅룸 종류 */
+					, TE.RENT_YN AS rentYN /* 미팅룸 대여 가능 여부 */
+					, TE.RENT_REASON AS rentReason /* 미팅룸 대여 불가 사유 */
+					, TE.DEL_YN AS delYn /* 삭제 여부 */
+					, TE.DESCRIPTION AS roomNote /* 기타 정보 */
+					, TE.S_CODE AS roomCode /* 고유번호 */
+					, TE.REG_DATE AS regDate /* 회의실 등록일 */
+					, 'Y' AS syncYN /* 경영지원서비스와 동기화됨 */
+				FROM 
+					TBL_EDUROOM TE
+				WHERE
+					TE.DEL_YN = 'N'
+				UNION ALL 
+				SELECT
+					TL.SEQ_HALL AS roomKey /* 미팅룸 고유키 */
+					, TL.SAUPSO_ID AS officeCode /* 사업소 번호 */
+					, TL.NAME AS roomName /* 미팅룸 이름 */
+					, 'HALL' AS roomType /* 미팅룸 종류 */
+					, TL.RENT_YN AS rentYN /* 미팅룸 대여 가능 여부 */
+					, TL.RENT_REASON AS rentReason /* 미팅룸 대여 불가 사유 */
+					, TL.DEL_YN AS delYn /* 삭제 여부 */
+					, TL.DESCRIPTION AS roomNote /* 기타 정보 */
+					, TL.S_CODE AS roomCode /* 고유번호 */
+					, TL.REG_DATE AS regDate /* 회의실 등록일 */
+					, 'Y' AS syncYN /* 경영지원서비스와 동기화됨 */
+				FROM 
+					TBL_HALL TL
+				WHERE
+					TL.DEL_YN = 'N'
+			)
+		WHERE 
+			1 = 1 
+			<if test="officeCode neq null and officeCode neq ''.toString()"> 
+				AND officeCode = #{officeCode}
+			</if>
+			<if test="roomType neq null"> 
+				AND roomType = #{roomType}
+			</if>
+			<if test="rentYN neq null and rentYN neq ''.toString()"> 
+				AND rentYN = #{rentYN}
+			</if>
+		ORDER BY 
+			regDate ASC
+	</select>
+	
+	<select id="selectAllRoomList" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.room.EwpRoomInfoVO">
+		/* EwpRoomMapper selectAllRoomList */
+		SELECT 
+			* 
+		FROM 
+			(
+				SELECT
+					TM.SEQ_MEETINGROOM AS roomKey /* 미팅룸 고유키 */
+					, TM.SAUPSO_ID AS officeCode /* 사업소 번호 */
+					, TM.NAME AS roomName /* 미팅룸 이름 */
+					, 'MEETING_ROOM' AS roomType /* 미팅룸 종류 */
+					, TM.RENT_YN AS rentYN /* 미팅룸 대여 가능 여부 */
+					, TM.RENT_REASON AS rentReason /* 미팅룸 대여 불가 사유 */
+					, TM.DEL_YN AS delYn /* 삭제 여부 */
+					, TM.DESCRIPTION AS roomNote /* 기타 정보 */
+					, TM.S_CODE AS roomCode /* 고유번호 */
+					, TM.REG_DATE AS regDate /* 회의실 등록일 */
+					, 'Y' AS syncYN /* 경영지원서비스와 동기화됨 */
+				FROM 
+					TBL_MEETINGROOM TM
+				WHERE TM.SAUPSO_ID IS NOT NULL
+				UNION ALL 
+				SELECT
+					TE.SEQ_EDUROOM AS roomKey /* 미팅룸 고유키 */
+					, TE.SAUPSO_ID AS officeCode /* 사업소 번호 */
+					, TE.NAME AS roomName /* 미팅룸 이름 */
+					, 'EDU_ROOM' AS roomType /* 미팅룸 종류 */
+					, TE.RENT_YN AS rentYN /* 미팅룸 대여 가능 여부 */
+					, TE.RENT_REASON AS rentReason /* 미팅룸 대여 불가 사유 */
+					, TE.DEL_YN AS delYn /* 삭제 여부 */
+					, TE.DESCRIPTION AS roomNote /* 기타 정보 */
+					, TE.S_CODE AS roomCode /* 고유번호 */
+					, TE.REG_DATE AS regDate /* 회의실 등록일 */
+					, 'Y' AS syncYN /* 경영지원서비스와 동기화됨 */
+				FROM 
+					TBL_EDUROOM TE
+				WHERE TE.SAUPSO_ID IS NOT NULL
+				UNION ALL 
+				SELECT
+					TL.SEQ_HALL AS roomKey /* 미팅룸 고유키 */
+					, TL.SAUPSO_ID AS officeCode /* 사업소 번호 */
+					, TL.NAME AS roomName /* 미팅룸 이름 */
+					, 'HALL' AS roomType /* 미팅룸 종류 */
+					, TL.RENT_YN AS rentYN /* 미팅룸 대여 가능 여부 */
+					, TL.RENT_REASON AS rentReason /* 미팅룸 대여 불가 사유 */
+					, TL.DEL_YN AS delYn /* 삭제 여부 */
+					, TL.DESCRIPTION AS roomNote /* 기타 정보 */
+					, TL.S_CODE AS roomCode /* 고유번호 */
+					, TL.REG_DATE AS regDate /* 회의실 등록일 */
+					, 'Y' AS syncYN /* 경영지원서비스와 동기화됨 */
+				FROM 
+					TBL_HALL TL
+				WHERE TL.SAUPSO_ID IS NOT NULL
+			)
+	</select>
+	
+	<!-- 회의실 쿼리 리스트 -->
+	<select id="selectMeetingRoomOne" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.room.EwpRoomInfoVO" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.room.EwpRoomInfoVO">
+		/* NO_SQL_LOG */
+		/* EwpRoomMapper selectMeetingRoomOne */
+			SELECT 
+				TM.SEQ_MEETINGROOM AS roomKey /* 미팅룸 고유키 */
+				, TM.SAUPSO_ID AS officeCode /* 사업소 번호 */
+				, TM.NAME AS roomName /* 미팅룸 이름 */
+				, 'MEETING_ROOM' AS roomType /* 미팅룸 종류 */
+				, TM.RENT_YN AS rentYN /* 미팅룸 대여 가능 여부 */
+				, TM.RENT_REASON AS rentReason /* 미팅룸 대여 불가 사유 */
+				, TM.DEL_YN AS delYn /* 삭제 여부 */
+				, TM.DESCRIPTION AS roomNote /* 기타 정보 */
+				, 'Y' AS syncYN /* 경영지원서비스와 동기화됨 */
+			FROM /* JOIN을 위해 삭제된 회의실도 조회 */
+				TBL_MEETINGROOM TM
+			WHERE 
+				SEQ_MEETINGROOM = #{roomKey}
+	</select>
+	<select id="selectMeetingRoomList" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.room.EwpRoomInfoVO" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.room.EwpRoomInfoVO">
+		/* NO_SQL_LOG */
+		/* EwpRoomMapper selectMeetingRoomList */
+		SELECT
+			TM.SEQ_MEETINGROOM AS roomKey /* 미팅룸 고유키 */
+			, TM.SAUPSO_ID AS officeCode /* 사업소 번호 */
+			, TM.NAME AS roomName /* 미팅룸 이름 */
+			, 'MEETING_ROOM' AS roomType /* 미팅룸 종류 */
+			, TM.RENT_YN AS rentYN /* 미팅룸 대여 가능 여부 */
+			, TM.RENT_REASON AS rentReason /* 미팅룸 대여 불가 사유 */
+			, TM.DEL_YN AS delYn /* 삭제 여부 */
+			, TM.DESCRIPTION AS roomNote /* 기타 정보 */
+			, 'Y' AS syncYN /* 경영지원서비스와 동기화됨 */
+			, CASE
+		  	WHEN NAME LIKE ('1층' || '%')
+		  	THEN 1
+		  	WHEN NAME LIKE ('2층' || '%')
+		  	THEN 2
+		  	WHEN NAME LIKE ('7층' || '%')
+		  	THEN 7
+		  	WHEN NAME LIKE ('9층' || '%')
+		  	THEN 9
+		  	WHEN NAME LIKE ('10층' || '%')
+		  	THEN 10
+		  	ELSE 11
+		  END AS LVL
+		FROM 
+			TBL_MEETINGROOM TM
+		WHERE
+			TM.DEL_YN = 'N'
+		<if test="officeCode neq null and officeCode neq ''.toString()"> 
+			AND TM.SAUPSO_ID = #{officeCode}
+		</if>
+		<if test="roomKey &gt; 0"> 
+			AND TM.SEQ_MEETINGROOM = #{roomKey}
+		</if>
+		<if test="rentYN neq null and rentYN neq ''.toString()"> 
+			AND TM.RENT_YN = #{rentYN}
+		</if>
+		ORDER BY LVL, NAME, REG_DATE ASC
+	</select>
+	<insert id="insertMeetingRoom" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.room.EwpRoomInfoVO">
+		/* EwpRoomMapper insertMeetingRoom */
+		INSERT INTO 
+			TBL_MEETINGROOM 
+			(
+				SEQ_MEETINGROOM
+				, SAUPSO_ID
+				, NAME
+				, RENT_YN
+				, RENT_REASON
+				, REG_USER
+				, REG_DATE
+				, DESCRIPTION
+				, S_CODE
+			)
+		SELECT 
+			(
+				SELECT 
+					NVL(MAX(SEQ_MEETINGROOM), 0) + 1 
+				FROM 
+					TBL_MEETINGROOM
+			)
+			, #{officeCode}
+			, #{roomName}
+			, #{rentYN}
+			, #{rentReason, jdbcType=VARCHAR}
+			, #{regUser}
+			, sysdate
+			, #{roomNote, jdbcType=VARCHAR} 
+			, (
+				case 
+					when #{officeCode} = '1000' then 'B_0000_'
+					when #{officeCode} = '2000' then 'B_8330_' 
+					when #{officeCode} = '3000' then 'B_8480_' 
+					when #{officeCode} = '4000' then 'B_8270_' 
+					when #{officeCode} = '5000' then 'B_7650_' 
+					when #{officeCode} = '6000' then 'B_7590_' 
+					when #{officeCode} = 'A000' then 'B_8340_' 
+					when #{officeCode} = 'B000' then 'B_8960_' end || 
+				case 
+					when (SELECT nvl(MAX(to_number(substr(S_CODE, -3))), 0) + 1  FROM TBL_MEETINGROOM WHERE SAUPSO_ID = #{officeCode}) &lt; 10
+						then '00'||(SELECT nvl(MAX(to_number(substr(S_CODE, -3))), 0) + 1  FROM TBL_MEETINGROOM WHERE SAUPSO_ID = #{officeCode})
+					when (SELECT nvl(MAX(to_number(substr(S_CODE, -3))), 0) + 1  FROM TBL_MEETINGROOM WHERE SAUPSO_ID = #{officeCode}) &lt; 100 
+						then '0'||(SELECT nvl(MAX(to_number(substr(S_CODE, -3))), 0) + 1  FROM TBL_MEETINGROOM WHERE SAUPSO_ID = #{officeCode})
+					else to_char((SELECT nvl(MAX(to_number(substr(S_CODE, -3))), 0) + 1  FROM TBL_MEETINGROOM WHERE SAUPSO_ID = #{officeCode})) end
+			)
+		FROM 
+			DUAL 
+		WHERE NOT EXISTS (
+			SELECT 
+				*
+			FROM 
+				TBL_MEETINGROOM
+			WHERE 
+				NAME = #{roomName} 
+				AND DEL_YN = 'N'
+		)
+	</insert>
+	<update id="updateMeetingRoomOne" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.room.EwpRoomInfoVO">
+		/* EwpRoomMapper updateMeetingRoomOne */
+		UPDATE 
+			TBL_MEETINGROOM
+		SET 
+			SAUPSO_ID = #{officeCode, jdbcType=VARCHAR}
+			, NAME = #{roomName}
+			, DESCRIPTION = #{roomNote, jdbcType=VARCHAR}
+			, RENT_YN = #{rentYN}
+			, RENT_REASON = #{rentReason, jdbcType=VARCHAR}
+			, MODIFY_USER = #{modUser} 
+			, MODIFY_DATE = sysdate
+		WHERE SEQ_MEETINGROOM = #{roomKey}
+	</update>
+	<update id="updateMeetingRoomOneToDelete" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.room.EwpRoomInfoVO">
+		/* EwpRoomMapper updateMeetingRoomOneToDelete */
+		UPDATE 
+			TBL_MEETINGROOM
+		SET 
+			DEL_YN = 'Y'
+			, MODIFY_USER = #{modUser}
+			, MODIFY_DATE = sysdate
+		WHERE 
+			SEQ_MEETINGROOM = #{roomKey}
+	</update>
+	
+	<!-- 강의실 쿼리 리스트 -->
+	<select id="selectEduRoomOne" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.room.EwpRoomInfoVO" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.room.EwpRoomInfoVO">
+		/* NO_SQL_LOG */
+		/* EwpRoomMapper selectEduRoomOne */
+			SELECT 
+				TE.SEQ_EDUROOM AS roomKey /* 미팅룸 고유키 */
+				, TE.SAUPSO_ID AS officeCode /* 사업소 번호 */
+				, TE.NAME AS roomName /* 미팅룸 이름 */
+				, 'EDU_ROOM' AS roomType /* 미팅룸 종류 */
+				, TE.RENT_YN AS rentYN /* 미팅룸 대여 가능 여부 */
+				, TE.RENT_REASON AS rentReason /* 미팅룸 대여 불가 사유 */
+				, TE.DEL_YN AS delYn /* 삭제 여부 */
+				, TE.DESCRIPTION AS roomNote /* 기타 정보 */
+				, 'Y' AS syncYN /* 경영지원서비스와 동기화됨 */
+			FROM 
+				TBL_EDUROOM TE
+			WHERE /* JOIN을 위해 삭제된 강의실도 조회 */
+				SEQ_EDUROOM = #{roomKey}
+	</select>
+	<select id="selectEduRoomList" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.room.EwpRoomInfoVO" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.room.EwpRoomInfoVO">
+		/* NO_SQL_LOG */
+		/* EwpRoomMapper selectEduRoomList */
+		SELECT
+			TE.SEQ_EDUROOM AS roomKey /* 미팅룸 고유키 */
+			, TE.SAUPSO_ID AS officeCode /* 사업소 번호 */
+			, TE.NAME AS roomName /* 미팅룸 이름 */
+			, 'EDU_ROOM' AS roomType /* 미팅룸 종류 */
+			, TE.RENT_YN AS rentYN /* 미팅룸 대여 가능 여부 */
+			, TE.RENT_REASON AS rentReason /* 미팅룸 대여 불가 사유 */
+			, TE.DEL_YN AS delYn /* 삭제 여부 */
+			, TE.DESCRIPTION AS roomNote /* 기타 정보 */
+			, 'Y' AS syncYN /* 경영지원서비스와 동기화됨 */
+			, CASE
+		  	WHEN NAME LIKE ('1층' || '%')
+		  	THEN 1
+		  	WHEN NAME LIKE ('2층' || '%')
+		  	THEN 2
+		  	WHEN NAME LIKE ('7층' || '%')
+		  	THEN 7
+		  	WHEN NAME LIKE ('9층' || '%')
+		  	THEN 9
+		  	WHEN NAME LIKE ('10층' || '%')
+		  	THEN 10
+		  	ELSE 11
+		  END AS LVL
+		FROM 
+			TBL_EDUROOM TE
+		WHERE
+			TE.DEL_YN = 'N'
+		<if test="officeCode neq null and officeCode neq ''.toString()"> 
+			AND TE.SAUPSO_ID = #{officeCode}
+		</if>
+		<if test="roomKey &gt; 0"> 
+			AND TE.SEQ_EDUROOM = #{roomKey}
+		</if>
+		<if test="rentYN neq null and rentYN neq ''.toString()"> 
+			AND TE.RENT_YN = #{rentYN}
+		</if>
+		ORDER BY LVL, NAME, REG_DATE ASC
+	</select>
+	<insert id="insertEduRoom" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.room.EwpRoomInfoVO">
+		/* EwpRoomMapper insertEduRoom */
+		INSERT INTO 
+			TBL_EDUROOM 
+			(
+				SEQ_EDUROOM
+				, SAUPSO_ID
+				, NAME
+				, RENT_YN
+				, RENT_REASON
+				, REG_USER
+				, REG_DATE
+				, DESCRIPTION
+				, S_CODE
+			)
+		SELECT 
+			(
+				SELECT 
+					NVL(MAX(SEQ_EDUROOM), 0) + 1 
+				FROM 
+					TBL_EDUROOM
+			)
+			, #{officeCode}
+			, #{roomName}
+			, #{rentYN}
+			, #{rentReason, jdbcType=VARCHAR}
+			, #{regUser}
+			, sysdate
+			, #{roomNote, jdbcType=VARCHAR} 
+			, (
+				case 
+					when #{officeCode} = '1000' then 'M_0000_'
+					when #{officeCode} = '2000' then 'M_8330_' 
+					when #{officeCode} = '3000' then 'M_8480_' 
+					when #{officeCode} = '4000' then 'M_8270_' 
+					when #{officeCode} = '5000' then 'M_7650_' 
+					when #{officeCode} = '6000' then 'M_7590_' 
+					when #{officeCode} = 'A000' then 'M_8340_' 
+					when #{officeCode} = 'B000' then 'M_8960_' end || 
+				case 
+					when (SELECT nvl(MAX(to_number(substr(S_CODE, -3))), 0) + 1  FROM TBL_EDUROOM WHERE SAUPSO_ID = #{officeCode}) &lt; 10
+						then '00'||(SELECT nvl(MAX(to_number(substr(S_CODE, -3))), 0) + 1  FROM TBL_EDUROOM WHERE SAUPSO_ID = #{officeCode})
+					when (SELECT nvl(MAX(to_number(substr(S_CODE, -3))), 0) + 1  FROM TBL_EDUROOM WHERE SAUPSO_ID = #{officeCode}) &lt; 100 
+						then '0'||(SELECT nvl(MAX(to_number(substr(S_CODE, -3))), 0) + 1  FROM TBL_EDUROOM WHERE SAUPSO_ID = #{officeCode})
+				else to_char((SELECT nvl(MAX(to_number(substr(S_CODE, -3))), 0) + 1  FROM TBL_EDUROOM WHERE SAUPSO_ID = #{officeCode})) end)
+		FROM 
+			DUAL 
+		WHERE NOT EXISTS (
+			SELECT 
+				*
+			FROM 
+				TBL_EDUROOM
+			WHERE 
+				NAME = #{roomName} 
+				AND DEL_YN = 'N'
+		)
+	</insert>
+	<update id="updateEduRoomOne" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.room.EwpRoomInfoVO">
+		/* EwpRoomMapper updateEduRoomOne */
+		UPDATE 
+			TBL_EDUROOM
+		SET 
+			SAUPSO_ID = #{officeCode, jdbcType=VARCHAR}
+			, NAME = #{roomName}
+			, DESCRIPTION = #{roomNote, jdbcType=VARCHAR}
+			, RENT_YN = #{rentYN}
+			, RENT_REASON = #{rentReason, jdbcType=VARCHAR}
+			, MODIFY_USER = #{modUser}
+			, MODIFY_DATE = sysdate
+		WHERE SEQ_EDUROOM = #{roomKey}
+	</update>
+	<update id="updateEduRoomOneToDelete" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.room.EwpRoomInfoVO">
+		/* EwpRoomMapper updateEduRoomOneToDelete */
+		UPDATE 
+			TBL_EDUROOM
+		SET 
+			DEL_YN = 'Y'
+			, MODIFY_USER = #{modUser}
+			, MODIFY_DATE = sysdate
+		WHERE 
+			SEQ_EDUROOM = #{roomKey}
+	</update>
+	
+	<!-- 강당 쿼리 리스트 -->
+	<select id="selectHallOne" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.room.EwpRoomInfoVO" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.room.EwpRoomInfoVO">
+		/* NO_SQL_LOG */
+		/* EwpRoomMapper selectHallOne */
+			SELECT 
+				TL.SEQ_HALL AS roomKey /* 미팅룸 고유키 */
+				, TL.SAUPSO_ID AS officeCode /* 사업소 번호 */
+				, TL.NAME AS roomName /* 미팅룸 이름 */
+				, 'HALL' AS roomType /* 미팅룸 종류 */
+				, TL.RENT_YN AS rentYN /* 미팅룸 대여 가능 여부 */
+				, TL.RENT_REASON AS rentReason /* 미팅룸 대여 불가 사유 */
+				, TL.DEL_YN AS delYn /* 삭제 여부 */
+				, TL.DESCRIPTION AS roomNote /* 기타 정보 */
+				, 'Y' AS syncYN /* 경영지원서비스와 동기화됨 */
+			FROM 
+				TBL_HALL TL
+			WHERE 
+				DEL_YN = 'N'
+				AND SEQ_HALL = #{roomKey}
+	</select>
+	<select id="selectHallList" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.room.EwpRoomInfoVO" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.room.EwpRoomInfoVO">
+		/* NO_SQL_LOG */
+		/* EwpRoomMapper selectHallList */
+		SELECT
+			TL.SEQ_HALL AS roomKey /* 미팅룸 고유키 */
+			, TL.SAUPSO_ID AS officeCode /* 사업소 번호 */
+			, TL.NAME AS roomName /* 미팅룸 이름 */
+			, 'HALL' AS roomType /* 미팅룸 종류 */
+			, TL.RENT_YN AS rentYN /* 미팅룸 대여 가능 여부 */
+			, TL.RENT_REASON AS rentReason /* 미팅룸 대여 불가 사유 */
+			, TL.DEL_YN AS delYn /* 삭제 여부 */
+			, TL.DESCRIPTION AS roomNote /* 기타 정보 */
+			, 'Y' AS syncYN /* 경영지원서비스와 동기화됨 */
+			, CASE
+		  	WHEN NAME LIKE ('1층' || '%')
+		  	THEN 1
+		  	WHEN NAME LIKE ('2층' || '%')
+		  	THEN 2
+		  	WHEN NAME LIKE ('7층' || '%')
+		  	THEN 7
+		  	WHEN NAME LIKE ('9층' || '%')
+		  	THEN 9
+		  	WHEN NAME LIKE ('10층' || '%')
+		  	THEN 10
+		  	ELSE 11
+		  END AS LVL
+		FROM 
+			TBL_HALL TL
+		WHERE
+			TL.DEL_YN = 'N'
+		<if test="officeCode neq null and officeCode neq ''.toString()"> 
+			AND TL.SAUPSO_ID = #{officeCode}
+		</if>
+		<if test="roomKey &gt; 0"> 
+			AND TL.SEQ_HALL = #{roomKey}
+		</if>
+		<if test="rentYN neq null and rentYN neq ''.toString()"> 
+			AND TL.RENT_YN = #{rentYN}
+		</if>
+		ORDER BY LVL, NAME, REG_DATE ASC
+	</select>
+	<insert id="insertHall" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.room.EwpRoomInfoVO">
+		/* EwpRoomMapper insertHall */
+		INSERT INTO 
+			TBL_HALL 
+			(
+				SEQ_HALL
+				, SAUPSO_ID
+				, NAME
+				, RENT_YN
+				, RENT_REASON
+				, REG_USER
+				, REG_DATE
+				, DESCRIPTION
+				, S_CODE
+			)
+		SELECT 
+			(
+				SELECT 
+					NVL(MAX(SEQ_HALL), 0) + 1 
+				FROM 
+					TBL_HALL
+			)
+			, #{officeCode}
+			, #{roomName}
+			, #{rentYN}
+			, #{rentReason, jdbcType=VARCHAR}
+			, #{regUser}
+			, sysdate
+			, #{roomNote, jdbcType=VARCHAR} 
+			, (
+				case 
+					when #{officeCode} = '1000' then 'L_0000_'
+					when #{officeCode} = '2000' then 'L_8330_' 
+					when #{officeCode} = '3000' then 'L_8480_' 
+					when #{officeCode} = '4000' then 'L_8270_' 
+					when #{officeCode} = '5000' then 'L_7650_' 
+					when #{officeCode} = '6000' then 'L_7590_' 
+					when #{officeCode} = 'A000' then 'L_8340_' 
+					when #{officeCode} = 'B000' then 'L_8960_' end || 
+				case 
+					when (SELECT nvl(MAX(to_number(substr(S_CODE, -3))), 0) + 1  FROM TBL_HALL WHERE SAUPSO_ID = #{officeCode}) &lt; 10
+						then '00'||(SELECT nvl(MAX(to_number(substr(S_CODE, -3))), 0) + 1  FROM TBL_HALL WHERE SAUPSO_ID = #{officeCode})
+					when (SELECT nvl(MAX(to_number(substr(S_CODE, -3))), 0) + 1  FROM TBL_HALL WHERE SAUPSO_ID = #{officeCode}) &lt; 100 
+						then '0'||(SELECT nvl(MAX(to_number(substr(S_CODE, -3))), 0) + 1  FROM TBL_HALL WHERE SAUPSO_ID = #{officeCode})
+				else to_char((SELECT nvl(MAX(to_number(substr(S_CODE, -3))), 0) + 1  FROM TBL_HALL WHERE SAUPSO_ID = #{officeCode})) end)
+		FROM 
+			DUAL 
+		WHERE NOT EXISTS (
+			SELECT 
+				*
+			FROM 
+				TBL_HALL
+			WHERE 
+				NAME = #{roomName} 
+				AND DEL_YN = 'N'
+		)
+	</insert>
+	<update id="updateHallOne" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.room.EwpRoomInfoVO">
+		/* EwpRoomMapper updateHallOne */
+		UPDATE 
+			TBL_HALL
+		SET 
+			SAUPSO_ID = #{officeCode, jdbcType=VARCHAR}
+			, NAME = #{roomName}
+			, DESCRIPTION = #{roomNote, jdbcType=VARCHAR}
+			, RENT_YN = #{rentYN}
+			, RENT_REASON = #{rentReason, jdbcType=VARCHAR}
+			, MODIFY_USER = #{modUser}
+			, MODIFY_DATE = sysdate
+		WHERE SEQ_HALL = #{roomKey}
+	</update>
+	<update id="updateHallOneToDelete" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.room.EwpRoomInfoVO">
+		/* EwpRoomMapper updateHallOneToDelete */
+		UPDATE 
+			TBL_HALL
+		SET 
+			DEL_YN = 'Y'
+			, MODIFY_USER = #{modUser}
+			, MODIFY_DATE = sysdate
+		WHERE 
+			SEQ_HALL = #{roomKey}
+	</update>
+	
+</mapper>

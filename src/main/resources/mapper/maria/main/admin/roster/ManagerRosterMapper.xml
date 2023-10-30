@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="egov.framework.plms.main.bean.mvc.mapper.admin.ManagerRosterMapper">
+	<select id="getManagerAdminList" parameterType="egov.framework.plms.main.bean.mvc.entity.admin.AdminRosterVO" resultType="egov.framework.plms.main.bean.mvc.entity.admin.AdminRosterVO">
+		/* AdminMapper getManagerAdminList */
+		SELECT 
+		userId,
+		officeCode,
+		deptId,
+		managerRole
+		FROM admin_manager_info
+		<where>
+		<if test='officeCode != null'>
+		AND officeCode = #{officeCode}
+		</if>
+		<if test='deptId != null'>
+		AND deptId = #{deptId}
+		</if>
+		<if test='userId != null'>
+		AND userId = #{userId}
+		</if>
+		<if test='managerRole != null'>
+		AND managerRole = #{managerRole}
+		</if>
+		</where>
+	</select>
+	<insert id="postManagerAdmin" parameterType="egov.framework.plms.main.bean.mvc.entity.admin.AdminRosterVO">
+		/* AdminMapper postManagerAdmin */
+		INSERT INTO admin_manager_info
+				( userId, officeCode, deptId, managerRole)
+			 VALUES
+			    ( #{userId}, IFNULL(#{officeCode}, ''), IFNULL(#{deptId}, ''), #{managerRole})
+	</insert>
+	<delete id="deleteManagerAdmin" parameterType="egov.framework.plms.main.bean.mvc.entity.admin.AdminRosterVO">
+		/* AdminMapper deleteManagerAdmin */
+		DELETE FROM admin_manager_info
+		<where>
+	  	AND userId = #{userId}
+	    AND managerRole = #{managerRole}
+	    <if test='officeCode != null'>
+		AND officeCode = #{officeCode}
+		</if>
+		<if test='deptId != null'>
+		AND deptId = #{deptId}
+		</if>
+	    </where>
+	</delete>
+</mapper>

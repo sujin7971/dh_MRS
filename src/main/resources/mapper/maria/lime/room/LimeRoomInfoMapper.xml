@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egov.framework.plms.sub.lime.bean.mvc.mapper.room.LimeRoomInfoMapper">
+	<!-- 회의실 등록 -->
+	<insert id="insertRoomOne" parameterType="egov.framework.plms.main.bean.mvc.entity.room.RoomInfoVO" useGeneratedKeys="true" keyProperty="roomId">
+		/* LimeRoomInfoMapper insertRoomOne */
+		/* NO_SQL_LOG */
+		INSERT INTO room_info (
+			roomId, roomType,
+			roomName, roomLabel, roomSize, roomFloor, roomNote, 
+			disableYN, disableComment, 
+			writerId
+		)
+		VALUES(
+			#{roomId}, #{roomType},
+			#{roomName}, IFNULL(#{roomLabel}, #{roomName}), #{roomSize}, #{roomFloor}, #{roomNote}, 
+			#{disableYN}, #{disableComment}, 
+			#{writerId}
+		)
+	</insert>
+	
+	<!-- 회의실 순서 변경 -->
+	<update id="updateRoomOne" parameterType="egov.framework.plms.main.bean.mvc.entity.room.RoomInfoVO">
+	/* LimeRoomInfoMapper updateRoomOne */
+		UPDATE room_info
+		<set>
+			<include refid="roomUpdateCondition"></include>
+		</set>
+		<where>
+			AND roomId = #{roomId}
+		</where>
+	</update>
+
+	<!-- 회의실 삭제 -->
+	<update id="updateRoomOneToDelete" parameterType="egov.framework.plms.main.bean.mvc.entity.room.RoomInfoVO">
+	/* LimeRoomInfoMapper updateRoomOneToDelete */
+		UPDATE room_info
+		SET delYN = 'Y'
+		<where>
+			AND roomId = #{roomId}
+		</where>
+	</update>
+	
+	<select id="selectRoomOne" parameterType="egov.framework.plms.main.bean.mvc.entity.room.RoomInfoVO" resultType="egov.framework.plms.main.bean.mvc.entity.room.RoomInfoVO">
+	/* LimeRoomInfoMapper selectRoomOne */
+		SELECT *
+		FROM room_info
+		<where>
+			AND roomId = #{roomId}
+		</where>
+	</select>
+
+	<!-- 회의실 목록 -->
+	<select id="selectRoomList" resultType="egov.framework.plms.main.bean.mvc.entity.room.RoomInfoVO">
+	/* LimeRoomInfoMapper selectRoomList */
+		SELECT *
+		FROM room_info
+		<where>
+		<include refid="selectRoomListCondition"></include>
+		</where>
+		ORDER BY roomFloor, roomName
+	</select>
+	<sql id="roomUpdateCondition">
+		<if test='roomName neq null'>
+		, roomName = #{roomName}
+		, roomFloor = (CASE
+            WHEN #{roomName} LIKE '%12층%' THEN 12 
+            WHEN #{roomName} LIKE '%11층%' THEN 11
+            WHEN #{roomName} LIKE '%10층%' THEN 10
+            WHEN #{roomName} LIKE '%9층%' THEN 9 
+            WHEN #{roomName} LIKE '%8층%' THEN 8 
+            WHEN #{roomName} LIKE '%7층%' THEN 7
+            WHEN #{roomName} LIKE '%6층%' THEN 6 
+            WHEN #{roomName} LIKE '%5층%' THEN 5
+            WHEN #{roomName} LIKE '%4층%' THEN 4
+            WHEN #{roomName} LIKE '%3층%' THEN 3
+            WHEN #{roomName} LIKE '%2층%' THEN 2
+		  	WHEN #{roomName} LIKE '%1층%' THEN 1 
+		  	ELSE roomFloor
+		END)
+		</if>
+		, roomLabel = (
+			CASE 
+				WHEN #{roomLabel} IS NOT NULL THEN #{roomLabel}
+				WHEN roomLabel IS NULL OR roomLabel = '' THEN roomName
+				ELSE roomLabel
+			END
+		)
+		<if test='roomSize neq null'>
+		, roomSize = #{roomSize}
+		</if>
+		<if test='roomFloor neq null'>
+		, roomFloor = #{roomFloor}
+		</if>
+		<if test='roomNote neq null'>
+		, roomNote = #{roomNote}
+		</if>
+		<if test='disableYN neq null'>
+		, disableYN = #{disableYN}
+		</if>
+		<if test='disableComment neq null'>
+		, disableComment = #{disableComment}
+		</if>
+		<if test='delYN neq null'>
+		, delYN = #{delYN}
+		</if>
+	</sql>
+	<sql id="selectRoomListCondition">
+		<if test='roomId neq null'>
+		AND roomId = #{roomId}
+		</if>
+		<if test='disableYN neq null'>
+		AND disableYN = #{disableYN}
+		</if>
+		<if test='roomType neq null'>
+		AND roomType = #{roomType}
+		</if>
+		<if test='delYN neq null'>
+		AND delYN = #{delYN}
+		</if>
+	</sql>
+</mapper>

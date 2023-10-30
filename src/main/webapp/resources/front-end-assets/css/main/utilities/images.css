@@ -1,0 +1,18 @@
+@charset "UTF-8";
+img.img-fluid {
+    max-width: 100%;
+    height: auto;
+}
+img.img-thumbnail {
+    padding: 0.25rem;
+    background-color: #fff;
+    border: 1px solid #dee2e6;
+    border-radius: 0.25rem;
+    max-width: 100%;
+    height: auto;
+}
+img.img-profile {
+	width: 150px;
+    height: 200px;
+    object-fit: contain;
+}

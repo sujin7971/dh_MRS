@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="egov.framework.plms.sub.ewp.bean.mvc.mapper.oracle.organization.EwpUserInfoMapper">
+	<sql id="selectUserInfoListCondition">
+		<where>
+			<if test="officeCode != null">
+				AND emp.SAUPSO_CD = #{officeCode}
+			</if>
+			<if test="deptName != null and deptName != '' ">
+				AND dept.ORG_NM LIKE ('%' || #{deptName} || '%')
+			</if>
+			<if test="deptId != null">
+				AND emp.ORG_ID = #{deptId}
+			</if>
+			<if test="userName != null and userName != '' ">
+				AND emp.NAME_HAN LIKE ('%' || #{userName} || '%')
+			</if>
+			<if test="userId != null">
+				AND emp.SABUN LIKE ('%' || #{userId} || '%' )
+			</if>
+		</where>
+	</sql>
+	<!-- 사원 조회 쿼리. VIEW_SAWON_HR테이블 ORG_ID칼럼에 입력된 값과 동일한 ORG_ID를 갖는 VIEW_ORG_CD 테이블 데이터가 없을 수 있으므로 LEFT JOIN 결과를 반환-->
+	<select id="selectUserInfoOne" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.organization.EwpUserInfoVO">
+		/** EwpUserInfoMapper selectUserInfoOne */
+		/* NO_SQL_LOG */
+		SELECT
+		<include refid="userSelect"></include>
+		FROM VIEW_SAWON_HR emp
+		LEFT JOIN VIEW_ORG_CD dept
+		ON emp.ORG_ID = dept.ORG_ID
+		WHERE emp.SABUN = #{userId}
+	</select>
+	<select id="selectUserInfoList" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.organization.EwpUserInfoVO" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.organization.EwpUserInfoVO">
+		/** EwpUserInfoMapper selectUserInfoList */
+		SELECT 
+		<include refid="userSelect"></include>
+		FROM VIEW_SAWON_HR emp
+		LEFT JOIN VIEW_ORG_CD dept
+		ON emp.ORG_ID = dept.ORG_ID
+		<include refid="selectUserInfoListCondition"/>
+	</select>
+	<sql id="userSelect">
+		emp.SAUPSO_CD officeCode, emp.OFFI_NM deptHierarchyName, emp.ORG_ID deptId, dept.ORG_NM deptName, emp.SABUN userId, emp.NAME_HAN userName, 
+		emp.JIKGUB_CD rankCode, emp.JIKGUB_NM rankName, emp.JIKGUN_CD titleCode, emp.JIKGUN_CD titleName, emp.POS_CD positionCode, emp.POS_NM positionName,
+		emp.HP personalCellPhone, emp.NAESUN officeDeskPhone, emp.MAILNO email
+	</sql>
+</mapper>

@@ -1,0 +1,296 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egov.framework.plms.sub.lime.bean.mvc.mapper.meeting.LimeMeetingAssignMapper">
+	<!-- 회의 진행 처리 대상 조회 -->
+	<select id="getMeetingAssignListForMonitoring" resultType="egov.framework.plms.main.bean.mvc.entity.meeting.MeetingAssignVO">
+	/* LimeMeetingAssignMapper getMeetingListForMonitoring */
+	/* NO_SQL_LOG */
+		SELECT  skd.scheduleId, skd.writerId, 
+				skd.officeCode, skd.deptId, skd.roomType, skd.roomId, skd.scheduleType, 
+				skd.approvalStatus, skd.approvalComment,
+				skd.holdingDate as holdingDate, skd.beginDateTime, skd.finishDateTime, skd.expDateTime, skd.regDateTime,
+				meet.meetingId, meet.meetingStatus, 
+				meet.elecYN, meet.secretYN, meet.hostSecuLvl, meet.attendeeSecuLvl, meet.observerSecuLvl, 
+				meet.messengerYN, meet.mailYN, meet.smsYN, meet.stickyBit
+		FROM meeting_schedule skd 
+		JOIN meeting_info meet 
+		ON skd.meetingId = meet.meetingId
+		AND skd.delYN = 'N' AND meet.delYN = 'N' 
+	 	<where>
+	 	stickyBit = 0 
+		OR (
+			 approvalStatus = 2
+			 AND meetingStatus != "END"
+			 <![CDATA[
+			 AND subdate(beginDateTime, interval 60 minute) <= NOW()
+			]]>
+		)
+		OR (
+			approvalStatus = 1
+			<![CDATA[
+			AND finishDateTime <= NOW()
+			]]>
+		)
+		OR (
+			approvalStatus = 0
+		)
+		</where>
+	</select>
+	
+	<resultMap id="assignMap" type="egov.framework.plms.main.bean.mvc.entity.meeting.MeetingAssignVO">
+		<id javaType="integer" column="scheduleId" property="scheduleId"></id>
+		<result javaType="string" column="writerId" property="writerId"></result>
+		<result javaType="string" column="officeCode" property="officeCode"></result>
+		<result javaType="string" column="deptId" property="deptId"></result>
+		<result javaType="egov.framework.plms.main.core.model.enums.meeting.RoomType" column="roomType" property="roomType"></result>
+		<result javaType="integer" column="roomId" property="roomId"></result>
+		<result javaType="egov.framework.plms.main.core.model.enums.meeting.ScheduleType" column="scheduleType" property="scheduleType"></result>
+		<result javaType="string" column="scheduleHost" property="scheduleHost"></result>
+		<result javaType="integer" column="attendeeCnt" property="attendeeCnt"></result>
+		<result javaType="egov.framework.plms.main.core.model.enums.meeting.ApprovalStatus" column="approvalStatus" property="approvalStatus"></result>
+		<result javaType="string" column="approvalComment" property="approvalComment"></result>
+		<result javaType="java.time.LocalDate" column="holdingDate" property="holdingDate"></result>
+		<result javaType="java.time.LocalDateTime" column="beginDateTime" property="beginDateTime"></result>
+		<result javaType="java.time.LocalDateTime" column="finishDateTime" property="finishDateTime"></result>
+		<result javaType="java.time.LocalDateTime" column="expDateTime" property="expDateTime"></result>
+		<result javaType="java.time.LocalDateTime" column="regDateTime" property="regDateTime"></result>
+		<result javaType="integer" column="meetingId" property="meetingId"></result>
+		<result javaType="string" column="title" property="title"></result>
+		<result javaType="string" column="contents" property="contents"></result>
+		<result javaType="egov.framework.plms.main.core.model.enums.meeting.MeetingStatus" column="meetingStatus" property="meetingStatus"></result>
+		<result javaType="java.lang.Character" column="elecYN" property="elecYN"></result>
+		<result javaType="java.lang.Character" column="messengerYN" property="messengerYN"></result>
+		<result javaType="java.lang.Character" column="mailYN" property="mailYN"></result>
+		<result javaType="java.lang.Character" column="smsYN" property="smsYN"></result>
+		<result javaType="java.lang.Character" column="secretYN" property="secretYN"></result>
+		<result javaType="integer" column="hostSecuLvl" property="hostSecuLvl"></result>
+		<result javaType="integer" column="attendeeSecuLvl" property="attendeeSecuLvl"></result>
+		<result javaType="integer" column="observerSecuLvl" property="observerSecuLvl"></result>
+		<result javaType="integer" column="stickyBit" property="stickyBit"></result>
+		<result javaType="java.lang.Character" column="delYN" property="delYN"></result>
+		<association property="room" javaType="egov.framework.plms.main.bean.mvc.entity.room.RoomInfoVO">
+			<id javaType="integer" column="roomId" property="roomId"></id>
+			<result javaType="egov.framework.plms.main.core.model.enums.meeting.RoomType" column="roomType" property="roomType"></result>
+			<result javaType="string" column="roomName" property="roomName"></result>
+			<result javaType="string" column="roomLabel" property="roomLabel"></result>
+			<result javaType="integer" column="roomSize" property="roomSize"></result>
+			<result javaType="integer" column="roomFloor" property="roomFloor"></result>
+		</association>
+		<collection property="attendeeList" javaType="list" ofType="egov.framework.plms.main.bean.mvc.entity.meeting.MeetingAttendeeVO">
+			<id javaType="integer" column="attendId" property="attendId"></id>
+			<result javaType="string" column="userId" property="userId"></result>
+			<result javaType="string" column="userName" property="userName"></result>
+			<result javaType="egov.framework.plms.main.core.model.enums.meeting.AttendRole" column="attendRole" property="attendRole"></result>
+			<result javaType="java.lang.Character" column="assistantYN" property="assistantYN"></result>
+			<result javaType="java.lang.Character" column="attendYN" property="attendYN"></result>
+			<result javaType="java.time.LocalDateTime" column="attendDateTime" property="attendDateTime"></result>
+			<result javaType="java.lang.Character" column="exitYN" property="exitYN"></result>
+			<result javaType="java.time.LocalDateTime" column="exitDateTime" property="exitDateTime"></result>
+			<result javaType="java.lang.Character" column="signYN" property="signYN"></result>
+			<result javaType="string" column="signSrc" property="signSrc"></result>
+		</collection>
+	</resultMap>
+	
+	<!-- 사용신청 조회 -->
+	<select id="getMeetingAssignOne" parameterType="egov.framework.plms.main.bean.mvc.entity.meeting.MeetingAssignVO" resultMap="assignMap">
+	/* LimeMeetingAssignMapper getMeetingAssignOne */
+	/* NO_SQL_LOG */
+		SELECT  skd.scheduleId, skd.writerId, 
+				skd.officeCode, skd.deptId, skd.roomType, skd.roomId, 
+				skd.scheduleType, skd.scheduleHost, skd.attendeeCnt,
+				skd.approvalStatus, skd.approvalComment,
+				skd.holdingDate, skd.beginDateTime, skd.finishDateTime, skd.expDateTime, skd.regDateTime, skd.delYN,
+				meet.meetingId, meet.title, meet.contents, meet.meetingStatus, 
+				meet.elecYN, meet.secretYN, meet.hostSecuLvl, meet.attendeeSecuLvl, meet.observerSecuLvl, 
+				meet.messengerYN, meet.mailYN, meet.smsYN, meet.stickyBit,
+				room.officeCode, room.roomName, room.roomLabel, room.roomSize, room.roomFloor
+		FROM meeting_schedule skd 
+		JOIN meeting_info meet 
+		ON skd.meetingId = meet.meetingId 
+		JOIN room_info room
+		ON skd.roomId = room.roomId AND skd.roomType = room.roomType
+		<where>
+		<choose>
+			<when test="scheduleId eq null and meetingId eq null">
+				AND 1 = 0
+			</when>
+			<otherwise>
+				<if test="scheduleId neq null">
+				AND skd.scheduleId = #{scheduleId}
+				</if>
+				<if test="meetingId neq null">
+				AND skd.meetingId = #{meetingId}
+				</if>
+			</otherwise>
+		</choose>
+		</where>
+	</select>
+	<!-- 사용신청 검색 -->
+	<select id="getMeetingAssignList" parameterType="egov.framework.plms.main.bean.mvc.entity.meeting.MeetingAssignVO" resultMap="assignMap">
+	/* LimeMeetingAssignMapper getMeetingAssignList */
+	/* NO_SQL_LOG */
+	/* 페이지네이션을 위해 사용신청을 우선 제한개수만큼 조회 한 후 meeting_attendee와 조인하여 결과 조회 */
+		SELECT 	assign.*,
+				att.attendId, att.userId, att.userName, att.attendRole
+		FROM (
+			SELECT result.*
+			FROM (
+				<include refid="meetingAssignListSearch"></include>
+			) result
+			ORDER BY result.beginDateTime desc
+			<if test="offset neq null">
+			LIMIT #{offset}, #{limit}
+			</if>
+		) assign
+		LEFT JOIN meeting_attendee att ON assign.meetingId = att.meetingId
+		ORDER BY
+		<choose>
+		<when test='orderColumn neq null and orderDirection.equals("beginDateTime")'>assign.beginDateTime</when>
+		<when test='orderDirection neq null and orderDirection.code.equals("regDateTime")'>assign.regDateTime</when>
+		<otherwise>assign.beginDateTime</otherwise>
+		</choose>
+		<choose>
+		<when test='orderDirection neq null and orderDirection.code.equals("ASC")'>ASC</when>
+		<when test='orderDirection neq null and orderDirection.code.equals("DESC")'>DESC</when>
+		</choose>
+	</select>
+	
+	<select id="getMeetingAssignListCnt" parameterType="egov.framework.plms.main.bean.mvc.entity.meeting.MeetingAssignVO" resultType="integer">
+	/* LimeMeetingAssignMapper getMeetingAssignListCnt */
+	/* 페이지네이션을 위해 사용신청을 우선 제한개수만큼 조회 한 후 meeting_attendee와 조인하여 결과 조회 */
+		SELECT COUNT(*)
+		<include refid="meetingAssignListSearchCondition"></include>
+	</select>
+	
+	<sql id="meetingAssignListSearch">
+		SELECT 	skd.scheduleId, skd.writerId, 
+				skd.officeCode, skd.deptId, skd.roomType, skd.roomId, 
+				skd.scheduleType, skd.scheduleHost, skd.attendeeCnt,
+				skd.approvalStatus, skd.approvalComment,
+				skd.holdingDate, skd.beginDateTime, skd.finishDateTime, skd.expDateTime, skd.regDateTime,
+				meet.meetingId, meet.title, meet.contents, meet.meetingStatus, 
+				meet.elecYN, meet.secretYN, meet.hostSecuLvl, meet.attendeeSecuLvl, meet.observerSecuLvl, 
+				meet.messengerYN, meet.mailYN, meet.smsYN, meet.stickyBit,
+				room.roomName, room.roomLabel, room.roomSize, room.roomFloor
+		<include refid="meetingAssignListSearchCondition"></include>
+	</sql>
+	<sql id="meetingAssignListSearchCondition">
+		FROM meeting_schedule skd 
+		JOIN meeting_info meet 
+		ON skd.meetingId = meet.meetingId
+		JOIN room_info room
+		ON skd.roomId = room.roomId AND skd.roomType = room.roomType
+		AND skd.delYN = 'N' 
+		AND meet.delYN = 'N'
+		<if test='startDate neq null or endDate neq null'>
+		AND (skd.holdingDate BETWEEN STR_TO_DATE(IFNULL(#{startDate}, NOW()),'%Y-%m-%d') AND STR_TO_DATE(IFNULL(#{endDate}, NOW()),'%Y-%m-%d'))
+		</if>
+		<where>
+			<if test="approvalStatus neq null">
+				AND skd.approvalStatus = #{approvalStatus}
+			</if>
+			<if test="meetingStatus neq null">
+				AND meet.meetingStatus = #{meetingStatus}
+			</if>
+			<if test="officeCode neq null">
+				AND skd.officeCode = #{officeCode}
+			</if>
+			<if test="roomType neq null">
+				AND skd.roomType = #{roomType}
+			</if>
+			<if test="roomId neq null">
+				AND skd.roomId = #{roomId}
+			</if>
+			<if test="elecYN neq null and elecYN != ''.toString()">
+				AND meet.elecYN = #{elecYN}
+			</if>
+			<if test="secretYN neq null and secretYN != ''.toString()">
+				AND meet.secretYN = #{secretYN}
+			</if>
+			<if test="scheduleHost neq null and scheduleHost != ''.toString()">
+				AND skd.scheduleHost LIKE CONCAT('%',#{scheduleHost},'%')
+			</if>
+			<if test="title neq null and title != ''.toString()">
+				AND meet.title LIKE CONCAT('%',#{title},'%')
+			</if>
+			<if test="userId neq null">
+				AND 1 = FUNC_IS_USER_HAS_MEETING_AUTH(#{userId}, skd.meetingId, 'FUNC_READ')
+			</if>
+			<if test="writerId neq null">
+				AND skd.writerId = #{writerId}
+			</if>
+			<if test="deptId neq null">
+				<!-- AND 1 = FUNC_IS_DEPT_HAS_MEETING_AUTH(#{deptId}, skd.meetingId, 'FUNC_READ') -->
+				AND meet.meetingId IN (
+					SELECT meetingId
+					FROM meeting_attendee
+					WHERE deptId = #{deptId}
+					AND delYN = 'N'
+					UNION
+					SELECT meetingId
+					FROM meeting_schedule
+					WHERE scheduleType = 'RENTAL'
+					AND deptId = #{deptId}
+					AND delYN = 'N'
+				)
+			</if>
+			<if test="attendeeName neq null and attendeeName != ''.toString()">
+				AND EXISTS(SELECT * FROM meeting_attendee target WHERE meet.meetingId = target.meetingId AND target.userName LIKE CONCAT('%',#{attendeeName},'%'))
+			</if>
+		</where>
+	</sql>
+	<!-- 참석할 사용신청 조회 -->
+	<select id="getMeetingAssignListForPlanned" parameterType="egov.framework.plms.main.bean.mvc.entity.meeting.MeetingAssignVO" resultMap="assignMap">
+	/* LimeMeetingAssignMapper getMeetingAssignListForPlanned */
+		SELECT assign.*
+		FROM (
+			<include refid="meetingScheduleListSearch"></include>
+		) assign
+		ORDER BY assign.beginDateTime asc
+		<if test="offset neq null">
+		LIMIT #{offset}, #{limit}
+		</if>
+	</select>
+	
+	<sql id="meetingScheduleListSearch">
+		SELECT 	planned.*,
+				att.attendId, att.userId, att.userName, att.attendRole, att.attendYN,
+				room.roomName, room.roomLabel, room.roomSize, room.roomFloor
+		FROM (
+			<include refid="meetingAssignListForPlannedSearch"></include>
+		) planned
+		JOIN room_info room
+		ON planned.roomId = room.roomId 
+		LEFT JOIN meeting_attendee att 
+		ON planned.meetingId = att.meetingId
+		AND att.userId = #{userId}
+		GROUP BY planned.meetingId
+	</sql>
+	<!-- 참석할 사용신청 일별 통계 조회 -->
+	<select id="getMeetingAssignStatForPlanned" parameterType="egov.framework.plms.main.bean.mvc.entity.meeting.MeetingAssignVO" resultType="egov.framework.plms.main.bean.mvc.entity.common.StatVO">
+	/* LimeMeetingAssignMapper getMeetingAssignStatForPlanned */
+		SELECT DATE_FORMAT(planned.holdingDate,'%Y-%m-%d') refDate, COUNT(*) statValue1
+		FROM (
+			<include refid="meetingAssignListForPlannedSearch"></include>
+		) planned
+		GROUP BY planned.holdingDate
+	</select>
+	<sql id="meetingAssignListForPlannedSearch">
+		SELECT skd.scheduleId, skd.writerId, 
+				skd.roomType, skd.roomId,
+				skd.scheduleType, skd.scheduleHost,
+				skd.approvalStatus,
+				skd.holdingDate, skd.beginDateTime, skd.finishDateTime,
+				meet.meetingId, meet.title, meet.meetingStatus, 
+				meet.elecYN, meet.secretYN
+		FROM meeting_schedule skd 
+		JOIN meeting_info meet 
+		ON skd.meetingId = meet.meetingId 
+		AND skd.delYN = 'N' 
+		AND meet.delYN = 'N'
+		AND (skd.holdingDate BETWEEN STR_TO_DATE(IFNULL(#{startDate}, NOW()),'%Y-%m-%d') AND STR_TO_DATE(IFNULL(#{endDate}, NOW()),'%Y-%m-%d'))
+		<where>
+			AND 1 = FUNC_IS_USER_HAS_MEETING_AUTH(#{userId}, skd.meetingId, 'FUNC_READ')
+		</where>
+	</sql>
+</mapper>

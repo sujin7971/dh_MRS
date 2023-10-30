@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egov.framework.plms.main.bean.mvc.mapper.file.FileInfoMapper">
+	<sql id="withFileDetail">
+	file_detail AS (
+		SELECT fi.*, fr.relationType, fr.relatedEntityId, fr.relatedEntityType
+	    FROM drive_file_info fi
+	    LEFT JOIN drive_file_relation fr ON fi.fileId = fr.fileId
+	)
+	</sql>
+	<!-- 파일 등록 -->
+	<insert id="insertFileOne" parameterType="egov.framework.plms.main.bean.mvc.entity.file.FileDetailVO" useGeneratedKeys="true" keyProperty="fileId">
+	/* FileInfoMapper insertFileOne */
+		INSERT INTO drive_file_info (
+			sourceId, uploaderId, 
+			fileCategory, uploadedFileName, fileLabel, fileExt, uuid, fileSize, 
+			fileStatus, conversionStatus,
+			pdfGeneratedYN, pageImagesGeneratedYN, webpGeneratedYN
+		)
+		VALUES (
+			#{sourceId}, #{uploaderId}, 
+			#{fileCategory}, #{uploadedFileName}, #{fileLabel}, #{fileExt}, #{uuid}, #{fileSize}, 
+			IFNULL(#{fileStatus}, 100), IFNULL(#{conversionStatus}, 0),
+			IFNULL(#{pdfGeneratedYN}, 'N'), IFNULL(#{pageImagesGeneratedYN}, 'N'), IFNULL(#{webpGeneratedYN}, 'N')
+		)
+	</insert>
+	
+	<!-- 파일 정보 수정 -->
+	<update id="updateFileOne" parameterType="egov.framework.plms.main.bean.mvc.entity.file.FileDetailVO">
+	/* FileInfoMapper updateFileOne */
+		UPDATE drive_file_info
+		<set>
+			<if test='fileLabel != null and fileLabel != ""'>	fileLabel = #{fileLabel}, 		</if>
+			<if test='fileSize != null and size gt 0'>			fileSize = #{fileSize}, 		</if>
+			<if test='pageCount != null and pageCount gt 0'>	pageCount = #{pageCount}, 		</if>
+			<if test='fileStatus != null'>						fileStatus = #{fileStatus}, 		</if>
+			<if test='conversionStatus != null'>				conversionStatus = #{conversionStatus}, 		</if>
+			<if test='pdfGeneratedYN != null'>					pdfGeneratedYN = #{pdfGeneratedYN}, 		</if>
+			<if test='pageImagesGeneratedYN != null'>			pageImagesGeneratedYN = #{pageImagesGeneratedYN}, 		</if>
+			<if test='webpGeneratedYN != null'>					webpGeneratedYN = #{webpGeneratedYN}, 		</if>
+			<if test="delYN != null">
+				delYN = #{delYN}
+			</if>
+		</set>
+		<where>
+			<if test='fileId != null'>	AND fileId = #{fileId} 		</if>
+		</where>
+	</update>
+	
+	<update id="updateFileOneToDelete" parameterType="integer">
+	/* FileInfoMapper updateFileOneToDelete */
+		UPDATE drive_file_info
+		SET delYN = 'Y'
+		WHERE fileId = #{fileId}
+	</update>
+	
+	<update id="updateFileStatusToRemove" parameterType="integer">
+	/* FileInfoMapper updateFileStatusToRemove */
+		UPDATE drive_file_info
+		SET fileStatus = 400
+		WHERE fileId = #{fileId}
+	</update>
+	
+	<!-- 파일 삭제 -->
+	<delete id="deleteFileOne" parameterType="integer">
+	/* FileInfoMapper deleteFileOne */
+		DELETE 
+		FROM drive_file_info
+		<where>
+			AND fileId = #{fileId}
+			AND fileStatus == 400
+		</where>
+	</delete>
+	
+	<!-- 파일 번호로 파일 조회 -->
+	<select id="selectFileOne" resultType="egov.framework.plms.main.bean.mvc.entity.file.FileDetailVO">
+	/* FileInfoMapper selectFileOne */
+		WITH <include refid="withFileDetail"></include>
+		SELECT *
+    	FROM file_detail
+		WHERE fileId = #{fileId}
+	</select>
+	
+	<select id="selectFilesToGeneratePdf" resultType="egov.framework.plms.main.bean.mvc.entity.file.FileDetailVO">
+	/* FileInfoMapper selectFilesToGeneratePdf */
+	/* NO_SQL_LOG */
+		WITH <include refid="withFileDetail"></include>
+		SELECT * FROM file_detail
+	    <where>
+	    AND fileCategory IN ('HWP', 'PPT', 'EXCEL', 'WORD')
+	    AND pdfGeneratedYN = 'N'
+	    AND conversionStatus = 0
+	    AND delYN = 'N'
+	    </where>
+	</select>
+	
+	<select id="selectFilesToGenerateWebp" resultType="egov.framework.plms.main.bean.mvc.entity.file.FileDetailVO">
+	/* FileInfoMapper selectFilesToGeneratePdf */
+	/* NO_SQL_LOG */
+		WITH <include refid="withFileDetail"></include>
+		SELECT * FROM file_detail
+	    <where>
+	    AND fileCategory = 'IMG'
+	    AND webpGeneratedYN = 'N'
+	    AND conversionStatus = 0
+	    AND delYN = 'N'
+	    </where>
+	</select>
+	
+	<!-- 파일 검색 -->
+	<select id="selectFileList" parameterType="egov.framework.plms.main.bean.mvc.entity.file.FileDetailVO" resultType="egov.framework.plms.main.bean.mvc.entity.file.FileDetailVO">
+	/* FileInfoMapper selectFileList */
+		WITH <include refid="withFileDetail"></include>
+		SELECT *
+    	FROM file_detail
+	    <where>
+	        <if test='sourceId != null'> AND sourceId=#{sourceId}</if>
+	        <if test='uploaderId != null'> AND uploaderId=#{uploaderId}</if>
+	        <if test='fileCategory != null'> AND fileCategory=#{fileCategory}</if>
+	        <if test="uploadedFileName neq null">
+	            AND uploadedFileName = LIKE CONCAT('%',#{uploadedFileName},'%')
+	        </if>
+	        <if test="fileLabel neq null">
+	            AND fileLabel = LIKE CONCAT('%',#{fileLabel},'%')
+	        </if>
+	        <if test='fileStatus != null'> AND fileStatus=#{fileStatus}</if>
+	        <if test='conversionStatus != null'> AND conversionStatus=#{conversionStatus}</if>
+	        <if test='pdfGeneratedYN != null'> AND pdfGeneratedYN=#{pdfGeneratedYN}</if>
+	        <if test='pageImagesGeneratedYN != null'> AND pageImagesGeneratedYN=#{pageImagesGeneratedYN}</if>
+	        <if test='webpGeneratedYN != null'> AND webpGeneratedYN=#{webpGeneratedYN}</if>
+	        <if test="delYN != null">AND delYN=#{delYN}</if>
+	        <if test="relatedEntityType != null">AND relatedEntityType=#{relatedEntityType}</if>
+	        <if test="relatedEntityId != null">AND relatedEntityId=#{relatedEntityId}</if>
+	        <if test="relationType != null">AND relationType=#{relationType}</if>
+	    </where>
+	</select> 
+	
+	<select id="selectDeletedFileListOnDisk" resultType="egov.framework.plms.main.bean.mvc.entity.file.FileDetailVO">
+	/* FileInfoMapper selectDeletedFileListOnDisk */
+		WITH <include refid="withFileDetail"></include>
+		SELECT *
+    	FROM file_detail
+	    <where>
+	    	AND delYN = 'Y'
+	    	AND fileStatus != 400 
+	    </where>
+	</select>
+</mapper>

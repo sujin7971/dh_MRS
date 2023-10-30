@@ -1,0 +1,28 @@
+#동서발전 개발버전 설정값
+spring:
+  #서버: lime-server-embeded(내장) |lime-server-user(사용자) | lime-server-admin(관리자) | lime-server-converter(변환)
+  profiles:
+    include: lime-server-embeded
+  datasource:
+  # 내부 DB
+    plms:
+      username: root
+      jdbc-url: jdbc:log4jdbc:mariadb://172.30.1.242:3306/B_PLMS?allowMultiQueries=true
+      password: fhEh1q2w3e!
+      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+jasypt:
+  encryptor:
+    password: '@JASYPT_PWD@'
+server:
+config:
+  reserve:
+    #회의 개시시간
+    open-time: "00:00"
+    #회의 마감시간
+    close-time: "23:00"
+    #회의 시간간격(분단위)
+    interval-minute: 60
+    #최대 연속 예약 가능 일수
+    consecutive-limit: 100
+    #자동승인 허용여부
+    auto-approval: true

@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egov.framework.plms.main.bean.mvc.mapper.alarm.AlarmSendMapper">
+	<insert id="doSndMsg" parameterType="egov.framework.plms.main.bean.mvc.entity.alarm.AlarmSendVO" useGeneratedKeys="true" keyProperty="userKey">
+	/* AlarmSendMapper doSndMsg */
+		INSERT INTO alarm_send (
+		userKey,
+		alarmDiv,
+		alarmDtlDiv,		
+		meetingKey,	
+		alarmEmail,	
+		alarmTel,
+		alarmSubject,
+		alarmBody,
+		mailPurpose,
+		mailType,
+		mailLinkUrl,
+		mailRcvName,
+		mailRole,		
+		templateCode
+		) VALUES 
+		(
+		#{userKey},
+		#{alarmDiv},
+		#{alarmDtlDiv},
+		#{meetingKey},	
+		#{alarmEmail},
+		#{alarmTel},
+		IFNULL(#{alarmSubject}, ""),
+		IFNULL(#{alarmBody}, ""),
+		#{mailPurpose},
+		IFNULL(#{mailType}, ""),
+		#{mailLinkUrl},
+		#{mailRcvName},
+		#{mailRole},		
+		#{templateCode}		
+		)
+	</insert>
+	
+	<update id="updateAlarmSend" parameterType="egov.framework.plms.main.bean.mvc.entity.alarm.AlarmSendVO">
+		UPDATE alarm_send
+		<set>
+			<if test="alarmSubject != null">
+			  alarmSubject = #{alarmSubject}
+			</if>
+			<if test="alarmBody != null">
+			, alarmBody = #{alarmBody}
+			</if>
+			, alarmRlt = #{alarmRlt}
+			, modDateTime = NOW()	
+		</set>
+		WHERE     userKey  = #{userKey}
+		      AND alarmDiv = #{alarmDiv}
+		      AND alarmNo  = #{alarmNo}
+	</update>
+	
+
+	<select id="getAlarmSendListForPending" parameterType="egov.framework.plms.main.bean.mvc.entity.alarm.AlarmSendVO" resultType="egov.framework.plms.main.bean.mvc.entity.alarm.AlarmSendVO">
+	/* NO_SQL_LOG */
+	/* AlarmSendMapper getAlarmSendListForPending */
+		SELECT *
+		FROM alarm_send
+		<where>
+			    alarmDiv = #{alarmDiv}
+			AND alarmRlt IS NULL
+			AND cancelYn = 'N'
+		</where>
+		ORDER BY regDateTime ASC
+	</select>
+	
+	<select id="getAlarmSendListForUserPopup" parameterType="egov.framework.plms.main.bean.mvc.entity.alarm.AlarmSendVO" resultType="egov.framework.plms.main.bean.mvc.entity.alarm.AlarmSendVO">
+	/* AlarmSendMapper getAlarmSendListForUserPopup */
+		SELECT *
+		FROM alarm_send
+		<where>
+			    userKey =  #{userKey}
+			AND alarmDiv = 'B'
+			AND alarmRlt = 'S'
+		</where>
+		ORDER BY regDateTime DESC
+		LIMIT #{offset}, #{limit}
+	</select>
+	
+		
+	<select id="getMeetingInfoSendMonthList" parameterType="egov.framework.plms.main.bean.mvc.entity.alarm.AlarmSendVO" resultType="egov.framework.plms.main.bean.mvc.entity.alarm.AlarmSendVO">
+	/* AlarmSendMapper getMeetingInfoSendMonthList */
+		SELECT meetingKey, userKey
+		FROM (
+			SELECT 
+				A.meetingKey, B.userKey
+			FROM
+						MEETING_SCHEDULE A
+			LEFT JOIN 
+						MEETING_ATTENDEE B ON A.meetingKey = B.meetingKey
+			WHERE B.meetingKey IS NOT NULL AND A.skdType = 'FORMAL' AND A.skdStatus = '2' AND B.delYN = 'N' AND A.beginDateTime BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL + 1 MONTH)  AND A.regDateTime <![CDATA[<]]> DATE_ADD(A.beginDateTime, INTERVAL - 1 MONTH) /* 한달전 발송  */
+			UNION
+			SELECT 
+				 A.meetingKey AS meetingKey, A.reqKey AS userKey
+			FROM 
+				MEETING_SCHEDULE A
+			WHERE A.skdType = 'RENTAL' AND A.skdStatus = '2' AND A.delYN = 'N' AND A.beginDateTime BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL + 1 MONTH) AND A.regDateTime <![CDATA[<]]> DATE_ADD(A.beginDateTime, INTERVAL - 1 MONTH)  /* 한달전 발송  */
+		) C
+		WHERE NOT EXISTS (
+		SELECT 1
+		FROM alarm_send D
+		WHERE C.meetingKey = D.meetingKey AND C.userKey = D.userKey AND (D.alarmDiv = 'S' OR D.alarmDiv = 'E' OR D.alarmDiv = 'M' OR D.alarmDiv = 'B') AND D.alarmDtlDiv= 'G1_MONTH')
+	</select>
+<!--  
+	향후 상단 쿼리문 아래 쿼리문으로 수정 필요
+		SELECT *
+			FROM (
+				SELECT meetingKey, userKey
+				FROM meeting_attendee
+				WHERE meetingKey IN 
+				(
+				SELECT 
+					 meetingKey
+				FROM 
+					MEETING_SCHEDULE
+				WHERE skdStatus = '2' AND delYN = 'N' AND beginDateTime BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL + 1 MONTH) AND regDateTime < DATE_ADD(beginDateTime, INTERVAL - 1 MONTH)
+				)
+			) C
+			WHERE NOT EXISTS (
+				SELECT 1
+				FROM alarm_send D
+				WHERE C.meetingKey = D.meetingKey AND C.userKey = D.userKey AND (D.alarmDiv = 'S' OR D.alarmDiv = 'E' OR D.alarmDiv = 'M' OR D.alarmDiv = 'B') AND D.alarmDtlDiv= 'G1_MONTH'
+			)
+-->
+	<select id="getMeetingInfoSendDayList" parameterType="egov.framework.plms.main.bean.mvc.entity.alarm.AlarmSendVO" resultType="egov.framework.plms.main.bean.mvc.entity.alarm.AlarmSendVO">
+	/* AlarmSendMapper getMeetingInfoSendDayList */
+		SELECT meetingKey, userKey
+		FROM (
+			SELECT 
+				A.meetingKey, B.userKey
+			FROM 
+						MEETING_SCHEDULE A
+			LEFT JOIN 
+						MEETING_ATTENDEE B ON A.meetingKey = B.meetingKey
+			WHERE B.meetingKey IS NOT NULL AND A.skdType = 'FORMAL' AND A.skdStatus = '2' AND B.delYN = 'N' AND A.beginDateTime BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL + 1 DAY)  AND A.regDateTime <![CDATA[<]]> DATE_ADD(A.beginDateTime, INTERVAL - 1 DAY) /* 하루전 발송  */
+			UNION
+			SELECT 
+				 A.meetingKey AS meetingKey, A.reqKey AS userKey
+			FROM 
+				MEETING_SCHEDULE A
+			WHERE A.skdType = 'RENTAL' AND A.skdStatus = '2' AND A.delYN = 'N' AND A.beginDateTime BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL + 1 DAY)  AND A.regDateTime <![CDATA[<]]> DATE_ADD(A.beginDateTime, INTERVAL - 1 DAY) /* 하루전 발송  */
+		) C
+		WHERE NOT EXISTS (
+		SELECT 1
+		FROM alarm_send D
+		WHERE C.meetingKey = D.meetingKey AND C.userKey = D.userKey AND (D.alarmDiv = 'S' OR D.alarmDiv = 'E' OR D.alarmDiv = 'M' OR D.alarmDiv = 'B') AND D.alarmDtlDiv= 'G3_DAY')
+	</select>
+	
+<!--  
+	향후 상단 쿼리문 아래 쿼리문 참고하여 수정 필요
+		SELECT *
+			FROM (
+				SELECT meetingKey, userKey
+				FROM meeting_attendee
+				WHERE meetingKey IN 
+				(
+				SELECT 
+					 meetingKey
+				FROM 
+					MEETING_SCHEDULE
+				WHERE skdStatus = '2' AND delYN = 'N' AND beginDateTime BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL + 1 MONTH) AND regDateTime < DATE_ADD(beginDateTime, INTERVAL - 1 MONTH)
+				)
+			) C
+			WHERE NOT EXISTS (
+				SELECT 1
+				FROM alarm_send D
+				WHERE C.meetingKey = D.meetingKey AND C.userKey = D.userKey AND (D.alarmDiv = 'S' OR D.alarmDiv = 'E' OR D.alarmDiv = 'M' OR D.alarmDiv = 'B') AND D.alarmDtlDiv= 'G1_MONTH'
+			)
+-->
+	
+	<select id="getMeetingInfoSendHourList" parameterType="egov.framework.plms.main.bean.mvc.entity.alarm.AlarmSendVO" resultType="egov.framework.plms.main.bean.mvc.entity.alarm.AlarmSendVO">
+	/* AlarmSendMapper getMeetingInfoSendHourList */
+		SELECT meetingKey, userKey
+		FROM (
+			SELECT 
+				 A.meetingKey, B.userKey
+			FROM 
+				MEETING_SCHEDULE A
+			LEFT JOIN 
+				MEETING_ATTENDEE B ON A.meetingKey = B.meetingKey
+			WHERE B.meetingKey IS NOT NULL AND A.skdType = 'FORMAL' AND A.skdStatus = '2' AND B.delYN = 'N' AND A.beginDateTime BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL + 1 HOUR) AND A.regDateTime <![CDATA[<]]> DATE_ADD(A.beginDateTime, INTERVAL - 1 HOUR) /* 한시간전 발송  */
+			UNION
+			SELECT 
+				 A.meetingKey AS meetingKey, A.reqKey AS userKey
+			FROM 
+				MEETING_SCHEDULE A
+			WHERE A.skdType = 'RENTAL' AND A.skdStatus = '2' AND A.delYN = 'N' AND A.beginDateTime BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL + 1 HOUR) AND A.regDateTime <![CDATA[<]]> DATE_ADD(A.beginDateTime, INTERVAL - 1 HOUR)  /* 한시간전 발송  */
+		) C
+		WHERE NOT EXISTS (
+		SELECT 1
+		FROM alarm_send D
+		WHERE C.meetingKey = D.meetingKey AND C.userKey = D.userKey AND (D.alarmDiv = 'S' OR D.alarmDiv = 'E' OR D.alarmDiv = 'M' OR D.alarmDiv = 'B') AND D.alarmDtlDiv= 'G4_HOUR')
+	</select>
+	
+<!--  
+	향후 상단 쿼리문 아래 쿼리문 참고하여 수정 필요
+		SELECT *
+			FROM (
+				SELECT meetingKey, userKey
+				FROM meeting_attendee
+				WHERE meetingKey IN 
+				(
+				SELECT 
+					 meetingKey
+				FROM 
+					MEETING_SCHEDULE
+				WHERE skdStatus = '2' AND delYN = 'N' AND beginDateTime BETWEEN NOW() AND DATE_ADD(NOW(), INTERVAL + 1 MONTH) AND regDateTime < DATE_ADD(beginDateTime, INTERVAL - 1 MONTH)
+				)
+			) C
+			WHERE NOT EXISTS (
+				SELECT 1
+				FROM alarm_send D
+				WHERE C.meetingKey = D.meetingKey AND C.userKey = D.userKey AND (D.alarmDiv = 'S' OR D.alarmDiv = 'E' OR D.alarmDiv = 'M' OR D.alarmDiv = 'B') AND D.alarmDtlDiv= 'G1_MONTH'
+			)
+-->
+	
+<!-- 	22.11.21 엄기훈 추가 -->
+	<update id="putAlarmReadYN" parameterType="egov.framework.plms.main.bean.mvc.entity.alarm.AlarmSendVO">
+		UPDATE alarm_send
+		SET readYn = 'Y'
+		WHERE alarmNo = #{alarmNo}
+		AND userKey = #{userKey}
+		AND alarmDiv = 'B'
+	</update>
+	
+	<update id="putAllAlarmReadYN">
+		UPDATE alarm_send
+		SET readYn = 'Y'
+		WHERE userKey = #{userKey}
+	</update>
+	
+	<select id="getAlarmOne" resultType="egov.framework.plms.main.bean.mvc.entity.alarm.AlarmSendVO">
+	SELECT *
+	FROM alarm_send
+	<where>
+	AND alarmNo = #{alarmNo}
+	</where>
+	</select>
+</mapper>

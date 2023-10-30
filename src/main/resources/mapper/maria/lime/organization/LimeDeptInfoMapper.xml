@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egov.framework.plms.sub.lime.bean.mvc.mapper.organization.LimeDeptInfoMapper">
+	
+	<!-- 부서 등록 -->
+	<insert id="insertDeptInfoOne" parameterType="egov.framework.plms.main.bean.mvc.entity.organization.DeptInfoVO" useGeneratedKeys="true" keyProperty="deptId">
+	/* LimeDeptInfoMapper insertDeptInfoOne */
+		INSERT INTO org_dept_info (
+			officeCode, parentId, parentCode,
+			deptCode, deptName
+		)
+		SELECT 	#{officeCode}, #{parentId}, #{parentCode}, 
+				#{deptCode}, #{deptName}
+		FROM DUAL 
+	</insert>
+	
+	<!-- 부서 정보 수정 -->
+	<update id="updateDeptInfoOne" parameterType="egov.framework.plms.main.bean.mvc.entity.organization.DeptInfoVO">
+	/* LimeDeptInfoMapper updateDeptInfoOne */
+		UPDATE org_dept_info
+		<set>
+			<if test='deptName != null and deptName.trim().length() > 0'>
+				,deptName = #{deptName}
+			</if>
+			<if test='deptCode != null and deptCode.trim().length() > 0'>
+				,deptCode = #{deptCode}
+			</if>
+			<if test='officeCode != null and officeCode.trim().length() > 0'>
+				,officeCode = #{officeCode}
+			</if>
+			<if test='parentId != null and parentId.trim().length() > 0'>
+				,parentId = #{parentId}
+			</if>
+			<if test='parentCode != null and parentCode.trim().length() > 0'>
+				,parentCode = #{parentCode}
+			</if>
+			<if test="delYN != null and (delYN == 'Y' or delYN == 'N')">
+				,delYN = #{delYN}
+			</if>
+		</set>
+		<where>
+			AND deptId = #{deptId}
+		</where>
+	</update>
+	
+	<update id="updateDeptInfoOneToDelete" parameterType="egov.framework.plms.main.bean.mvc.entity.organization.DeptInfoVO">
+	/* LimeDeptInfoMapper updateDeptInfoOneToDelete */
+		UPDATE org_dept_info
+		<set>
+			,delYN = 'Y'
+		</set>
+		<where>
+			AND deptId = #{deptId}
+		</where>
+	</update>
+	
+	<delete id="deleteDeptInfoOne">
+	/* LimeDeptInfoMapper deleteDeptInfoOne */
+	DELETE FROM org_dept_info
+	<where>
+	AND deptId = #{deptId}
+	</where>
+	</delete>
+	
+	<select id="selectDeptInfoOne" resultType="egov.framework.plms.main.bean.mvc.entity.organization.DeptInfoVO">
+	/* LimeDeptInfoMapper selectDeptInfoOne */
+		SELECT *
+		FROM org_dept_info
+		WHERE deptId = #{deptId}
+	</select>
+	
+	<select id="selectDeptInfoList" resultType="egov.framework.plms.main.bean.mvc.entity.organization.DeptInfoVO">
+	/* LimeDeptInfoMapper selectDeptInfoList */
+		SELECT *
+		FROM org_dept_info
+		<where>
+		<include refid="getDeptInfoListCondition"></include>
+		</where>
+	</select>
+	
+	<select id="selectSubDeptInfoList" resultType="egov.framework.plms.main.bean.mvc.entity.organization.DeptInfoVO">
+	/* LimeDeptInfoMapper selectSubDeptInfoList */
+		SELECT *
+		FROM org_dept_info
+		WHERE parentId = #{deptId}
+		AND delYN = 'N'
+	</select>
+	
+	<select id="selectRecursiveSubDeptInfoList" resultType="egov.framework.plms.main.bean.mvc.entity.organization.DeptInfoVO">
+	/* LimeDeptInfoMapper selectRecursiveSubDeptInfoList */
+		WITH RECURSIVE dept_hierarchy AS (
+		    SELECT *
+		    FROM org_dept_info
+		    WHERE parentId = #{deptId}
+		    UNION ALL
+		    SELECT dept.*
+		    FROM org_dept_info dept
+		    JOIN dept_hierarchy dh ON dept.parentId = dh.deptId
+		    WHERE dept.delYN = 'N'
+		)
+		SELECT * FROM dept_hierarchy;
+	</select>
+	
+	<select id="selectAllDeptInfoList" resultType="egov.framework.plms.main.bean.mvc.entity.organization.DeptInfoVO">
+	/* LimeDeptInfoMapper selectAllDeptInfoList */
+		WITH RECURSIVE dept_hierarchy AS (
+		    SELECT *
+		    FROM org_dept_info
+		    WHERE parentId = 0
+		    UNION ALL
+		    SELECT dept.*
+		    FROM org_dept_info dept
+		    JOIN dept_hierarchy dh ON dept.parentId = dh.deptId
+		    WHERE dept.delYN = 'N'
+		)
+		SELECT * FROM dept_hierarchy;
+	</select>
+	
+	<sql id="getDeptInfoListCondition">
+		<if test='deptName != null and deptName.trim().length() > 0'>
+			AND deptName LIKE ('%' || #{deptName} || '%')
+		</if>
+		<if test='deptCode != null and deptCode.trim().length() > 0'>
+			AND deptCode = #{deptCode}
+		</if>
+		<if test='officeCode != null and officeCode.trim().length() > 0'>
+			AND officeCode = #{officeCode}
+		</if>
+		<if test='parentId != null and parentId.trim().length() > 0'>
+			AND parentId = #{parentId}
+		</if>
+		<if test='parentCode != null and parentCode.trim().length() > 0'>
+			AND parentCode = #{parentCode}
+		</if>
+		<if test="delYN != null and (delYN == 'Y' or delYN == 'N')">
+			AND delYN = #{delYN}
+		</if>
+	</sql>
+</mapper>

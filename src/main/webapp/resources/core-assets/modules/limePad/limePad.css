@@ -1,0 +1,183 @@
+@charset "UTF-8";
+.z-10{
+	z-index: 10;
+}
+.z-50{
+	z-index: 50;
+}
+.z-100{
+	z-index: 100;
+}
+.z-500{
+	z-index: 500;
+}
+.z-1000{
+	z-index: 1000;
+}
+.overlay {
+	width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index:50;
+    cursor: default;
+}
+svg{
+	overflow: visible;
+}
+g{
+	touch-action: none;
+}
+rect{
+	touch-action: none;
+}
+div[node-role="section"]{
+	width: 100%;
+	height: 100%;
+	overflow: auto;
+	touch-action: none;
+}
+div[node-role="screen"]{
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin: auto;
+	touch-action: inherit;
+}
+div[node-role="deploy"]{
+	touch-action: inherit;
+}
+
+.cursor.draw {
+	position: fixed;
+	border-width: 2px;
+	border-radius: 50%;
+	border-style: solid;
+	z-index: 999;
+	pointer-events: none;
+}
+
+foreignObject{
+	overflow: visible;
+} 
+
+foreignObject textarea{
+	width: 100%;
+    height: 100%;
+    background: transparent;
+    fill: none;
+    border: none;
+    resize: none;
+    overflow: hidden;
+    cursor: none;
+    pointer-events: none;
+}
+foreignObject[font-size] textarea{
+	font-size: inherit;
+} 
+foreignObject[font-family] textarea{
+	font-family: inherit;
+}
+foreignObject[color] textarea{
+	color: inherit;
+}     
+
+.ctrl-mode g[role="container"]{
+	cursor: pointer;
+}
+
+rect.bBox {
+	fill: #E0FFFF55;
+    stroke: #00bfff;
+    stroke-width: 2;
+}
+circle.bVertex {
+	fill: #ffffff;
+    stroke: #00bfff;
+    /* stroke-width: 2; */
+}
+
+#editTool{
+	position: absolute;
+}
+
+#editTool .editToolHeader{
+	display: flex;
+    align-items: center;
+    font-weight: bold;
+    font-size: 12px;
+    height: 30px;
+    color: #555;
+    background-color: #fff;
+    border: 1px solid #777;
+    position: absolute;
+    top: -34px;
+    border-radius: 3px;
+}
+
+#editTool .editToolHeader i{
+	font-size: 16px;
+	cursor: pointer;
+	margin: 6px;
+	text-shadow: 0 0 2px rgb(153, 153, 153);
+}
+
+#editTool .editToolProperty{
+	position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    z-index: 3;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    cursor: default;
+}
+
+#editTool .editToolProperty > div {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    white-space: nowrap;
+    padding: 16px;
+    counter-reset: chapter 0;
+    border-bottom: 1px solid #ccc;
+}
+
+#editTool .editToolProperty > div .item {
+    font-size: 12px;
+    font-weight: bold;
+    color: #333;
+    margin-right: 20px;
+}
+
+#editTool .editToolProperty .fontSizeDiv .tt {
+    font-weight: 700;
+    font-size: 14px;
+    cursor: pointer;
+    padding: 6px;
+}
+
+#editTool .editToolProperty .cc {
+    margin-right: 8px;
+    width: 20px;
+    height: 20px;
+    border-radius: 3px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #efefef;
+    cursor: pointer;
+}
+
+#editTool .editToolProperty > .closeBtnDiv {
+    width: 100%;
+    height: 4px;
+    font-size: 18px;
+    justify-content: center;
+    color: #000;
+    cursor: pointer;
+}

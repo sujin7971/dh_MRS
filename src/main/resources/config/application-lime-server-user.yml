@@ -1,0 +1,32 @@
+#내장 톰캣 서버 설정
+application:
+  title: B-PLMS PROD LIME-UESR
+server:
+  type: user
+  port: 8443
+  http: 8080
+config:
+  login:
+    #동시접속 제한 인원 설정값
+    maximum-concurrent-user: 100
+    #권한 부여 허용 설정
+    login-permission:
+      #일반 사용자 권한 허용
+      general-user-enabled: true
+      #외부 참석자 권한 허용
+      guest-user-enabled: true
+      #관리자 권한 허용
+      system-admin-enabled: false
+      #최고 관리자 권한 허용
+      master-admin-enabled: false
+      #승인 담당자 권한 허용
+      approval-manager-enabled: false
+  scheduledTasks:
+    fileConversionScheduler: #파일 변환 처리
+      enabled: false
+    fileMaintenanceScheduler: #파일 관리
+      enabled: false
+    meetingApprovalScheduler: #회의 결재 처리
+      enabled: false
+    meetingMonitoringScheduler: #회의 모니터링 처리
+      enabled: true

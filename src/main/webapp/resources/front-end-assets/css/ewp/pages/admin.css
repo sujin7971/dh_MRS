@@ -1,0 +1,48 @@
+@charset "UTF-8";
+@media screen and (max-width:940px) {
+  .subTabDiv {background-color:#ebebeb; border-top-left-radius:3px; border-top-right-radius:3px; display:flex; justify-content:flex-start; align-items:center; padding:6px; height:auto; margin-bottom:10px;flex-wrap: wrap;}
+  .subTabDiv .subTab {flex:1; border-radius:3px;  margin: 5px;}
+}
+.subTabDiv.approvalTabOpen[data-room="MEETING_ROOM"] .subTab.approvalTab[data-room="MEETING_ROOM"] {
+    background-color: #fff;
+    color: #000;
+}
+.subTabDiv.approvalTabOpen[data-room="EDU_ROOM"] .subTab.approvalTab[data-room="EDU_ROOM"] {
+    background-color: #fff;
+    color: #000;
+}
+.subTabDiv.approvalTabOpen[data-room="HALL"] .subTab.approvalTab[data-room="HALL"] {
+    background-color: #fff;
+    color: #000;
+}
+.subTabDiv.archiveTabOpen .subTab.archiveTab {
+    background-color: #fff;
+    color: #000;
+}
+.subTabDiv.noticeTabOpen .subTab.noticeTab {
+    background-color: #fff;
+    color: #000;
+}
+.subTabDiv.roomTabOpen .subTab.roomTab {
+    background-color: #fff;
+    color: #000;
+}
+.subTabDiv.managerTabOpen .subTab.managerTab {
+    background-color: #fff;
+    color: #000;
+}
+.subTabDiv.adminTabOpen .subTab.adminTab {
+    background-color: #fff;
+    color: #000;
+}
+.subTabDiv.sessionTabOpen .subTab.sessionTab {
+    background-color: #fff;
+    color: #000;
+}
+.userListDiv .row .item.loginDate {
+    flex: 1.5;
+}
+.card-img{
+	width: 70px;
+	height: 90px;
+}

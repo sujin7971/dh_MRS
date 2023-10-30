@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="egov.framework.plms.sub.ewp.bean.mvc.mapper.maria.meeting.EwpMeetingApprovalMapper">
+	<insert id="insertApprovalOne" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.meeting.EwpMeetingApprovalVO">
+	/* EwpAssignAppMapper insertApprovalOne */
+	INSERT INTO assign_approval(userKey, skdKey, appStatus, appComment)
+		SELECT #{userKey}, #{skdKey}, #{appStatus}, #{appComment} FROM DUAL
+		WHERE (
+			SELECT COUNT(*)
+			FROM assign_approval
+			<where>
+			AND skdKey = #{skdKey}
+			AND appYN = 'N'
+			</where>
+		) = 0
+	</insert>
+	
+	<update id="updateApprovalOne" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.meeting.EwpMeetingApprovalVO">
+	/* EwpAssignAppMapper updateApprovalOne */
+		UPDATE assign_approval
+		<set>
+		, appDateTime = NOW()
+		, appYN = 'Y'
+		, successYN = IFNULL(#{successYN}, 'N')
+		<if test="appComment neq null">
+		, appComment = #{appComment}
+		</if>
+		</set>
+		WHERE appId = #{appId}
+	</update>
+	
+	<select id="selectApprovalOne" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.meeting.EwpMeetingApprovalVO">
+	/* EwpAssignAppMapper selectApprovalOne */
+	/* NO_SQL_LOG */
+		SELECT
+		appId 		/* 결재 요청키 */
+		,userKey 	/* 결재 담당자키 */
+		,skdKey 	/* 결재 대상 스케줄키 */
+		,appStatus 	/* 결재 */
+		,appComment /* 결재 코멘트 */
+		,appYN		/* 결재 처리 여부 */
+		,successYN		/* 결재 성공 여부 */
+		FROM assign_approval
+		<where>
+		AND appId = #{appId}
+		</where>
+	</select>
+	
+	<select id="selectApprovalListForProcessing" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.meeting.EwpMeetingApprovalVO">
+	/* EwpAssignAppMapper selectApprovalListForProcessing */
+	/* NO_SQL_LOG */
+		SELECT
+		appId 		/* 결재 요청키 */
+		,userKey 	/* 결재 담당자키 */
+		,skdKey 	/* 결재 대상 스케줄키 */
+		,appStatus 	/* 결재 */
+		,appComment /* 결재 코멘트 */
+		,appYN		/* 결재 처리 여부 */
+		,successYN		/* 결재 성공 여부 */
+		FROM assign_approval
+		<where>
+		AND appYN = 'N'
+		</where>
+	</select>
+	
+	<select id="selectApprovalList" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.meeting.EwpMeetingApprovalVO" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.meeting.EwpMeetingApprovalVO">
+	/* EwpAssignAppMapper selectApprovalList */
+	/* NO_SQL_LOG */
+		SELECT
+		appId 		/* 결재 요청키 */
+		,userKey 	/* 결재 담당자키 */
+		,skdKey 	/* 결재 대상 스케줄키 */
+		,appStatus 	/* 결재 */
+		,appComment /* 결재 코멘트 */
+		,appYN		/* 결재 처리 여부 */
+		,successYN		/* 결재 성공 여부 */
+		FROM assign_approval
+		<where>
+			<if test="userKey">
+				AND userKey = #{userKey}
+			</if>
+			<if test="skdKey">
+				AND skdKey = #{skdKey}
+			</if>
+			<if test="appStatus">
+				AND appStatus = #{appStatus}
+			</if>
+			<if test="appYN">
+				AND appYN = #{appYN}
+			</if>
+			<if test="successYN">
+				AND successYN = #{successYN}
+			</if>
+		</where>
+	</select>
+</mapper>

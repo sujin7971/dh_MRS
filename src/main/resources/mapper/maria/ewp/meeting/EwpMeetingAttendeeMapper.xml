@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egov.framework.plms.sub.ewp.bean.mvc.mapper.maria.meeting.EwpMeetingAttendeeMapper">
+	<!-- 회의 참석자 등록 -->
+	<insert id="postMeetingAttendee" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.meeting.EwpMeetingAttendeeVO" useGeneratedKeys="true" keyProperty="attendKey">
+	/* EwpAttendeeMapper postMeetingAttendee */
+		INSERT INTO meeting_attendee (userKey, userName, deptId, meetingKey, attendRole) 
+		SELECT #{userKey}, #{userName}, #{deptId}, #{meetingKey}, #{attendRole} FROM DUAL
+		<where>
+		AND NOT EXISTS (
+			SELECT *
+			FROM meeting_attendee
+			<where>
+			AND meetingKey = #{meetingKey}
+			AND userKey = #{userKey}
+			AND delYN = 'N'
+			</where>
+		)
+		</where>
+	</insert>
+	
+	<!-- 회의 참석자 수정 -->
+	<update id="putMeetingAttendee" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.meeting.EwpMeetingAttendeeVO">
+	/* EwpAttendeeMapper putMeetingAttendee */
+		UPDATE meeting_attendee
+		<set>
+			<if test="attendRole != null"> 	
+			,attendRole = #{attendRole}							</if>
+			<if test="assistantYN != null"> 	
+			,assistantYN = #{assistantYN}							</if>
+			<if test="attendYN != null">	
+			,attendYN = #{attendYN}
+			,attendDateTime = NOW()								</if>
+			<if test="signYN != null">		
+			,signYN = #{signYN} 								</if>
+			<if test="signSrc != null">		
+			,signSrc = #{signSrc}								</if>
+			<if test="exitYN != null">		
+			,exitYN = #{exitYN}
+			,exitDateTime = NOW()								</if>
+		</set>
+		<where>
+			<if test="attendKey != null"> AND attendKey = #{attendKey} 							</if>
+			<if test="meetingKey != null"> AND meetingKey = #{meetingKey} 						</if>
+			<if test="userKey != null"> AND userKey = #{userKey} 								</if>
+		</where>
+	</update>
+	
+	 <!-- 회의 참석자 삭제 -->
+	<delete id="deleteMeetingAttendeeOne">
+	/* EwpAttendeeMapper deleteMeetingAttendeeOne */
+		DELETE 
+		FROM meeting_attendee
+		<where>
+			<if test="attendKey != null"> AND attendKey = #{attendKey} </if>
+		</where>
+	</delete>
+	
+	<!-- 회의 참석자 삭제 -->
+	<delete id="deleteMeetingAttendeeList" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.meeting.EwpMeetingAttendeeVO">
+	/* EwpAttendeeMapper deleteMeetingAttendee */
+		DELETE 
+		FROM meeting_attendee
+		<where>
+			<if test="meetingKey != null"> AND meetingKey = #{meetingKey} </if>
+			<if test="userKey != null"> AND userKey = #{userKey} </if>
+			<if test="attendRole != null">AND attendRole = #{attendRole} </if>
+			<if test="meetingKey == null and userKey == null"> AND 1 = 0</if>
+		</where>
+	</delete>
+	
+	<!-- 참석자 고유키로 참석자 조회 -->
+	<select id="getMeetingAttendeeOne" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.meeting.EwpMeetingAttendeeVO">
+	/* EwpAttendeeMapper getMeetingAttendeeOne */
+		SELECT *
+		FROM meeting_attendee
+		WHERE attendKey = #{attendKey}
+	</select>
+	
+	<!-- 참석자 고유키로 참석자키 조회 -->
+	<select id="getAttendId" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.meeting.EwpMeetingAttendeeVO" resultType="integer">
+	/* EwpAttendeeMapper getAttendId */
+		SELECT attendKey
+		FROM meeting_attendee
+		<where>
+		AND meetingKey = #{meetingKey}
+		AND userKey = #{userKey}
+		</where>
+	</select>
+	
+	<!-- 참석자 목록 조회 -->
+	<select id="getMeetingAttendeeList" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.meeting.EwpMeetingAttendeeVO" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.meeting.EwpMeetingAttendeeVO">
+	/* EwpAttendeeMapper getMeetingAttendeeList */
+		SELECT *
+		FROM meeting_attendee
+		<where>
+			<if test="attendKey != null"> AND attendKey = #{attendKey} </if>
+			<if test="meetingKey != null"> AND meetingKey = #{meetingKey} </if>
+			<if test="userKey != null"> AND userKey = #{userKey} </if>
+			<if test='attendRole != null'>
+			AND attendRole = #{attendRole}
+			</if>
+			<if test='assistantYN != null'>
+			AND assistantYN = #{assistantYN}
+			</if>
+			<if test='attendYN != null'>
+			AND attendYN = #{attendYN}
+			</if>
+			<if test='exitYN != null'>
+			AND exitYN = #{exitYN}
+			</if>
+			<if test='signYN != null'>
+			AND signYN = #{signYN}
+			</if>
+		</where>
+	</select>
+</mapper>

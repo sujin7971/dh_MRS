@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egov.framework.plms.sub.ewp.bean.mvc.mapper.tibero.meeting.AllRoomReqMapper">
+	<!-- 회의실 -->
+	<select id="getMeetingRoomReqCount" parameterType="integer" resultType="integer">
+	/* EwpRoomReqMapper getMeetingRoomReqCount */
+		SELECT COUNT(*)
+		FROM TBL_MEETINGROOM_REQ
+		<where>
+		 	AND SEQ_MEETINGROOM = #{roomKey}
+			AND APP_STATUS IN (2)
+			AND USE_DATE > sysdate
+		</where>
+	</select>
+
+	<!-- 강의실 -->
+	<select id="getEduRoomReqCount" parameterType="integer" resultType="integer">
+	/* EwpRoomReqMapper getEduRoomReqCount */
+		SELECT COUNT(*)
+		FROM TBL_EDUROOM_REQ
+		<where>
+		 	AND SEQ_EDUROOM = #{roomKey}
+			AND APP_STATUS IN (2)
+			AND USE_DATE > sysdate
+		</where>
+	</select>
+	
+	<!-- 강당 -->
+	<select id="getHallReqCount" parameterType="integer" resultType="integer">
+	/* EwpRoomReqMapper getHallReqCount */
+		SELECT COUNT(*)
+		FROM TBL_HALL_REQ
+		<where>
+		 	AND SEQ_HALL = #{roomKey}
+			AND APP_STATUS IN (2)
+			AND USE_DATE > sysdate
+		</where>
+	</select>
+	
+	<select id="getRoomReqListCnt" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.assign.EwpRoomReqVO" resultType="integer">
+	/* EwpRoomReqMapper getRoomReqListSearch */
+	SELECT COUNT(*)
+	FROM
+	(
+		<include refid="getRoomReqOrderedUnionList" />
+	)
+	</select>
+	
+	<select id="getRoomReqListSearch" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.assign.EwpRoomReqVO" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.assign.EwpRoomReqVO">
+	/* EwpRoomReqMapper getRoomReqListSearch */
+	SELECT *
+	FROM
+	(
+		SELECT ROWNUM, ROWNUM AS NUM, REQ_ORDERED.*
+		FROM
+		(
+			<include refid="getRoomReqOrderedUnionList" />
+		) REQ_ORDERED
+		<if test="pageNo">
+		WHERE ROWNUM <![CDATA[ <= ]]> #{pageNo} * NVL(#{pageCnt}, 10)
+		</if>
+	)
+	<!-- 동서발전 티베로는 ROWNUM 을 통한 GT 연산이 동작하지 않음 -->
+	<if test="pageNo">
+	WHERE NUM <![CDATA[ > ]]> (#{pageNo} - 1) * NVL(#{pageCnt}, 10)
+	</if>
+	</select>
+	
+	<sql id="getRoomReqOrderedUnionList">
+	SELECT REQ_UNION.*
+	FROM (
+			SELECT
+			   TMR.SEQ_REQ	        							AS seqReq				/* 시퀀스 번호 */
+			   , 'MEETING_ROOM' 								AS roomType 			/* 회의실 분류 코드 */
+			   , TMR.SEQ_MEETINGROOM 							AS seqRoom				/* 회의실 시퀀스 번호 */
+			   , TM.NAME             							AS name          		/* 회의실 명 */
+			   , TO_CHAR(TMR.USE_DATE, 'YYYY-MM-DD')        	AS useDate       		/* 회의실 사용 날짜 */
+			   , TMR.S_TIME          							AS sTime         		/* 회의실 사용 시작 시간 */
+			   , TMR.E_TIME          							AS eTime         		/* 회의실 사용 종료 시간 */
+			   , TMR.PURPOSE         							AS purpose       		/* 회의실 사용 목적 */
+			   , TMR.HOST            							AS host          		/* 예약자 */
+			   , TMR.APP_STATUS      							AS appStatus     		/* 상태 */
+			   , TMR.REG_DATE        							AS regDate       		/* 등록날짜 */
+			   , TMR.SAUPSO_ID									AS saupsoCd				/* saupsoCd */ 
+			   , TMR.REG_USER									AS regUser				/* regUser */
+			<include refid="getMeetingRoomReqListSearchSql" />
+			
+			UNION ALL
+			
+			SELECT
+			   TMR.SEQ_REQ	        							AS seqReq				/* 시퀀스 번호 */
+			   , 'EDU_ROOM' 									AS roomType 			/* 강의실 분류 코드 */
+			   , TMR.SEQ_EDUROOM 								AS seqRoom				/* 강의실 시퀀스 번호 */
+			   , TM.NAME             							AS name          		/* 강의실 명 */
+			   , TO_CHAR(TMR.USE_DATE, 'YYYY-MM-DD')        	AS useDate       		/* 강의실 사용 날짜 */
+			   , TMR.S_TIME          							AS sTime         		/* 강의실 사용 시작 시간 */
+			   , TMR.E_TIME          							AS eTime         		/* 강의실 사용 종료 시간 */
+			   , TMR.PURPOSE         							AS purpose       		/* 강의실 사용 목적 */
+			   , TMR.HOST            							AS host          		/* 예약자 */
+			   , TMR.APP_STATUS      							AS appStatus     		/* 상태 */
+			   , TMR.REG_DATE        							AS regDate       		/* 등록날짜 */
+			   , TMR.SAUPSO_ID									AS saupsoCd				/* saupsoCd */ 
+			   , TMR.REG_USER									AS regUser				/* regUser */
+			<include refid="getEduRoomReqListSearchSql" />
+			
+			UNION ALL
+			
+			SELECT
+			   TMR.SEQ_REQ	        							AS seqReq				/* 시퀀스 번호 */
+			   , 'HALL' 										AS roomType 			/* 강당 분류 코드 */
+			   , TMR.SEQ_HALL									AS seqRoom				/* 강당 시퀀스 번호 */
+			   , TM.NAME             							AS name          		/* 강당 명 */
+			   , TO_CHAR(TMR.USE_DATE, 'YYYY-MM-DD')        	AS useDate       		/* 강당 사용 날짜 */
+			   , TMR.S_TIME          							AS sTime         		/* 강당 사용 시작 시간 */
+			   , TMR.E_TIME          							AS eTime         		/* 강당 사용 종료 시간 */
+			   , TMR.PURPOSE         							AS purpose       		/* 강당 사용 목적 */
+			   , TMR.HOST            							AS host          		/* 예약자 */
+			   , TMR.APP_STATUS      							AS appStatus     		/* 상태 */
+			   , TMR.REG_DATE        							AS regDate       		/* 등록날짜 */
+			   , TMR.SAUPSO_ID									AS saupsoCd				/* saupsoCd */ 
+			   , TMR.REG_USER									AS regUser				/* regUser */
+			<include refid="getHallReqListSearchSql" />
+		) REQ_UNION	
+	ORDER BY REQ_UNION.REGDATE DESC
+	</sql>
+	
+	<sql id="getMeetingRoomReqListSearchSql">
+		FROM TBL_MEETINGROOM_REQ TMR
+		LEFT JOIN TBL_MEETINGROOM TM ON TM.SEQ_MEETINGROOM = TMR.SEQ_MEETINGROOM AND TM.DEL_YN = 'N'
+		WHERE TMR.DEL_YN = 'N'
+		<if test="endDate neq null and startDate neq null">
+			AND TO_DATE(TMR.USE_DATE, 'YYYY-MM-DD') BETWEEN #{startDate} AND #{endDate}
+		</if>
+		<if test="saupsoCd neq null and saupsoCd neq ''.toString()">
+			AND TMR.SAUPSO_ID = #{saupsoCd}
+		</if>
+		<if test="appStatus neq null ">
+			AND TMR.APP_STATUS = #{appStatus}
+		</if>
+		<if test="host neq null and host neq ''.toString()">
+			AND TMR.HOST LIKE ('%' || #{host} || '%' )
+		</if>
+	</sql>
+	<sql id="getEduRoomReqListSearchSql">
+		FROM TBL_EDUROOM_REQ TMR
+		LEFT JOIN TBL_EDUROOM TM ON TM.SEQ_EDUROOM = TMR.SEQ_EDUROOM AND TM.DEL_YN = 'N'
+		WHERE TMR.DEL_YN = 'N' 
+		<if test="endDate neq null and startDate neq null">
+			AND TO_DATE(TMR.USE_DATE, 'YYYY-MM-DD') BETWEEN #{startDate} AND #{endDate}
+		</if>
+		<if test="saupsoCd neq null and saupsoCd neq ''.toString()">
+			AND TMR.SAUPSO_ID = #{saupsoCd}
+		</if>
+		<if test="appStatus neq null ">
+			AND TMR.APP_STATUS = #{appStatus}
+		</if>
+		<if test="host neq null and host neq ''.toString()">
+			AND TMR.HOST LIKE ('%' || #{host} || '%' )
+		</if>
+	</sql>
+	<sql id="getHallReqListSearchSql">
+		FROM TBL_HALL_REQ TMR
+		LEFT JOIN TBL_HALL TM ON TM.SEQ_HALL = TMR.SEQ_HALL AND TM.DEL_YN = 'N'
+		WHERE TMR.DEL_YN = 'N' 
+		<if test="endDate neq null and startDate neq null">
+			AND TO_DATE(TMR.USE_DATE, 'YYYY-MM-DD') BETWEEN #{startDate} AND #{endDate}
+		</if>
+		<if test="saupsoCd neq null and saupsoCd neq ''.toString()">
+			AND TMR.SAUPSO_ID = #{saupsoCd}
+		</if>
+		<if test="appStatus neq null ">
+			AND TMR.APP_STATUS = #{appStatus}
+		</if>
+		<if test="host neq null and host neq ''.toString()">
+			AND TMR.HOST LIKE ('%' || #{host} || '%' )
+		</if>
+	</sql>
+</mapper>

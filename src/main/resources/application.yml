@@ -1,0 +1,91 @@
+#기본 설정
+application:
+  title: B-PLMS RE
+spring:
+  devtools:
+    add-properties: false
+  profiles:
+    #사내 프로필 
+      #기본: lime
+    #동서 프로필: 구동환경 프로필은 반드시 하나 선택
+      #기본: ewp
+    active: ewp
+  resources:
+    cache: 
+      cachecontrol:
+        s-max-age: 60
+        max-age: 60
+  thymeleaf:
+    cache: true
+    tomcat:
+      connection-properties: zeroDateTimeBehavior=convertToNull
+  messages:
+    basename: messages/message
+    encoding: UTF-8
+  mvc:
+    view:
+      suffix: .jsp
+    static-path-pattern: /**
+    async:
+      request-timeout: 5000
+server:
+  servlet:
+    jsp:
+      init-parameters:
+        development: true
+mybatis:
+  configuration:
+    call-setters-on-nulls: true
+    cache-enabled: false
+  mapper-locations:
+  - /mapper/*
+  type-handlers-package: egov.framework.plms.main
+jasypt:
+  encryptor:
+    bean: jasyptVariableEncryptor
+    password: ${JASYPT_PWD}
+#환경 설정
+config:
+  file:
+    support:
+      hwp: true
+      ppt: true
+      word: true
+      excel: true
+    cvt:
+      #파일 이미지 변환 해상도(300dpi = A4)
+      img-dpi: 300
+      hwp: converter\hwpexe\HwpToPdfConverter.exe
+      ppt: converter\officeTopdf\PptxToPdfConverter.exe
+      word: converter\officeTopdf\DocxToPdfConverter.exe
+      excel: converter\officeTopdf\ExcelToPdfConverter.exe
+      image: converter\ffmpeg.exe
+      webp: 
+        enabled: true
+        quality: 100
+        encoder: converter\cwebp.exe
+        decoder: converter\dwebp.exe
+    conversionServer:
+      enabled: false
+  scheduledTasks:
+    fileConversionScheduler:
+      enabled: false
+      fileConversionCron: 0/10 * * * * ?
+      officeProcessCleanupCron: 0 0/1 * * * ?
+    fileMaintenanceScheduler:
+      enabled: false
+      cron: 0 0 6 * * ?
+    meetingApprovalScheduler: #회의 결재 처리
+      enabled: false
+      cron: 0/1 * * * * ?
+    meetingMonitoringScheduler: #회의 모니터링 처리
+      enabled: false
+      cron: 0/1 * * * * ?
+secure:
+  aes:
+    keystore:
+      name: ENC(+Th6r5wjUx6NNU7wQGpfijPo3LD+F+Rd)
+      pwd: ENC(iSblaWOO+MOX3zVyb+ClUk42XWn9/wG5)
+      alias: ENC(pA6Iy5hjbObh2ArCacJqlQ==)
+      keypwd: ENC(/hH+7/+ydALrRC74HZ9+uJqvSXDmRNnB)
+    iv: ENC(KGjOCZtHeZbDKlx4vwYA0lJNjc8Zbyu49viEm7RSWOg=)

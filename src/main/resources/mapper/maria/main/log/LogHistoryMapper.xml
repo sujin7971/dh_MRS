@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egov.framework.plms.main.bean.mvc.mapper.log.LoginHistoryMapper">
+	
+	<!-- 파일 등록 -->
+	<insert id="insertLoginHistory" parameterType="egov.framework.plms.main.bean.mvc.entity.log.LoginHistoryVO" useGeneratedKeys="true" keyProperty="fileId">
+	/* LogMapper insertLoginHistory */
+		INSERT INTO login_history (
+			userId, ipAddress, serverType, userAgent, loginResult
+		)
+		VALUES (
+			#{userId}, #{ipAddress}, #{serverType}, #{userAgent}, #{loginResult}
+		)
+	</insert>
+	
+	<select id="selectLoginHistoryList" parameterType="egov.framework.plms.main.bean.mvc.entity.log.LoginHistoryVO" resultType="egov.framework.plms.main.bean.mvc.entity.log.LoginHistoryVO">
+	/* LogMapper selectLoginHistoryList */
+		SELECT *
+		FROM login_history
+		<where>
+			<if test='userId != null and userId.trim().length() > 0'>
+				AND userId = #{userId}
+			</if>
+			<if test='ipAddress != null and ipAddress.trim().length() > 0'>
+				AND ipAddress = #{ipAddress}
+			</if>
+			<if test='userAgent != null and userAgent.trim().length() > 0'>
+				AND userAgent = #{userAgent}
+			</if>
+			<if test='loginResult != null'>
+				AND loginResult = #{loginResult}
+			</if>
+		</where>
+	</select>
+</mapper>

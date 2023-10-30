@@ -1,0 +1,85 @@
+#동서발전 배포버전 설정값
+spring:
+  #서버: ewp-server-embeded(내장) | ewp-server-user(사용자) | ewp-server-admin(관리자) | ewp-server-monitor(현황판) | ewp-server-converter(변환)
+  profiles:
+    include: ewp-server-embeded
+  datasource:
+  # 내부 DB
+    plms:
+      username: root
+      jdbc-url: jdbc:log4jdbc:mariadb://localhost:3306/EWP_PLMS?allowMultiQueries=true
+      password: fhEh1q2w3e!
+      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+  # 회의실 관리 DB
+    room:
+      driver-class-name: com.tmax.tibero.jdbc.TbDriver
+      jdbc-url: jdbc:tibero:thin:@10.134.3.96:8629:TAC
+      username: onestop
+      password: onestop2016
+  # 인사 DB
+    hr:
+      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+      jdbc-url: jdbc:log4jdbc:oracle:thin:@10.134.3.86:1521:RAC1
+      username: sap_hr
+      password: saphr2016
+  # SMS DB
+    sms:
+      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+      jdbc-url: jdbc:log4jdbc:sqlserver://10.134.3.111:1433;
+      username: SMS
+      password: sms
+  # 동서 메신저 DB
+    messenger:
+      driver-class-name: net.sf.log4jdbc.sql.jdbcapi.DriverSpy
+      jdbc-url: jdbc:log4jdbc:oracle:thin:@10.134.3.86:1521:RAC1
+      username: newmsg
+      password: Newmsg2019!
+server:
+  port-table:
+    service-server: 8443
+    admin-server: 9443
+    monitor-server: 6443
+    encoding-server: 7443
+config: 
+  alarm:
+      host: https://meeting.ewp.co.kr:8443
+      mail:
+        enabled: false
+      sms:
+        enabled: true
+        callback: 070-5000-8125
+        #default-receiver: 01027686802
+      messenger:
+        enabled: true
+        #default-receiver: ict21002
+  login:
+    sso:
+      #현재 로그인 상태를 검증할 URL
+      validationUrl: http://10.134.4.91:9090/loginCheck.jsp
+      #SSO 로그인이 가능한 페이지 URL
+      pageUrl: http://10.134.4.91:9090
+      client-id: "89ff1dd4b6664c8993374b20020431bc"
+      client-secret: "6igd5avjfb1mtr27jft2awywc"
+      picture-domain: http://10.134.3.32:8055/sraid11/ONE_KEPCO/ewp/PSNL_PHOTO
+    plte:
+      remote-ip: 10.134.20.15
+      picture-domain: http://10.233.1.230:8443/sraid11/ONE_KEPCO/ewp/PSNL_PHOTO
+  drm:
+    enabled: true
+    key-path: D:\B-PLMS\DRM\fsdinit
+    key: "0100000000001025"
+    trans-path: \drm
+  reserve:
+    #회의 개시시간
+    open-time: "08:00"
+    #회의 마감시간
+    close-time: "18:00"
+    #회의 시간간격(분단위)
+    interval-minute: 60
+    #최대 연속 예약 가능 일수
+    consecutive-limit: 5
+    #자동승인 허용여부
+    auto-approval: true
+  file:
+    #파일 업로드 경로
+    upload-path: E:\B-PLMS\uploadFile\

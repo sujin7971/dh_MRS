@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egov.framework.plms.sub.ewp.bean.mvc.mapper.maria.room.EwpRoomPermissionMapper">
+	<!-- 장소 사용 가능 부서 -->
+	<select id="getRoomPermissionList" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.room.EwpRoomPermissionVO" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.room.EwpRoomPermissionVO">
+	/* EwpMariaRoomMapper getRoomPermissionList */
+	/* NO_SQL_LOG */
+		SELECT 
+			*
+		FROM 
+			room_permission
+		<where>
+			1 = 1
+			<if test="officeCode neq null and officeCode neq ''.toString()">
+				AND officeCode = #{officeCode} 
+			</if>
+			<if test="roomType neq null">
+				AND roomType = #{roomType}
+			</if>
+			<if test="roomKey neq null">
+				AND roomKey = #{roomKey}
+			</if>
+		</where>
+	</select>
+	
+	<insert id="postRoomPermissionList" parameterType="list">
+	/* EwpMariaRoomMapper postRoomPermission */
+		INSERT INTO room_permission 
+			(
+				roomCode
+				, officeCode
+				, roomType
+				, roomKey
+				, deptId
+				, deptName
+				, regUser
+				, subDeptList
+			)
+		VALUES 
+			<foreach collection="list" item="item" separator=",">
+			(
+				#{item.roomCode}
+	 			, #{item.officeCode}
+	 			, #{item.roomType}
+	 			, #{item.roomKey}
+	 			, #{item.deptId}
+	 			, #{item.deptName}
+	 			, #{item.regUser}
+	 			, #{item.subDeptList}
+	 		)
+			</foreach>
+	</insert>
+	
+	<delete id="deleteRoomPermissionAll" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.room.EwpRoomPermissionVO">
+	/* EwpMariaRoomMapper deleteRoomPermission */
+		DELETE 
+		FROM 
+			room_permission 
+		WHERE 
+			roomType = #{roomType} 
+			AND roomKey = #{roomKey}
+	</delete>
+	
+</mapper>

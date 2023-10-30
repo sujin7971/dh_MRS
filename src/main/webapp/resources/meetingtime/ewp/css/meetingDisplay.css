@@ -1,0 +1,204 @@
+@charset "utf-8";
+::-webkit-scrollbar {width:10px; height:10px}
+::-webkit-scrollbar-thumb {background-color:#2f3542; border-radius:10px}
+::-webkit-scrollbar-track {border-radius:10px}
+
+@font-face {
+  font-family:'Pretendard';
+  font-weight:900;
+  font-display:swap;
+  src:local('Pretendard Black'), url('font/woff2/Pretendard-Black.woff2') format('woff2'), url('font/woff/Pretendard-Black.woff') format('woff');
+}
+
+@font-face {
+  font-family:'Pretendard';
+  font-weight:800;
+  font-display:swap;
+  src:local('Pretendard ExtraBold'), url('font/woff2/Pretendard-ExtraBold.woff2') format('woff2'), url('font/woff/Pretendard-ExtraBold.woff') format('woff');
+}
+
+@font-face {
+  font-family:'Pretendard';
+  font-weight:700;
+  font-display:swap;
+  src:local('Pretendard Bold'), url('font/woff2/Pretendard-Bold.woff2') format('woff2'), url('font/woff/Pretendard-Bold.woff') format('woff');
+}
+
+@font-face {
+  font-family:'Pretendard';
+  font-weight:600;
+  font-display:swap;
+  src:local('Pretendard SemiBold'), url('font/woff2/Pretendard-SemiBold.woff2') format('woff2'), url('font/woff/Pretendard-SemiBold.woff') format('woff');
+}
+
+@font-face {
+  font-family:'Pretendard';
+  font-weight:500;
+  font-display:swap;
+  src:local('Pretendard Medium'), url('font/woff2/Pretendard-Medium.woff2') format('woff2'), url('font/woff/Pretendard-Medium.woff') format('woff');
+}
+
+@font-face {
+  font-family:'Pretendard';
+  font-weight:400;
+  font-display:swap;
+  src:local('Pretendard Regular'), url('font/woff2/Pretendard-Regular.woff2') format('woff2'), url('font/woff/Pretendard-Regular.woff') format('woff');
+}
+
+@font-face {
+  font-family:'Pretendard';
+  font-weight:300;
+  font-display:swap;
+  src:local('Pretendard Light'), url('font/woff2/Pretendard-Light.woff2') format('woff2'), url('font/woff/Pretendard-Light.woff') format('woff');
+}
+
+@font-face {
+  font-family:'Pretendard';
+  font-weight:200;
+  font-display:swap;
+  src:local('Pretendard ExtraLight'), url('font/woff2/Pretendard-ExtraLight.woff2') format('woff2'), url('font/woff/Pretendard-ExtraLight.woff') format('woff');
+}
+
+@font-face {
+  font-family:'Pretendard';
+  font-weight:100;
+  font-display:swap;
+  src:local('Pretendard Thin'), url('font/woff2/Pretendard-Thin.woff2') format('woff2'), url('font/woff/Pretendard-Thin.woff') format('woff');
+}
+
+.br {border:1px solid red !important}
+.bb {border:1px solid blue !important}
+.bo {border:1px solid orange !important}
+.by {border:1px solid yellow !important}
+.br4 {border:4px solid red !important}
+.bb4 {border:4px solid blue !important}
+.bo4 {border:4px solid orange !important}
+.by4 {border:4px solid yellow !important}
+
+html {width:100%; height:100%}
+html, html a, body {-webkit-font-smoothing:antialiased}
+body {width:100%; height:100%; overflow:hidden; font-size:26px; margin:0; padding:0; font-family:'Pretendard'/* , 'Malgun Gothic', 'dotum', Helvetica, sans-serif */;
+  font-weight:600; line-height:1; background-color:#000}
+* {
+  box-sizing:border-box; /* 오페라(Opera) */
+  -moz-box-sizing:border-box; /* 파이어폭스(Firefox)*/  
+  -webkit-box-sizing:border-box; /* 웹킷(Webkit) & 크롬(Chrome) */  
+  padding:0; margin:0; outline:none} /*ie에서 box-sizing 오류. */
+table {border-collapse:collapse}
+td {padding:0}
+.border-right {border-right:1px solid #333}
+.border-bottom {border-bottom:1px solid #333}
+
+.meetingroom {height:100%; background:#dedede; background:linear-gradient(0deg, rgba(221,221,221,1) 0%, rgba(255,255,255,1) 100%)}
+.meetingroom table.box {width:100%; height:100%; color:#555}
+.meetingroom table.box td {text-align:center}
+.meetingroom table.box .roomTit {height:50%; font-size:9.4vh; line-height:11vh; padding:0 6vw; font-weight:bold; color:#000}
+.meetingroom table.box .roomTit span {display:inline-block; text-align:left; word-break:keep-all; text-shadow:0 4px 4px rgba(0,0,0,0.15)}
+.meetingroom table.box .roomTime {font-weight:bold; height:25%; text-align:center}
+.meetingroom table.box .roomTime table {margin-left:auto; margin-right:auto}
+/* .meetingroom table.box .roomTime table td {padding:0 5%} */
+.meetingroom table.box .roomTime .time {font-size:11vh; font-family:arial; text-shadow:0 9px 4px rgba(0,0,0,0.13); color:#000} 
+.meetingroom table.box .roomTime .status {display:inline-block; font-size:8vh; padding:2vh 5vh; border-radius:200px; box-shadow:0 9px 4px rgba(0,0,0,0.13); margin-right:10vh; color:#efefef}
+.meetingroom table.box .roomUserPart {font-size:7vh; font-weight:bold}
+.meetingroom table.box .roomUserName {font-size:7vh; font-weight:bold}
+
+.meetingroom table.box.useY .db0 {display:none}
+.meetingroom table.box.useY .roomTit {background:#da0000; background:linear-gradient(0deg, rgba(205,64,64,1) 0%, rgba(152,0,0,1) 100%); color:#fff}
+.meetingroom table.box.useY .status {background:linear-gradient(180deg, rgba(205,64,64,1) 0%, rgba(152,0,0,1) 100%)}
+.meetingroom table.box.useY .status:after {content:'사용중'}
+
+
+.meetingroom table.box.useN .db0 {display:none}
+.meetingroom table.box.useN .roomTit {background:rgb(255,169,0);  background:linear-gradient(0deg, rgba(255,197,80,1) 0%, rgba(228,149,0,1) 100%); color:#000}
+.meetingroom table.box.useN .status {background:linear-gradient(180deg, rgba(255,197,80,1) 0%, rgba(228,149,0,1) 100%);}
+.meetingroom table.box.useN .status:after {content:'예 약'}
+.meetingroom table.box.useN .roomUserPart {color:#777 !important}
+.meetingroom table.box.useN .roomUserName {color:#777 !important}
+
+
+.meetingroom table.box.useNull .db1 {display:none}
+.meetingroom table.box.useNull {width:100%; height:100%; background:linear-gradient(0deg, rgba(77,161,210,1) 0%, rgba(171,222,255,1) 100%)}
+.meetingroom table.box.useNull .db0 .logo {height:13vh; width:auto}
+.meetingroom table.box.useNull .roomTit {height:auto !important; font-size:12vh; line-height:15vh; padding:0 6vw; font-weight:bold; 
+  color:#000; text-shadow:0 4px 4px rgba(0,0,0,0.2); word-break:keep-all; margin:7vh 0 13vh 0}
+.meetingroom table.box.useNull .status {display:inline-block; font-size:8vh; padding:2.5vh 8vh; border-radius:200px; background:rgba(0,0,0,0.3); color:#d3e5f3}
+.meetingroom table.box.useNull .status:after {content:'사용일정 없음'}
+
+
+.btnNext {display:none; position:absolute; top:50%; right:0; z-index:2; transform:translate(-40%, -50%)}
+.btnNext::after {content:'\f054'; font-family:'fa'; font-weight:500; font-size:130px; color:rgba(0,0,0,0.4)}
+.useY+.btnNext,
+.useN+.btnNext {display:block !important}
+a {color:rgba(0,0,0,0.4) !important; background-color:transparent !important; border:unset !important; margin:unset !important; padding:unset !important; text-shadow:unset !important; box-shadow:unset !important}
+
+.btnPrev {position:absolute; top:50%; left:0; z-index:2; transform:translate(20%, -50%)}
+.btnPrev::after {content:'\f053'; font-family:'fa'; font-weight:500; font-size:130px; color:rgba(255,255,255,0.5)}
+
+.btnExpand {position:absolute; top:30px; right:30px; background-color:transparent; border:none; opacity:30%}
+.btnContract {position:absolute; top:30px; right:30px; background-color:transparent; border:none; opacity:0%}
+.btnExpand::after   {content:'\f065'; font-family:'fa'; font-weight:700}
+.btnContract::after {content:'\f2d0'; font-family:'fa'; font-weight:500}
+
+
+.roomschedule {background-color:#555; height:100%; overflow:auto}
+.roomschedule .header {color:#fff; font-size:26px; width:100%; height:60px}
+.roomschedule .header td {padding:0 20px}
+.roomschedule .tit {display:flex; height:100%; align-items:center; gap:14px}
+.roomschedule .tit img {height:auto; width:60px}
+.roomschedule .time {text-align:right}
+.roomschedule .time i {margin-right:20px}
+.roomschedule .grid {display:flex; flex-direction:column; padding:20px 110px; gap:16px; height: calc( 100% - 60px); overflow:auto}
+.roomschedule .row {display:flex; flex-direction:row; border-radius:10px; background-color:#fff; gap:30px}
+.roomschedule .row .time {padding:20px 40px; color:#000; background:linear-gradient(180deg, rgba(255,197,80,1) 0%, rgba(228,149,0,1) 100%); font-family:ui-serif; font-size:50px; font-weight:600; display:flex; flex-direction:column; align-items:flex-end; border-radius:10px 0 0 10px}
+.roomschedule .row .time span:last-child {font-size:30px; font-weight:600}
+.roomschedule .row .contBox {padding:20px; display:flex; flex-direction:column; justify-content:center; gap:5px}
+.roomschedule .row .contBox .floor1 {order:1; font-size:20px; line-height:1.4; color:#777}
+.roomschedule .row .contBox .floor2 {order:2; display:flex; flex-direction:row; gap:30px; padding-top:5px}
+
+.roomschedule .row.finish {background-color:#c0c0c0}
+.roomschedule .row.finish .time {background:#9d9d9d; color:#d5d5d5}
+.roomschedule .row.ongoing .time {background:linear-gradient(180deg, rgba(205,64,64,1) 0%, rgba(152,0,0,1) 100%); color:#fff}
+
+
+.roomschedule .row .contBox .floor2 .userPart::before {content:'[예 약]'; font-weight:700; color:#ffa000; margin-right:10px}
+.roomschedule .row.ongoing .contBox .floor2 .userPart::before {content:'[진행중]'; font-weight:700; color:#ee0000; margin-right:10px}
+.roomschedule .row.finish .contBox .floor2 .userPart::before {content:'[종 료]'; font-weight:700; color:#747474; margin-right:10px}
+
+.monitoring {background-color:#555; height:100%; overflow:hidden}
+.monitoring table.header {width:100%; height:100px; font-weight:bold; font-size:1.5vw; color:#f1f1f1}
+.monitoring table.header td {padding:0 30px}
+.monitoring table.header .tit {display:flex; height:100%; align-items:center; gap:20px}
+.monitoring .logomark img {display:block}
+.monitoring .time {text-align:right}
+.monitoring .time i {margin-right:20px}
+.monitoring table.grid {width:100%; height:calc( 100% - 180px ); background-color:#f3f3f3; box-shadow:0 8px 8px rgba(0,0,0,0.7); font-size:1.5vw}
+.monitoring table.grid thead {font-size:1.4vw; text-align:center; height:80px; background-color:#ccc; color:#333}
+.monitoring table.grid thead td {position:relative; overflow:hidden}
+.monitoring table.grid thead span {position:absolute; right:0; top:50%; transform:translatey(-56%); font-weight:normal !important}
+@media screen and (-ms-high-contrast:active), (-ms-high-contrast:none) {
+  .monitoring table.grid thead span {position:absolute; right:0; top:50%; transform:translatey(-9px); font-weight:normal !important}
+}
+.monitoring table.grid tbody tr {border-top:1px solid #ccc}
+.monitoring table.grid tbody tr:nth-child(2n) {background-color:#fff}
+.monitoring table.grid tbody td {text-align:center; word-break:keep-all}
+.monitoring table.grid tbody td span {display:flex; align-items:center; justify-content:center; margin:auto; border-radius:10px; background-color:#333; color:#fff; width:90%; height:70%}
+.monitoring table.grid tbody td:nth-child(2) {color:#0062a4; font-size:2vw; font-weight:700}
+.monitoring table.grid tbody td:nth-child(3) {text-align:left !important; padding-left:40px !important}
+/* .monitoring table.grid td:nth-child(1) {width:480px} */
+/* .monitoring table.grid td:nth-child(2) {width:400px} */
+/* .monitoring table.grid td:nth-child(3) {width:400px} */
+/* .monitoring table.grid td:nth-child(4) {width:350px} */
+/* .monitoring table.grid td:nth-child(5) {width:300px} */
+.monitoring table.grid td:nth-child(1) {width:20%}
+.monitoring table.grid td:nth-child(2) {width:15%}
+.monitoring table.grid td:nth-child(3) {width:40%}
+.monitoring table.grid td:nth-child(4) {width:10%}
+.monitoring table.grid td:nth-child(5) {width:15%}
+.monitoring table.paging {width:100%; height:80px; text-align:center}
+.monitoring table.paging span {display:inline-block; width:16px; height:16px; border-radius:100%; background-color:#999}
+.monitoring table.paging span+span {margin-left:20px}
+.monitoring table.paging span.focusOn {background-color:#fff}
+
+.infoPop {position:absolute; top:0; right:0; bottom:0; left:0; background-color:rgba(0,0,0,0.6); display:flex}
+.infoPop .pop {margin:auto; background-color:#fff; border:1px solid #555; border-radius:10px; box-shadow: 0 10px 10px rgba(0,0,0,0.5); padding:40px; text-align:center}
+.infoPop p {margin-top:30px; line-height:1.6; font-size:1.2vw}

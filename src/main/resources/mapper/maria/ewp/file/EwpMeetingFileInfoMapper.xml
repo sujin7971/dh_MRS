@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egov.framework.plms.sub.ewp.bean.mvc.mapper.maria.file.EwpMeetingFileInfoMapper">
+	
+	<!-- 파일 등록 -->
+	<insert id="postMeetingFile" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.file.MeetingFileInfoVO" useGeneratedKeys="true" keyProperty="fileKey">
+	/* FileMapper postMeetingFile */
+		INSERT INTO meeting_file_info(originalKey, roleType, mimeType, originalName, fileName, fileExt, uuid, size, rootPath, meetingKey, empKey, state)
+		VALUES(#{originalKey}, #{roleType}, #{mimeType}, #{originalName}, #{fileName}, #{fileExt}, #{uuid}, #{size}, #{rootPath}, #{meetingKey}, #{empKey}, #{state})
+	</insert>
+	
+	<!-- 파일 정보 수정 -->
+	<update id="putMeetingFile" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.file.MeetingFileInfoVO">
+	/* FileMapper putFile */
+		UPDATE meeting_file_info
+		<trim prefix="SET" suffixOverrides=",">
+			<if test='size != null and size gt 0'>		size = #{size}, 		</if>
+			<if test='page != null and page gt 0'>		page = #{page}, 		</if>
+			<if test='state != null'>					state = #{state}, 		</if>
+			<if test='delYN != null and delYN !=""'>	delYN = #{delYN}, 		</if>
+		</trim>
+		<where>
+			<if test='fileKey != null and fileKey != 0'>	AND fileKey = #{fileKey} 		</if>
+			<if test='meetingKey != null and meetingKey != 0'>	AND meetingKey = #{meetingKey} 		</if>
+			<if test='empKey != null and empKey != 0'>	AND empKey = #{empKey} 		</if>
+		</where>
+	</update>
+	
+	<!-- 파일 삭제 -->
+	<delete id="deleteMeetingFile" parameterType="integer">
+	/* FileMapper deleteFile */
+		DELETE 
+		FROM meeting_file_info
+		WHERE fileKey = #{fileKey}
+	</delete>
+	
+	<update id="updateFileOneToDelete" parameterType="integer">
+	/* FileInfoMapper updateFileOneToDelete */
+		UPDATE meeting_file_info
+		SET delYN = 'Y'
+		WHERE fileKey = #{fileKey}
+	</update>
+	
+	<update id="updateFileStatusToRemove" parameterType="integer">
+	/* FileInfoMapper updateFileStatusToRemove */
+		UPDATE meeting_file_info
+		SET state = -3
+		WHERE fileKey = #{fileKey}
+	</update>
+	
+	<!-- 파일 번호로 파일 조회 -->
+	<select id="getMeetingFileOne" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.file.MeetingFileInfoVO">
+	/* FileMapper getFileOne */
+		SELECT * FROM meeting_file_info
+		WHERE fileKey = #{fileKey}
+	</select>
+	
+	<!-- 파일 번호로 파일 조회 -->
+	<select id="getMemoFileOne" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.file.MeetingFileInfoVO" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.file.MeetingFileInfoVO">
+	/* FileMapper getFileOne */
+		SELECT * FROM meeting_file_info
+		<where>
+			AND meetingKey = #{meetingKey}
+			AND empKey = #{empKey}
+			AND roleType = "MEMO"
+		</where>
+	</select>
+	
+	<select id="getFileListToDeleteByExpiration" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.file.MeetingFileInfoVO">
+	/* FileMapper getFileListToDeleteByExpiration */
+		SELECT *
+		FROM meeting_file_info
+		<where>
+		AND delYN = 'N'
+		AND state != -2
+		<![CDATA[
+		AND TIMESTAMPDIFF(YEAR, regDateTime, NOW()) >= 2
+		]]>	
+		</where>
+	</select>
+	
+	<select id="getDeletedFileListOnDisk" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.file.MeetingFileInfoVO">
+	/* FileMapper getDeletedFileListOnDisk */
+		SELECT *
+		FROM meeting_file_info
+		<where>
+		AND delYN = 'Y'
+		AND state != -3
+		</where>
+	</select>
+	
+	<sql id="selectSharedFileList">
+		SELECT *
+		FROM meeting_file_info
+		<where>
+		AND delYN='N'
+		AND meetingKey=#{meetingKey}
+		AND roleType IN ("REPORT", "MATERIAL")
+		</where>
+	</sql>
+	
+	<sql id="selectPrivateFileList">
+		SELECT *
+		FROM meeting_file_info
+		<where>
+		AND delYN='N'
+		AND meetingKey = #{meetingKey}
+		AND empKey = #{empKey}
+		AND roleType IN ("MEMO", "COPY")
+		</where>
+	</sql>
+	
+	<!-- 회의 전체 파일 검색 -->
+	<select id="getMeetingFileList" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.file.MeetingFileInfoVO" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.file.MeetingFileInfoVO">
+	/* FileMapper getMeetingFileList */
+		SELECT files.*
+		FROM (
+			<include refid="selectSharedFileList"></include>
+			UNION ALL
+			<include refid="selectPrivateFileList"></include>
+		) files
+		<where>
+		<if test='originalKey != null'> AND files.originalKey=#{originalKey}</if>
+		<if test="originalName neq null">
+			AND files.originalName = LIKE CONCAT('%',#{originalName},'%')
+		</if>
+		<if test='state != null'> AND files.state=#{state}</if>
+		<if test='roleType != null'> AND files.roleType=#{roleType}</if>
+		</where>
+		ORDER BY FIELD(files.roleType, "REPORT", "MATERIAL", "MEMO", "COPY"), files.fileName
+	</select>
+	
+	<!-- 회의 공유 파일 검색 -->
+	<select id="getMeetingSharedFileList" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.file.MeetingFileInfoVO" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.file.MeetingFileInfoVO">
+	/* FileMapper getMeetingSharedFileList */
+		<include refid="selectSharedFileList"></include>
+		ORDER BY FIELD(roleType, "REPORT", "MATERIAL"), fileName
+	</select>
+	
+	<!-- 회의 개인 파일 검색 -->
+	<select id="getMeetingPrivateFileList" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.file.MeetingFileInfoVO" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.file.MeetingFileInfoVO">
+	/* FileMapper getMeetingPrivateFileList */
+		<include refid="selectPrivateFileList"></include>
+		ORDER BY FIELD(roleType, "MEMO", "COPY"), fileName
+	</select>
+</mapper>

@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="egov.framework.plms.main.bean.mvc.mapper.meeting.MeetingApprovalMapper">
+	<insert id="insertApprovalOne" parameterType="egov.framework.plms.main.bean.mvc.entity.meeting.MeetingApprovalVO">
+	/* MeetingApprovalMapper insertApprovalOne */
+	INSERT INTO meeting_approval(requesterId, scheduleId, approvalStatus, approvalComment)
+		SELECT #{requesterId}, #{scheduleId}, #{approvalStatus}, #{approvalComment} FROM DUAL
+		WHERE (
+			SELECT COUNT(*)
+			FROM meeting_approval
+			<where>
+			AND scheduleId = #{scheduleId}
+			AND approvedYN IS NULL
+			</where>
+		) = 0
+	</insert>
+	
+	<update id="updateApprovalOne" parameterType="egov.framework.plms.main.bean.mvc.entity.meeting.MeetingApprovalVO">
+	/* MeetingApprovalMapper updateApprovalOne */
+		UPDATE meeting_approval
+		<set>
+		, processDateTime = NOW()
+		<if test="decisionMakerId neq null">
+		, decisionMakerId = #{decisionMakerId}
+		</if>
+		, approvedYN = IFNULL(#{approvedYN}, 'N')
+		<if test="approvalComment neq null">
+		, approvalComment = #{approvalComment}
+		</if>
+		</set>
+		WHERE approvalId = #{approvalId}
+	</update>
+	
+	<select id="selectApprovalOne" resultType="egov.framework.plms.main.bean.mvc.entity.meeting.MeetingApprovalVO">
+	/* MeetingApprovalMapper selectApprovalOne */
+	/* NO_SQL_LOG */
+		SELECT
+		approvalId 			/* 결재 요청키 */
+		,requesterId 		/* 결재 요청자키 */
+		,decisionMakerId 	/* 결재 담당자키 */
+		,scheduleId 		/* 결재 대상 스케줄키 */
+		,approvalStatus 	/* 결재 */
+		,approvalComment 	/* 결재 코멘트 */
+		,approvedYN			/* 결재 여부 */
+		FROM meeting_approval
+		WHERE approvalId = #{approvalId}
+	</select>
+	
+	<select id="selectApprovalListForProcessing" resultType="egov.framework.plms.main.bean.mvc.entity.meeting.MeetingApprovalVO">
+	/* MeetingApprovalMapper selectApprovalListForProcessing */
+	/* NO_SQL_LOG */
+		SELECT
+		approvalId 			/* 결재 요청키 */
+		,requesterId 		/* 결재 요청자키 */
+		,decisionMakerId 	/* 결재 담당자키 */
+		,scheduleId 		/* 결재 대상 스케줄키 */
+		,approvalStatus 	/* 결재 */
+		,approvalComment 	/* 결재 코멘트 */
+		,approvedYN			/* 결재 여부 */
+		FROM meeting_approval
+		WHERE approvedYN IS NULL
+	</select>
+	
+	<select id="selectApprovalList" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.meeting.EwpMeetingApprovalVO" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.meeting.EwpMeetingApprovalVO">
+	/* MeetingApprovalMapper selectApprovalList */
+	/* NO_SQL_LOG */
+		SELECT
+		approvalId 			/* 결재 요청키 */
+		,requesterId 		/* 결재 요청자키 */
+		,decisionMakerId 	/* 결재 담당자키 */
+		,scheduleId 		/* 결재 대상 스케줄키 */
+		,approvalStatus 	/* 결재 */
+		,approvalComment 	/* 결재 코멘트 */
+		,approvedYN			/* 결재 여부 */
+		FROM meeting_approval
+		<where>
+			<if test="requesterId">
+				AND requesterId = #{requesterId}
+			</if>
+			<if test="requesterId">
+				AND requesterId = #{requesterId}
+			</if>
+			<if test="decisionMakerId">
+				AND decisionMakerId = #{decisionMakerId}
+			</if>
+			<if test="scheduleId">
+				AND scheduleId = #{scheduleId}
+			</if>
+			<if test="approvalStatus">
+				AND approvalStatus = #{approvalStatus}
+			</if>
+			<if test="approvedYN">
+				AND approvedYN = #{approvedYN}
+			</if>
+		</where>
+	</select>
+</mapper>

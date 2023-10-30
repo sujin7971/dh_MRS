@@ -1,0 +1,126 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egov.framework.plms.sub.lime.bean.mvc.mapper.organization.LimeUserInfoMapper">
+	
+	<!-- 사원 등록 -->
+	<insert id="insertUserInfoOne" parameterType="egov.framework.plms.main.bean.mvc.entity.organization.UserInfoVO" useGeneratedKeys="true" keyProperty="userId">
+	/* LimeUserInfoMapper insertUserInfoOne */
+		INSERT INTO org_user_info (
+			userId, userName, deptId,
+			titleName, positionName, rankName,
+			personalCellPhone, officeDeskPhone, email, delYN
+		)
+		VALUES (
+			#{userId}, #{userName}, #{deptId},
+			#{titleName}, #{positionName}, #{rankName},
+			#{personalCellPhone}, #{officeDeskPhone}, #{email}, IFNULL(#{delYN}, 'N')
+		)
+	</insert>
+	
+	<!-- 사원 정보 수정 -->
+	<update id="updateUserInfoOne" parameterType="egov.framework.plms.main.bean.mvc.entity.organization.UserInfoVO">
+	/* LimeUserInfoMapper updateUserInfoOne */
+		UPDATE org_user_info
+		<set>
+			<if test='userName != null and userName.trim().length() > 0'>
+				,userName = #{userName}
+			</if>
+			<if test='deptId != null and deptId.trim().length() > 0'>
+				,deptId = #{deptId}
+			</if>
+			<if test='titleName != null and titleName.trim().length() > 0'>
+				,titleName = #{titleName}
+			</if>
+			<if test='positionName != null and positionName.trim().length() > 0'>
+				,positionName = #{positionName}
+			</if>
+			<if test='rankName != null and rankName.trim().length() > 0'>
+				,rankName = #{rankName}
+			</if>
+			<if test='personalCellPhone != null and personalCellPhone.trim().length() > 0'>
+				,personalCellPhone = #{personalCellPhone}
+			</if>
+			<if test='officeDeskPhone != null and officeDeskPhone.trim().length() > 0'>
+				,officeDeskPhone = #{officeDeskPhone}
+			</if>
+			<if test='email != null and email.trim().length() > 0'>
+				,email = #{email}
+			</if>
+			<if test="delYN != null">
+				,delYN = #{delYN}
+			</if>
+		</set>
+		<where>
+			AND userId = #{userId}
+		</where>
+	</update>
+	
+	<delete id="updateUserInfoOneToDelete">
+	/* LimeUserInfoMapper updateUserInfoOneToDelete */
+		UPDATE org_user_info
+		SET delYN = 'Y'
+		WHERE userId = #{userId}
+	</delete>
+	
+	<delete id="deleteUserInfoOne">
+	/* LimeUserInfoMapper deleteUserInfoOne */
+		DELETE FROM org_user_info
+		WHERE userId = #{userId}
+	</delete>
+	
+	<select id="selectUserInfoOne" resultType="egov.framework.plms.main.bean.mvc.entity.organization.UserInfoVO">
+	/* LimeUserInfoMapper selectUserInfoOne */
+		SELECT *
+		FROM org_user_info
+		WHERE userId = #{userId}
+	</select>
+	
+	<select id="selectUserInfoList" resultType="egov.framework.plms.main.bean.mvc.entity.organization.UserInfoVO">
+	/* LimeUserInfoMapper selectUserInfoList */
+		SELECT *
+		FROM org_user_info ui
+		<where>
+		<include refid="selectUserInfoListCondition"></include>
+		</where>
+	</select>
+	
+	<sql id="selectJoinedUserInfo">
+		ui.*, di.officeCode, di.deptName
+	</sql>
+	
+	<sql id="joinDeptInfo">
+		org_user_info ui
+		JOIN org_dept_info di
+		ON ui.deptId = di.deptId
+	</sql>
+	
+	<sql id="selectUserInfoListCondition">
+		<if test='userName != null and userName.trim().length() > 0'>
+			AND ui.userName LIKE CONCAT('%',#{userName},'%')
+		</if>
+		<if test='deptId != null and deptId.trim().length() > 0'>
+			AND ui.deptId = #{deptId}
+		</if>
+		<if test='titleName != null and titleName.trim().length() > 0'>
+			AND ui.titleName = #{titleName}
+		</if>
+		<if test='positionName != null and positionName.trim().length() > 0'>
+			AND ui.positionName = #{positionName}
+		</if>
+		<if test='rankName != null and rankName.trim().length() > 0'>
+			AND ui.rankName = #{rankName}
+		</if>
+		<if test='personalCellPhone != null and personalCellPhone.trim().length() > 0'>
+			AND ui.personalCellPhone = #{personalCellPhone}
+		</if>
+		<if test='officeDeskPhone != null and officeDeskPhone.trim().length() > 0'>
+			AND ui.officeDeskPhone = #{officeDeskPhone}
+		</if>
+		<if test='email != null and email.trim().length() > 0'>
+			AND ui.email = #{email}
+		</if>
+		<if test="delYN != null and (delYN == 'Y' or delYN == 'N')">
+			AND ui.delYN = #{delYN}
+		</if>
+	</sql>
+</mapper>

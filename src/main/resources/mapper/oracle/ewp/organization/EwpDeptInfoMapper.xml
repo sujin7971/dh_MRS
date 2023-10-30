@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="egov.framework.plms.sub.ewp.bean.mvc.mapper.oracle.organization.EwpDeptInfoMapper">
+	<select id="selectSubDeptInfoList" parameterType="string" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.organization.EwpDeptInfoVO">
+		/** EwpDeptInfoMapper selectSubDeptInfoList */
+		SELECT <include refid="deptSelect"></include>
+		FROM VIEW_ORG_CD ocd
+		JOIN VIEW_ORG_ID oid
+		ON ocd.ORG_CD = oid.ORG_CD
+		WHERE ocd.DIRECT_ORG_ID = #{deptId}
+	</select>
+	<select id="selectRecursiveSubDeptInfoList" parameterType="string" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.organization.EwpDeptInfoVO">
+		/** EwpDeptInfoMapper selectRecursiveSubDeptInfoList */
+		SELECT <include refid="deptSelect"></include>
+		FROM VIEW_ORG_CD ocd
+		JOIN VIEW_ORG_ID oid
+		ON ocd.ORG_CD = oid.ORG_CD
+		START WITH ocd.ORG_ID = #{deptId}
+		CONNECT BY PRIOR ocd.ORG_ID = ocd.DIRECT_ORG_ID
+	</select>
+	<!-- 부서는 VIEW_ORG_CD에 부서코드가 등록된 부서만 현재 사용되는 부서. VIEW_ORG_ID에 해당 ID가 등록되어있떠라도 ORG_CD가 VIEW_ORG_CD에 등록되어있지 않다면 사용하지 않는 부서임. -->
+	<select id="selectDeptInfoOne" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.organization.EwpDeptInfoVO">
+		/* *EwpDeptInfoMapper selectDeptInfoOne */
+		SELECT <include refid="deptSelect"></include>
+		FROM VIEW_ORG_CD ocd
+		JOIN VIEW_ORG_ID oid
+		ON ocd.ORG_CD = oid.ORG_CD
+		WHERE ocd.ORG_ID = #{deptId}
+	</select>
+	<select id="selectDeptInfoList" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.organization.EwpDeptInfoVO" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.organization.EwpDeptInfoVO">
+		/** EwpDeptInfoMapper selectDeptInfoList */
+		SELECT <include refid="deptSelect"></include>
+		FROM VIEW_ORG_CD ocd
+		JOIN VIEW_ORG_ID oid
+		ON ocd.ORG_CD = oid.ORG_CD
+		<where>
+			<if test="deptCode != null">
+				ocd.ORG_CD = #{deptCode}
+			</if>
+			<if test="officeCode != null">
+				oid.SAUPSO_ID = #{officeCode}
+			</if>
+			<if test="parentId != null">
+				ocd.DIRECT_ORG_ID = #{parentId}
+			</if>
+		</where>
+	</select>
+	<sql id="deptSelect">
+	ocd.ORG_CD deptCode, ocd.ORG_ID deptId, ocd.ORG_NM deptName, ocd.DIRECT_ORG_ID parentId, oid.SAUPSO_ID officeCode
+	</sql>
+</mapper>

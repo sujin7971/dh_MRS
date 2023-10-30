@@ -1,0 +1,38 @@
+#관리자 톰캣 서버 설정
+application:
+  title: B-PLMS RE EWP-ADMIN
+server:
+  type: admin
+  port: 9443
+  http: 9090
+config:
+  login:
+    sso:
+      enabled: true
+    plte:
+      enabled: false
+    #동시접속 제한 인원 설정값
+    maximum-concurrent-user: 100
+    #권한 부여 허용 설정
+    login-permission:
+      #일반 사용자 권한 허용
+      general-user-enabled: false
+      #관리자 권한 허용
+      system-admin-enabled: true
+      #최고 관리자 권한 허용
+      master-admin-enabled: true
+      #승인 담당자 권한 허용
+      approval-manager-enabled: true
+  scheduledTasks:
+    fileConversionScheduler: #파일 변환 처리
+      enabled: false
+    fileMaintenanceScheduler: #파일 관리
+      enabled: true
+    meetingApprovalScheduler: #회의 결재 처리
+      enabled: true
+    syncResourceScheduler: #동서 경영지원서비스와 동기화
+      enabled: true
+    meetingMonitoringScheduler: #회의 모니터링 처리
+      enabled: false
+    alarmSendScheduler: #메신저 및 SMS 전송처리
+      enabled: true

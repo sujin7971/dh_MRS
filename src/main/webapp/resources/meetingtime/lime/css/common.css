@@ -1,0 +1,732 @@
+@charset "utf-8";
+
+::-webkit-scrollbar {width: 10px; height:10px}
+::-webkit-scrollbar-thumb {background-color: #2f3542; border-radius: 10px}
+::-webkit-scrollbar-track {border-radius: 10px}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 900;
+  font-display: swap;
+  src: local('Pretendard Black'), url('/resources/meetingtime/lime/font/woff2/Pretendard-Black.woff2') format('woff2'), url('/resources/meetingtime/lime/font/woff/Pretendard-Black.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 800;
+  font-display: swap;
+  src: local('Pretendard ExtraBold'), url('/resources/meetingtime/lime/font/woff2/Pretendard-ExtraBold.woff2') format('woff2'), url('/resources/meetingtime/lime/font/woff/Pretendard-ExtraBold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 700;
+  font-display: swap;
+  src: local('Pretendard Bold'), url('/resources/meetingtime/lime/font/woff2/Pretendard-Bold.woff2') format('woff2'), url('/resources/meetingtime/lime/font/woff/Pretendard-Bold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 600;
+  font-display: swap;
+  src: local('Pretendard SemiBold'), url('/resources/meetingtime/lime/font/woff2/Pretendard-SemiBold.woff2') format('woff2'), url('/resources/meetingtime/lime/font/woff/Pretendard-SemiBold.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 500;
+  font-display: swap;
+  src: local('Pretendard Medium'), url('/resources/meetingtime/lime/font/woff2/Pretendard-Medium.woff2') format('woff2'), url('/resources/meetingtime/lime/font/woff/Pretendard-Medium.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 400;
+  font-display: swap;
+  src: local('Pretendard Regular'), url('/resources/meetingtime/lime/font/woff2/Pretendard-Regular.woff2') format('woff2'), url('/resources/meetingtime/lime/font/woff/Pretendard-Regular.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 300;
+  font-display: swap;
+  src: local('Pretendard Light'), url('/resources/meetingtime/lime/font/woff2/Pretendard-Light.woff2') format('woff2'), url('/resources/meetingtime/lime/font/woff/Pretendard-Light.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 200;
+  font-display: swap;
+  src: local('Pretendard ExtraLight'), url('/resources/meetingtime/lime/font/woff2/Pretendard-ExtraLight.woff2') format('woff2'), url('/resources/meetingtime/lime/font/woff/Pretendard-ExtraLight.woff') format('woff');
+}
+
+@font-face {
+  font-family: 'Pretendard';
+  font-weight: 100;
+  font-display: swap;
+  src: local('Pretendard Thin'), url('/resources/meetingtime/lime/font/woff2/Pretendard-Thin.woff2') format('woff2'), url('/resources/meetingtime/lime/font/woff/Pretendard-Thin.woff') format('woff');
+}
+
+@media screen and (max-width:940px) {
+  * {-ms-overflow-style: none;  /* IE and Edge */  scrollbar-width: none;  /* Firefox */}
+  *::-webkit-scrollbar {display: none; /* Chrome, Safari, Opera*/}
+}
+html {width:100%; height:100%}
+* {  -webkit-font-smoothing: antialiased}
+body {width:100%; height:100%; font-size: 14px; font-family:'Pretendard', 'malgun-gothic', sans-serif;
+  background: #eee;  background: linear-gradient(329deg, #dcdcdc -100%, #f8f8f8 100%); font-weight:500}
+/* @media screen and (min-width:940px) {
+  html {min-width:1280px}
+} */
+
+* {
+  box-sizing: border-box; /* 오페라(Opera) */
+  -moz-box-sizing: border-box; /* 파이어폭스(Firefox)*/
+  -webkit-box-sizing: border-box; /* 웹킷(Webkit) & 크롬(Chrome) */
+  padding:0; margin:0; line-height:1; outline: none;
+
+  /* -moz-transition: all .2s ease !important;
+  -webkit-transition: all .2s ease !important;
+  -o-transition: all .2s ease !important;
+  -ms-transition: all .2s ease !important;
+  transition: all .2s ease !important; */
+}
+*:after, *:before {
+  box-sizing: border-box; /* 오페라(Opera) */
+  -moz-box-sizing: border-box; /* 파이어폭스(Firefox)*/
+  -webkit-box-sizing: border-box; /* 웹킷(Webkit) & 크롬(Chrome) */
+  padding:0; margin:0; line-height:1; outline: none
+}
+/* trannsition 제외 항목 */
+.docuSection #pip,
+.colorDiv
+{transition:none !important}
+
+
+/* 모바일에서 hover 제거 */
+@media (hover: hover) {}
+
+
+table {border-collapse:collapse;}
+.br {border:1px solid red !important}
+.bb {border:1px solid blue !important}
+.bo {border:1px solid orange !important}
+.by {border:1px solid yellow !important}
+.br4 {border:4px solid red !important}
+.bb4 {border:4px solid blue !important}
+.bo4 {border:4px solid orange !important}
+.by4 {border:4px solid yellow !important}
+.colorRed {color:#c52424 !important}
+.colorBlack {color:black !important}
+.colorGreen {color:#85c341 !important}
+.colorBlue {color:#005bad !important}
+.box-sizing-content {box-sizing:content-box !important}
+.font-weight-bold {font-weight:bold}
+.small-text {font-size:0.5em}
+
+ul {list-style: none; margin:0; padding:0}
+label {letter-spacing:-1px}
+.infoIc {color:#e3980c; font-size:15px; cursor:pointer; background-color:#fff !important; border-radius:100%; margin-top:1px}
+.infoDivBg {background-color:#fcea9f; font-size:13px; padding:10px 0 10px 10px; overflow:hidden; position:relative; flex-direction:column !important; align-items:flex-start !important;
+  line-height:160%; position:relative}
+.infoDivBg::before {content:'\f059'; font-family:'fa'; font-weight:900; font-size:30px; margin-right: 4px; position: absolute; right:0; top: 10px; color:rgba(245,122,0,0.2)}
+.infoDivBg ul {width:100%; list-style-position: inside; list-style: disc !important;  padding:4px 10px 0px 22px; margin:0}
+.infoDivBg li {padding: 2px 0; line-height: 1.6}
+
+.alertDivBg {background-color:#ffcaca; font-size:13px; padding:10px 0 10px 10px; position:relative}
+.infoDiv {font-size:13px; padding:8px 8px 8px 23px; position:relative}
+.infoDiv::before {content:'\f05a'; font-family:'fa'; font-size:16px; color:#ec9614; position:absolute; top:6px; left:2px}
+.alertDiv {font-size:13px; padding:8px 8px 8px 23px; position:relative; color:#da291c}
+.alertDiv::before {content:'\f071'; font-family:'fa'; font-size:15px; color:#da291c; position:absolute; top:6px; left:2px}
+.ellipsis {white-space:nowrap !important; overflow:hidden !important; text-overflow:ellipsis !important}
+.display-flex {display:flex !important; display:-ms-flexbox}
+.display-inline-flex {display:inline-flex !important; display:-ms-inline-flexbox}
+.display-block {display:block !important}
+.display-inline-block {display:inline-block !important}
+.display-none {display:none !important}
+
+.visibility-hidden {visibility:hidden !important}
+.visibility-shsow {visibility:show !important}
+
+.z-index1 {z-index:1}
+.z-index2 {z-index:2}
+.z-index3 {z-index:3}
+
+.max-width-unset {max-width:unset !important}
+.height100p {height:100% !important}
+.height40 {height:40px !important}
+.width100p {width:100% !important}
+.width75p {width:75% !important}
+.width50p {width:50% !important}
+.width33p {width:33.33% !important}
+.width25p {width:25% !important}
+.width20p {width:20% !important}
+.width20 {width:20px !important}
+.width25 {width:25px !important}
+.width30 {width:30px !important}
+.width35 {width:35px !important}
+.width40 {width:40px !important}
+.width45 {width:45px !important}
+.width50 {width:50px !important}
+.width55 {width:55px !important}
+.width60 {width:60px !important}
+.width65 {width:65px !important}
+.width70 {width:70px !important}
+.width75 {width:75px !important}
+.width80 {width:80px !important}
+.width85 {width:85px !important}
+.width90 {width:90px !important}
+.width100 {width:100px !important}
+.width110 {width:110px !important}
+.width120 {width:120px !important}
+.width130 {width:130px !important}
+.width140 {width:140px !important}
+.width150 {width:150px !important}
+.width160 {width:160px !important}
+.width170 {width:170px !important}
+.width180 {width:180px !important}
+.width190 {width:190px !important}
+.width200 {width:200px !important}
+.width250 {width:250px !important}
+.width300 {width:300px !important}
+.flex1 {flex:1 !important}
+.flex15 {flex:1.5 !important}
+.flex2 {flex:2 !important}
+.flex25 {flex:2.5 !important}
+.flex3 {flex:3 !important}
+.flex35 {flex:3.5 !important}
+.flex4 {flex:4 !important}
+.flex45 {flex:4.5 !important}
+.flex5 {flex:5 !important}
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  .flex1 {flex:1 1 auto !important}
+  .flex15 {flex:1.5 1.5 auto !important}
+  .flex2 {flex:2 2 auto !important}
+  .flex25 {flex:2.5 2.5 auto !important}
+  .flex3 {flex:3 3 auto !important}
+  .flex35 {flex:3.5 3.5 auto !important}
+  .flex4 {flex:4 4 auto !important}
+  .flex45 {flex:4.5 4.5 auto !important}
+  .flex5 {flex:5 5 auto !important}
+ }
+.flex-direction-column {flex-direction:column !important}
+.flex-direction-row {flex-direction:row !important}
+.flex-flow-row {flex-flow:row wrap !important}
+.flex-flow-column {flex-flow:column wrap !important}
+.overflow-hidden {overflow:hidden !important}
+.overflow-auto {overflow:auto !important}
+.overflow-auto-y {overflow-y:auto !important; overflow-x:hidden}
+.overflow-scroll {overflow-x:hidden !important; overflow-y:scroll !important}
+.justify-content-center {justify-content:center !important; -ms-flex-pack: center}
+.justify-content-start {justify-content:flex-start !important; -ms-flex-pack: start}
+.justify-content-end {justify-content:flex-end !important; -ms-flex-pack: end}
+.justify-content-space-between {justify-content:space-between !important; -ms-flex-pack: justify;}
+.justify-content-space-around {justify-content:space-around !important}
+.align-items-center {align-items:center !important}
+.align-items-start {align-items:flex-start !important}
+.align-items-end {align-items:flex-end !important}
+.padding-0 {padding:0 !important}
+.padding-6 {padding:6px !important}
+.padding-10 {padding:10px !important}
+.padding-16 {padding:16px !important}
+
+
+
+.padding-bottom-40 {padding-bottom:40px !important}
+.margin-left-auto {margin-left:auto !important}
+.margin-right-auto {margin-right:auto !important}
+
+.margin-left-4 {margin-left:4px !important}
+.margin-left-8 {margin-left:8px !important}
+.margin-left-16 {margin-left:16px !important}
+.margin-left-20 {margin-left:20px !important}
+.margin-left-40 {margin-left:40px !important}
+
+.margin-right-6 {margin-right:6px !important}
+.margin-right-8 {margin-right:8px !important}
+.margin-right-16 {margin-right:16px !important}
+.margin-right-20 {margin-right:20px !important}
+.margin-right-40 {margin-right:40px !important}
+
+.margin-top-4 {margin-top:4px !important}
+.margin-top-8 {margin-top:8px !important}
+.margin-top-16 {margin-top:16px !important}
+.margin-top-20 {margin-top:20px !important}
+.margin-top-30 {margin-top:30px !important}
+.margin-top-40 {margin-top:40px !important}
+
+.margin-bottom-8 {margin-bottom:8px !important}
+.margin-bottom-10 {margin-bottom:10px !important}
+.margin-bottom-16 {margin-bottom:16px !important}
+
+.margin-v-4 {margin-top:4px; margin-bottom:4px !important}
+.margin-v-auto {margin:auto 0 !important}
+.margin-h-auto {margin:0 auto !important}
+.margin-0 {margin:0 !important}
+.text-align-right {text-align:right !important}
+.text-align-center {text-align:center !important}
+.text-align-left {text-align:left !important}
+.float-left {float:left}
+.float-right {float:right}
+.position-relative {position:relative; left:0; top:0}
+.position-fixed {position:fixed}
+
+/*************************** Form ********************************/
+input[type='radio'] {width:20px; height:20px; outline:none; vertical-align: text-bottom; flex:0 0 20px}
+input[type='checkbox'] {width:20px; height:20px; outline:none; vertical-align: text-bottom; flex:0 0 20px}
+input[type='text'],
+input[type='number'], 
+input[type='password'],
+select {border:1px solid #aaa; background-color:#fff; border-radius:3px; outline:none; font-family: 'Pretendard', 'malgun-gothic', sans-serif;}
+input[type='text'] {padding-left:4px}
+input[readonly], input[disabled] {background-color:#f1f1f1; color:555}
+input::placeholder {letter-spacing:-1px; font-size:13px !important; color:#aaa}
+:-ms-input-placeholder {letter-spacing:-1px; font-size:13px !important; color:#aaa; font-weight: 100 !important}
+/* :-ms-input-placeholder {color: #999 !important; font-weight: 100 !important} */
+
+.selectDiv {position:relative; height:100%; flex:1; border-right:1px solid #ccc}
+.selectDiv label {position:absolute; width:100%; height:100%; top:0; left:0; padding-left:6px; display:flex; align-items:center}
+.selectDiv label::after {content:'\f107'; font-family:'fa'; font-weight:500; width:40px; height:100%; position:absolute; top:0; right:0; font-size:14px; color:#000; display:flex; align-items:center; justify-content:center;}
+.selectDiv select {width:100%; height:100%; opacity:0; font-size:14px; filter:alpha(opacity=0); -ms-filter:alpha(opacity=0)/* IE 8 */}
+
+.border-unset {border:unset !important}
+
+.radioDiv  {display:flex; align-items:center; flex-flow:row wrap;  padding:4px 0; min-height:40px}
+.radioDiv label {display:flex; align-items:center;  white-space:nowrap; margin-right:16px; padding:6px 0}
+.radioDiv label:last-child {margin-right:0}
+.radioDiv input[type="radio"] {display:none !important}
+.radioDiv label span {width:100%; height:100%; position:relative; display:flex; align-items:center;cursor:pointer; transition: all 0.3s ease}
+.radioDiv label span .dot {height: 20px; width: 20px; background:#fff; border-radius:50%; border:1px solid #2667a0; position:relative; margin-right:6px}
+.radioDiv input[type="radio"]:checked+span {color: #2667a0; font-weight: 700; font-size: 1rem}
+.radioDiv input[type="radio"]:checked+span .dot {background:#fff}
+.radioDiv input[type="radio"]:checked+span .dot::after {content:''; width:12px; height:12px; background:#2667a0; border-radius:50%; position:absolute; top:3px; left:3px}
+
+.checkboxDiv  {display:flex; align-items:center; flex-flow:row wrap; padding:4px 0; min-height:40px}
+.checkboxDiv label {display:flex; align-items:center; white-space:nowrap; margin-right:16px;  padding:6px 0}
+.checkboxDiv label:last-child {margin-right:0}
+.checkboxDiv .infoMentDiv {margin:0 !important}
+
+.checkboxDiv input[type="checkbox"] {display:none !important}
+.checkboxDiv label span {background:#fff; width:100%; height:100%; position:relative; display:flex; align-items:center;cursor:pointer; transition: all 0.3s ease}
+.checkboxDiv label span .dot {height: 20px; width: 20px; background:#fff; border-radius:3px; border:1px solid #2667a0; position:relative; margin-right:6px}
+.checkboxDiv input[type="checkbox"]:checked+span .dot {background:#fff}
+.checkboxDiv input[type="checkbox"]:checked+span .dot::after {content:'\f00c'; font-family:'fa'; font-size:16px; font-weight:900; color:#2667a0; position:absolute; left:1px}
+
+
+
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) { /* ie */
+select  {padding:2px 2px 2px 4px}
+}
+textarea {border:1px solid #aaa; border-radius:3px; outline:none; padding:6px; font-size:14px; font-family:HelveticaNeue-Light,AppleSDGothicNeo-Light,'Pretendard','Malgun Gothic','맑은 고딕',sans-serif}
+
+.input-sx {height:20px; min-height:20px; font-size: 11px; padding:0 6px}
+.input-sm {height:24px; min-height:24px; font-size: 12px; padding:0 6px}
+.input-md {height:34px; min-height:34px; font-size: 14px; padding:0 6px}
+.input-lg {height:40px; min-height:40px; font-size: 14px; padding:0 6px; border:1px solid #aaa; border-radius:3px}
+
+.mandatoryInput {position:relative}
+.mandatoryInput::after {content:''; display:inline-block; width:4px; height:4px; border-radius:2px; background-color:#c52424; position:absolute; right:-6px; top:0}
+
+.radioSpan {display:inline-flex; align-items:center}
+.radioSpan label {margin-left:4px}
+.radioSpan+.radioSpan {margin-left:8px}
+
+.interphone {color:#2667a0; font-weight:500}
+.interphone::before {content:'\f67d'; font-family:'fa'; font-weight:700; margin-right:4px}
+
+/*************************** Button ********************************/
+[onclick]:hover {cursor:pointer !important}
+a {cursor:pointer}
+a:visited {color:inherit}
+
+a.btn:hover {position:relative; top:-1px; box-shadow: 0 2px 3px rgba(0, 0, 0, 0.3)}
+a.btn:active {position:relative; top:1px; color:inherit;  box-shadow:none}
+a:focus {outline: none}
+
+.btn {outline:none; border-radius:3px; display:inline-flex; align-items:center; justify-content:center; white-space:nowrap; overflow:hidden; text-decoration:none; cursor:pointer; font-family:'Pretendard'; position:relative }
+.btn:active {position:relative; top:1px}
+.btn-xxs {height:16px; padding:0 4px; font-size: 12px; letter-spacing:-1px;}
+.btn-xs {height:22px; padding:0 4px; font-size:12px; letter-spacing:-0.5px;}
+.btn-sm {height:28px; padding:0 8px; font-size:12px; letter-spacing:-0.5px;}
+.btn-md {height:34px; padding:0 14px; font-size:14px; font-weight: 500}
+.btn-lg {height:40px; padding:0 20px; font-size: 16px; font-weight: 500}
+.btn-xxs:hover {position:relative; top:0 !important}
+
+.btn-white {background-color:#fff; color: #000; border:1px solid #adadad}
+.btn-red {background-color: #ca4239; color: #fff !important; border:1px solid #aa342c}
+.btn-red-border {background-color: #fff; color: #ca4239 !important; border:1px solid #ca4239}
+.btn-blue {background-color: #307dc1; color: #fff !important; border: 1px solid #2667a0}
+.btn-blue-border {background-color: #fff; color: #2667a0 !important; border: 1px solid #2667a0; font-weight:500}
+.btn-silver {background-color: #f9f9f9; color: #000 !important; border: 1px solid #adadad}
+.btn-green {background-color: #65ac62; color: #fff !important; border: 1px solid #488f60}
+.btn-black {background-color: #333; color: #fff !important}
+
+.btn-del {font-size:16px; font-weight:700; cursor:pointer}
+.btn-del::before {content:'\f057'; font-family:'fa'; font-weight:500; color:#c52424}
+.btn-add {width:29px; height:18px; border-radius:20px; background-color:#2667a0; color:#fff; display:flex; align-items:center; justify-content:center; 
+  text-decoration:none; cursor:pointer}
+.btn-add::before {content:'\f067'; font-family:'fa'; font-size:10px; font-weight:700}
+.btn-add-lg {width:40px; height:40px; display:flex; padding:0 !important; align-items:center; justify-content:center; text-decoration:none; cursor:pointer}
+.btn-add-lg::before {content:'\f067'; font-family:'fa'; font-size:20px; font-weight:500}
+.btn-add-md {width:34px; height:34px; display:flex; padding:0 !important; align-items:center; justify-content:center; text-decoration:none; cursor:pointer}
+.btn-add-md::before {content:'\f067'; font-family:'fa'; font-size:20px; font-weight:500}
+.btn-minus-md {width:34px; height:34px; display:flex; padding:0 !important; align-items:center; justify-content:center; text-decoration:none; cursor:pointer}
+.btn-minus-md::before {content:'\f068'; font-family:'fa'; font-size:20px; font-weight:500}
+.btn-qr-md {width:34px; height:34px; display:flex; padding:0 !important; align-items:center; justify-content:center; text-decoration:none; cursor:pointer}
+.btn-qr-md::before {content:'\f029'; font-family:'fa'; font-size:24px; font-weight:500}
+
+.btn-add-memo {width:48px; height:18px; border-radius:20px; border:1px solid #888; background-color:white; color:#555; display:flex; align-items:center; justify-content:center; 
+  text-decoration:none; cursor:pointer}
+.btn-add-memo::before {content:'메모장'; font-size:12px; font-weight:500}
+
+
+.btn-time-lg {width:40px; height:40px; display:flex; padding:0 !important; align-items:center; justify-content:center; text-decoration:none; cursor:pointer}
+.btn-time-lg::before {content:'\f017'; font-family:'fa'; font-size:20px; font-weight:500}
+.btn-help {width:22px; height:22px; border-radius:20px; background-color:#f7f7f7; color:#555; border:1px solid #888; display:inline-flex; align-items:center; justify-content:center; 
+  text-decoration:none; cursor:pointer}
+.btn-help::before {content:'\f128'; font-family:'fa'; font-size:10px; font-weight:700}
+.btn-help+.btn-add {margin-left:6px}
+.btn-reset {font-size: 12px; width:28px; height:28px; line-height:27px; background-color: #6279ac; color: #fff !important; border: 1px solid #485e8f}
+.btn-reset::after {content:'\f2f1'; font-family:'fa'; font-weight:900}
+.btn-download, .btn-print {text-decoration:none}
+.btn-download:hover, .btn-print:hover {color:#146ec2 !important}
+.btn-download::before {content:'\f019'; font-family:'fa'; font-weight:900; margin-right:4px}
+.btn-print::before {content:'\f02f'; font-family:'fa'; font-weight:900; margin-right:4px}
+.btn-back::before {content:'\f060'; font-family:'fa'; font-weight:900; margin-right:6px; font-size:11px !important}
+.btn-command {background-color: #333; color: #fff !important}
+.btn-command::before {content:'\f120'; font-family:'fa'; font-weight:900}
+.btn-browser::before {content:'\f2d2'; font-family:'fa'; font-weight:300}
+.btn-on {font-family: 'Pretendard','Malgun Gothic'; text-align: center; outline: none; border-radius:3px; text-decoration:none;
+  padding: 4px 0; font-size: 12px; display:inline-block; width:50px; background-color: #65ac62; color: #fff !important; border: 1px solid #488f60}
+.btn-off {font-family: 'Pretendard', 'Malgun Gothic'; text-align: center; outline: none; border-radius:3px; text-decoration:none;
+  padding: 4px 0; font-size: 12px; display:inline-block; width:50px; background-color: #d2d6dd; color: #8c8c8c !important; border: 1px solid #b4b4b4}
+.btn-srch {font-size:16px; width:34px; height:34px; display:flex; align-items:center; justify-content:center;}
+.btn-srch::after {content:'\f002'; font-family:'fa'; font-weight:500}
+.btn-move {font-size:16px; font-weight:700; cursor:s-resize; border:1px solid #416fd4; border-radius:3px; padding:2px}
+.btn-move::before {content:'\f0c9'; font-family:'fa'; font-weight:500; color:#416fd4}
+
+.switchBtn {width:29px; height:18px; cursor:pointer}
+.switchBtn.switchOff {background: url(/resources/meetingtime/lime/img/switch_off.png) 50% 50% no-repeat}
+.switchBtn.switchOn  {background: url(/resources/meetingtime/lime/img/switch_on.png) 50% 50% no-repeat}
+
+/*************** search **************/
+.singleSrchDiv {display:flex; height:36px; border:1px solid #aaa; border-radius:3px}
+.singleSrchDiv .inputBox {flex:1; height:100%}
+.singleSrchDiv .inputBox input[type='text'] {width:100%; height:100%; border:none !important; padding:0 6px; font-size:14px}
+.singleSrchDiv .srchBtn {height:100%; width:36px; display:flex; align-items:center; justify-content:center}
+
+.listSrchDiv {background-color:#fff; padding:14px 20px 14px; border-radius:3px; border-bottom-left-radius:0; border-bottom-right-radius:0; display:flex; flex-direction:row; flex-flow:wrap; gap:8px}
+.listSrchDiv .row {display:flex; flex-direction:row; margin:4px 0}
+.listSrchDiv .rowGroup {display:flex; flex-direction:row}
+.listSrchDiv .row .item {display:flex; align-items:center; margin-right:4px; height:100%}
+.listSrchDiv .row .answer {display:flex; align-items:center; flex-direction:row}
+.listSrchDiv .row .answer > span {padding:0 4px}
+.listSrchDiv .row .date > div {flex:none; width:90px} 
+.listSrchDiv .srchBtnDiv {display:flex; flex-direction:row; margin:4px 0; align-items: center}
+.listSrchDiv .srchBtnDiv button+button {margin:0 8px 0 0}
+.listSrchDiv .srchBtnDiv button.srch {min-width:86px}
+.listSrchDiv .srchBtnDiv button.mobileReset {display:none}
+.listSrchDiv .selectDiv {border:1px solid #aaa; border-radius:3px}
+
+@media screen and (-ms-high-contrast: active), (-ms-high-contrast: none) {
+  .listSrchDiv .selectDiv {min-width:80px}
+}
+
+@media screen and (max-width:940px) {
+  .listSrchDiv {flex-direction:column; border-radius:3px; padding:10px; margin-bottom:6px; display:none}
+  .listSrchDiv .row {height:36px; margin:0 0 8px 0; border-radius:3px}
+  /* .listSrchDiv .row * {border:none !important} */
+  .listSrchDiv .rowGroup {display:flex; flex-direction:row; height:36px; margin:0 0 8px 0}
+  .listSrchDiv .rowGroup .row {flex:1}
+  .listSrchDiv .row .item {flex:0 0 76px}
+  .listSrchDiv .row .item span {width:100%; text-align:left}
+  .listSrchDiv .row .answer {flex:1; min-width:10px}
+  .listSrchDiv .row .date > div {flex:1}
+  .listSrchDiv .srchBtnDiv {margin:0}
+  .listSrchDiv .srchBtnDiv button {flex:1}
+  .listSrchDiv .srchBtnDiv button.srch {flex:1.5; order:3}
+  .listSrchDiv .srchBtnDiv button+button {margin:0 0 0 8px}
+  .listSrchDiv .srchBtnDiv button.mobileReset {display:block}
+  .listSrchDiv .srchBtnDiv button.reset {display:none}
+}
+
+.listSrchDiv .checkDiv {display:flex; align-items:center; height:100%}
+.listSrchDiv .checkDiv label {display:block; height:100%}
+.listSrchDiv .checkDiv label+label {margin-left:6px}
+.listSrchDiv .checkDiv label span {background:#fff; height:100%; display:flex; align-items:center; border-radius:3px; cursor:pointer; padding:0 10px; border:1px solid #999; transition: all 0.3s ease}
+.listSrchDiv .checkDiv input[type="checkbox"] {display: none}
+.listSrchDiv .checkDiv input[type="checkbox"] + span::before {content:'\f14a'; font-family:'fa'; font-weight:300; font-size:20px; margin-right:8px; color:#999}
+.listSrchDiv .checkDiv > label > input[type="checkbox"]:checked + span {background:#fff; border:1px solid #aaa; background-size: 15px 13px; color:#000 !important}
+.listSrchDiv .checkDiv > label > input[type="checkbox"]:checked + span::before {font-weight:bold; color:#307dc1}
+
+
+
+
+/************************* paging **********************/
+.pagingDiv {display:flex; flex-direction:row; align-items:center; justify-content:center; padding:20px 0; border-top:1px solid #a8aebf}
+.pagingDiv .totInfo {font-weight:bold; font-size:12px; margin-right:30px}
+.pagingDiv ul {display:flex}
+.pagingDiv li {display:inline-flex; padding:6px; background-color:#fff; border:1px solid #ccc; border-radius:3px; font-weight:bold; height:28px; min-width:28px; align-items:center; justify-content:center; font-size:12px; position:relative}
+.pagingDiv .prev::before {content:'\f104'; font-family:'fa'; font-weight:700}
+.pagingDiv .next::before {content:'\f105'; font-family:'fa'; font-weight:700}
+.pagingDiv li+li {margin-left:6px}
+.pagingDiv li:hover {cursor:pointer; border-color: #5d6c94}
+.pagingDiv li.focus {background-color: #e1e1e1; color: #485e8f; border-color: #a8aebf}
+
+
+/*************************** tab ********************************/
+.tabMenu {display:flex; flex-direction:row; align-items:flex-end; justify-content:flex-start; margin:0; padding:0; font-size:14px; margin-bottom:18px; border-bottom:1px solid #999}
+.tabMenu li {min-width:150px; border:1px solid #999; list-style:none; padding:8px 10px; text-align:center; background-color:#e1e1e1; color:#999; cursor:pointer; margin-bottom:-1px}
+.tabMenu li+li {margin-left:-1px}
+.tabMenu li.active {background-color:#fff; color:#172d79; border-bottom:1px solid #fff; font-weight:bold}
+.open {display:flex !important}
+.close {display:none !important}
+
+/************************* table style1 회의개요 **********************/
+table.style1 {width:100%}
+table.style1 thead td {height:36px; text-align:center; font-weight:bold; font-size:13px; border-top:1px solid #999; border-bottom:1px solid #999; background-color:#f1f1f1}
+table.style1 tbody td {height:36px; border-bottom:1px solid #ccc; padding:0 4px}
+.itemSort {cursor:pointer}
+.itemSort:hover {color:#377493}
+.itemSort::after {content:'\f0dc'; font-family:'fa'; font-weight:700; font-size:10px; margin-left:4px}
+
+/************************* table style2 회의등록 **********************/
+.infoMentDiv {width:100%; margin:10px 0; position:relative}
+.infoMentDiv::before {content:"\f05a"; font-family:'fa'; font-size:18px; font-weight:700; color:#f5b001; position:absolute; top:10px}
+.infoMentDiv p {padding:10px 0 10px 26px; line-height:1.4; color:#333}
+table.style2 {width:100%; border:1px solid #999}
+table.style2 thead td {height:36px; text-align:center; font-size:13px; background-color:#f1f1f1; border:1px solid #999}
+table.style2 tbody tr {background-color:#fff; text-align:center; border:1px solid #999}
+table.style2 tbody tr th {background-color:#f1f1f1; font-weight:normal}
+table.style2 tbody td {height:28px; border:1px solid #999; color:#000}
+
+/*************************** modal ********************************/
+.modal {position:fixed; width:100%; height:100%; background: rgba(0,0,0,0.5); top:0; left:0; display:none; z-index:100}
+.modal .modalWrap {width:100%; height:100%; display:flex; align-items:center; justify-content:center}
+.modal_content {display:flex; flex-direction:column; min-width:320px; max-width:600px; max-height:98%; overflow:auto; background:#fff; line-height:23px; border-radius:3px; position:relative}
+@media screen and (max-width:940px) {
+  .modal_content {min-width:280px; max-width:98% !important}
+  .modal_content .modalBody .commonMent {padding:20px 0 !important}
+}
+.modal_content .modalTitle {padding:20px 10px 4px; font-size:15px; font-weight:bold; text-align:center; color:#000}
+.modal_content .modalBody {flex:1; display:flex; padding:16px}
+.modal_content .modalBody .commonMent {padding:30px 20px;font-size:16px; text-align:center; line-height:1.4; flex:1; position:relative}
+.modal_content .modalBody .commonMent p {line-height:1.6; word-break: keep-all}
+.modal_content .modalBody .commonMent .finishCount {position:absolute; right:0; top:0; font-size:16px; color:red}
+.modal_content .modalInfo {padding:16px; background-color: #f8eebe; line-height: 1.2}
+.modal_content .modalInfo li {list-style:disc !important; margin-left:20px !important; line-height: 1.4; word-break:keep-all}
+.modal_content .modalInfo li+li {margin-top:6px}
+.modal_content .modalBtnDiv {display:flex; flex-direction:row; padding:16px; /* background-color:#efefef */}
+.modal_content .modalBtnDiv > .btn {flex:1; height:42px}
+.modal_content .modalBtnDiv > .btn+.btn {margin-left:10px}
+
+/* .modal_content .modalBody+.modalBtnDiv {margin-top:-16px} 여백 중복 보상 */
+
+.modal_content .xBtn {position:absolute; top:10px; right:10px; cursor:pointer; z-index: 101}
+.modal_content .xBtn::before {content:'\f00d'; font-family:'fa'; font-size:30px; font-weight:100; color:#444}
+.modal_content .optionDiv {margin-top:20px}
+.modal_content textarea {min-width:300px; width:100%}
+.modal_content .optionDiv input+label {margin-left:6px}
+.modal .modalFormDiv {flex:1; font-size:14px; background-color:#fff; display:flex; flex-direction:column}
+.modal .modalFormDiv .row {display:flex; flex-direction:row}
+.modal .modalFormDiv .row+.row {margin-top:8px}
+.modal .modalFormDiv .row .item  {display:flex; min-width:100px; align-items:center}
+.modal .modalFormDiv .row .answer{flex:1 1 auto; min-width:300px; display:flex}
+.modal .modalFormDiv .row .answer.flex-direction-column .selectDiv+.selectDiv {margin-top:6px}
+.datePickerModal .modal_content {min-height:420px }
+@media screen and (max-width:640px) {
+  .modal .modalFormDiv .row {flex-direction:column}
+  .modal .modalFormDiv .row+.row {margin-top:10px}
+  .modal .modalFormDiv .row .item  {display:flex; min-width:1px; padding:4px 0}
+  .modal .modalFormDiv .row .answer{display:flex; min-width:1px}
+}
+
+
+.input-limit {position:absolute; top:30px; left:0; font-weight:normal; font-size:12px}
+@media screen and (max-width:940px) {
+  .input-limit {margin-left:auto; font-weight:normal; position:unset}
+}
+
+
+.input-delete {position: relative; display: inline-flex; align-items: center}
+.input-delete span {position: absolute; display: block; right:8px; width: 18px; height: 18px; border-radius: 50%; cursor: pointer}
+.input-delete span:after {content: '\f00d'; font-family:'fa'; font-weight:300;  color:#555; font-size:18px; position:absolute; top:0; left:0}
+
+
+
+.addUserTabDiv {display:flex; flex-direction:row; font-size:14px;  padding:16px 16px 0; background-color: #7fb6d2}
+.addUserTabDiv li {flex:1; list-style:none; padding:10px; text-align:center; background-color:#afcddc; color:#2c586e; cursor:pointer}
+.addUserTabDiv li:first-child {border-radius:6px 0 0 0}
+.addUserTabDiv li:last-child {border-radius:0 6px 0 0}
+.addUserTabDiv li.active {background-color: #ffffff;  color: #206689;  font-weight: bold}
+.addUserTabDiv li+li {margin-left:1px}
+
+/************************* modal user info **********************/
+#userInfoModal .modalBody p {font-weight:500}
+#userInfoModal .modalBody p+p {margin-top:10px}
+#userInfoModal .userPic {width:150px; height:200px; margin-bottom:16px; text-align:center}
+#userInfoModal .userPic img {width:100%; height:auto}
+#userInfoModal .uDivision,
+#userInfoModal .uNameGrade {text-align:center; font-size:16px}
+#userInfoModal .userPic::before {content:'\f2bd'; font-family:'fa'; font-weight:700; font-size:138px; color:#307dc1; width:100%; height:100%; display:flex; align-items:center; justify-content: center;}
+
+#userInfoModal .modalBody p > span {display:inline-block; width:56px}
+#userInfoModal .f2 {background-color:#efefef; width:calc( 100% + 32px); background-color:#efefef; padding:16px 22px; margin:20px 0}
+#userInfoModal .qrDiv {display:flex; flex-direction:column}
+#userInfoModal .qrDiv img {width:100px; height:auto; margin:20px auto 20px}
+
+/************************* modal 참석자추가 **********************/
+#addUserModal .modal_content {width:460px; overflow:unset}
+#addUserModal .modalBody {padding:0; overflow:auto}
+#addUserModal .modalBody article {padding:16px; flex:1; overflow:hidden; display:flex}
+#addUserModal .modalBody article > * {width:100%}
+#addUserModal .partSelectDiv select {height:36px; width:100%; margin-bottom:2px}
+#addUserModal .userListDiv {flex:1; padding:8px; border:1px solid #aaa; border-radius:3px; min-height:200px; max-height:400px; overflow:auto}
+#addUserModal .userListDiv li {display:flex; align-items:center}
+#addUserModal .userListDiv li label {margin-left:10px}
+#addUserModal .userListDiv li+li {margin-top:8px}
+#addUserModal .selectedUserDiv {background-color: #efefef; padding: 4px 8px; font-size: 14px; margin: 10px 0 0}
+#addUserModal .selectedUserDiv .attend {display:inline-flex; align-items:flex-start; justify-content:center; margin:6px 16px 6px 0}
+#addUserModal .singleSrchDiv {margin-bottom:6px}
+#addUserModal .outsiderList li {margin:0 0 10px 0}
+#addUserModal .outsiderList li label {margin-left:8px}
+
+#addUserModal #tab03 li.vip {display:flex; flex-direction:column; padding:4px; background-color:#f1f1f1}
+#addUserModal #tab03 li.vip+li.vip::before {content:''; border-top:5px solid #fff; margin:-4px -4px 4px}
+#addUserModal #tab03 li.vip .vipID select {width:100%}
+.deviceID {margin-top:4px; display:flex}
+.deviceID .inputDiv {flex:1; margin-right:4px}
+.deviceID .inputDiv input {font-size:18px; letter-spacing:1px}
+.deviceID button+button {margin-left:4px}
+
+
+
+
+/************************* modal 이전 신청내용 불러오기 **********************/
+#callRegModal table td:nth-child(1),
+#callRegModal table td:nth-child(3) {white-space:nowrap}
+#callRegModal .modalBody {overflow:auto; max-height:400px}
+#callRegModal table tbody td {vertical-align:top; padding:6px}
+#callRegModal table tbody tr:hover {cursor:pointer; background-color:#e0edf3; color:#2a67a5}
+
+
+
+
+
+
+/***************** schedule list datepicker ******************/
+td.schedule {position:relative}
+td.schedule:after {content: attr(data-count); position: absolute; top:0; left:66%; background: #034364; color:#fff; font-size: 12px; font-family: 'RobotoR';
+border-radius:3px; display:flex; align-items:center; justify-content:center; width:14px; height:14px}
+td.schedule-none:after{content: "";  opacity:0}
+#datepicker .ui-icon-circle-triangle-w::before {content:'\f0d9'; font-family:'fa'; font-weight:700}
+#datepicker .ui-icon-circle-triangle-e::before {content:'\f0da'; font-family:'fa'; font-weight:700}
+
+
+/*************** header noticeAlarm **************/
+.noticeAlarm {position:absolute; top:0px; right:30px; z-index:10;
+  animation-name: headerAlarm; animation-duration: 0.5s; animation-delay: 0s; animation-fill-mode: both; animation-timing-function: ease}
+.noticeAlarm li {display:flex; flex-direction:column; max-width:600px; background-color:#fff; box-shadow:0px 4px 4px rgba(0,0,0,0.3); color:#000; padding:0; position:relative;
+  border-top: 5px solid #ffb700; border-bottom-left-radius:4px; border-bottom-right-radius:4px; }
+.noticeAlarm li+li {margin-top:8px}
+.noticeAlarm li .cate {padding:20px 0 0 16px; font-weight:bold; color:#a20000}
+.noticeAlarm li .cate::before {content:'\f0f3'; font-family:'fa'; margin-right:8px}
+.noticeAlarm li .cont {flex:1 1 auto; padding:16px 40px 16px 16px; white-space:normal; line-height:1.6; cursor:pointer}
+.noticeAlarm li .closeBtn {position:absolute; top:16px; right:16px; cursor:pointer; display:flex; align-items:center; justify-content:center; width:20px; height:20px; border-radius:20px}
+.noticeAlarm li .closeBtn:hover {background-color:#a20000; color:#fff}
+@keyframes headerAlarm {
+  0%	{opacity:0; top:-100px}
+  100%  	{opacity:1; top:0px}
+}
+@media screen and (max-width:660px) {
+  .noticeAlarm {right:10px; left:10px}
+  /* .noticeAlarm li .cont {padding:0 40px 20px 40px; margin-top:-10px} */
+}
+
+
+
+.loadingLayer {position: absolute; top: 50%; left: 50%; z-index:100000; overflow:hidden; width:300px; height:300px; display:flex; align-items:center; justify-content: center;
+  color:#fff; font-size:28px; font-weight:bold; text-shadow: 0px 4px 6px rgba(0,0,0,0.7)}
+/* .loadingLayer i:first-child {
+  width:80px; height:20px; border-radius:10px; background-color:#fff; display:block;
+  font-size:30px;
+  padding:0 !important; margin:0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin:-90px 0 0 -90px;
+  -webkit-animation:spin 1.5s linear infinite;
+  -moz-animation:spin 1.5s linear infinite;
+  animation:spin 1.5s linear infinite;
+} */
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+.loadingLayer i.fa-circle {
+  color:#55ff15;
+  font-size:30px;
+  padding:0 !important; margin:0;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 140px;
+  height:140px;
+  margin:-70px 0 0 -70px;
+  -webkit-animation:spin 1.5s linear infinite;
+  -moz-animation:spin 1.5s linear infinite;
+  animation:spin 1.5s linear infinite;
+}
+@-moz-keyframes spin { 100% { -moz-transform: rotate(360deg); } }
+@-webkit-keyframes spin { 100% { -webkit-transform: rotate(360deg); } }
+@keyframes spin { 100% { -webkit-transform: rotate(360deg); transform:rotate(360deg); } }
+
+.nonStyle {background-color:unset !important; border:unset !important}
+.item button {margin-bottom:8px !important}
+#fileSize, 
+#fileSize+span {font-weight:300}
+
+/* 보안관련 체크박스*/ 
+.checkDiv {display:flex; align-items:center; height:40px}
+.checkDiv label {display:block; height:100%}
+.checkDiv label+label {margin-left:6px}
+.checkDiv label span {background:#fff; height:100%; display:flex; align-items:center; border-radius:3px; cursor:pointer; padding:0 10px; border:1px solid #aaa; transition: all 0.3s ease}
+.checkDiv input[type="checkbox"] {display: none}
+.checkDiv input[type="checkbox"] + span label {visibility:hidden}
+.checkDiv input[type="checkbox"] + span::before {content:'\f04d'; font-family:'fa'; font-weight:300; font-size:20px; margin-right:8px; color:#999}
+.checkDiv input[type="checkbox"]:checked + span::before {content:'\f14a'; font-family:'fa'; font-weight:300; font-size:20px; margin-right:8px; color:#999}
+.checkDiv > label > input[type="checkbox"]:checked + span {background:#6cbc07; border:1px solid #5ea307; background-size: 15px 13px; color:#fff !important}
+.checkDiv input[type="checkbox"]:checked + span::before {font-weight:bold; color:#fff}
+.checkDiv input[type="checkbox"]:checked + span label {visibility:visible !important}
+.checkDiv input[type="checkbox"]:disabled + span {background-size: 15px 13px; color:#ccc !important; background-color:unset; border: 1px solid #ccc}
+
+.checkDiv input[type="checkbox"]:disabled + span input[type="checkbox"]:disabled + span {background-size: 15px 13px; color:#777 !important; background-color:unset}
+.checkDiv label label {height:unset; margin-left:10px}
+.checkDiv label label span {background-color:unset; border:unset !important}
+.checkDiv label span span::before {color:#fff !important}
+
+
+.checkDiv > label > input[type="checkbox"]:disabled + span {background:#e3e3e3; border:1px solid #aeaeae; background-size: 15px 13px; color:#777 !important}
+.checkDiv > label > input[type="checkbox"]:checked:disabled + span {background:#6cbc07; border:1px solid #5ea307; background-size: 15px 13px; color:#000 !important}
+/* .checkDiv > label > input[type="checkbox"]:checked:disabled + span label span {color:#fff !important} */
+.checkDiv input[type="checkbox"]:disabled + span input[type="checkbox"]:disabled:checked + span {background-size: 15px 13px; color:#777 !important; background-color:unset}
+.checkDiv input[type="checkbox"]:disabled + span input[type="checkbox"]:disabled + span::before {background-size: 15px 13px; color:#999 !important; background-color:unset}
+.checkDiv input[type="checkbox"]:disabled + span::before {color:#999}
+/* css 스위치버튼 */
+
+/* The switch - the box around the slider */
+.switch {position: relative; display: inline-block; width: 110px; height: 34px}
+.switch input {opacity: 0; width: 0; height: 0}
+.switch .slider {position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #ccc; -webkit-transition: .4s; transition: .4s; font-weight:600; overflow:hidden}
+.switch .slider:before {position: absolute; content: "\f00c"; font-family:'fa'; font-weight:900; line-height:2; text-align:center; height: 26px; width: 26px; left: 4px; bottom: 4px; color:#999; background-color: white; -webkit-transition: .4s; transition: .4s; box-shadow: 0 5px 4px rgb(0 0 0 / 26%)}
+.switch input:checked + .slider {background-color:#ca4239}
+.switch input:focus + .slider {box-shadow: 0 0 1px #6cbc07}
+.switch input:checked + .slider:before {-webkit-transform: translateX(76px); -ms-transform: translateX(76px); transform: translateX(76px); color:#d50000}
+.switch input:checked + .slider:after {content:'기밀회의'; width:60px; height: 34px;  display: flex; align-items: center; justify-content: center; margin-left:16px; color:#FFF}
+.switch .slider::after {content:'기밀회의'; width: 60px; height: 34px; display: flex; align-items: center; justify-content: center; margin-left:34px; color:#999}
+.switch .slider.round {border-radius: 26px}
+.switch .slider.round:before {border-radius: 50%}
+
+
+

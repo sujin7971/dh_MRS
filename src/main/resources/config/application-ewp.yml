@@ -1,0 +1,93 @@
+spring:
+  #구동환경(필수): ewp-dev(개발) | ewp-publish(배포)
+  profiles:
+    include: ewp-dev
+  mvc:
+    view:
+      prefix: /WEB-INF/views/ewp
+  servlet: 
+    multipart:
+      max-file-size: 300MB
+      max-request-size: 300MB
+  mail:
+    host: 
+    port: 25
+    ## 운영
+    #host: 10.134.3.158
+    #port: 25
+    username: 
+    password: "!"
+    default-encoding: utf-8
+    properties:
+      mail:
+        smtp:
+          ssl:
+            protocols: "TLSv1.2"
+          auth: true
+          starttls:
+            enable: true
+server:
+  servlet:
+    encoding:
+      charset: UTF-8
+      force: true
+    session:
+      timeout: 1800
+      cookie:
+        #HTTP를 통한 로그인 처리를 위해서 false로 설정
+        secure: false
+        http-only: true
+  error:
+    whitelabel:
+      enabled: false
+    path: /error
+  compression:
+    enabled: true
+logging:
+  config: classpath:logback-ewp-prod.xml
+  level:
+    root: info
+config:
+  login:
+    #동시접속 제한 인원 설정값
+    maximum-concurrent-user: 100
+    #권한 부여 허용 설정
+    login-permission:
+      #일반 사용자 권한 허용
+      general-user-enabled: false
+      #관리자 권한 허용
+      system-admin-enabled: false
+      #최고 관리자 권한 허용
+      master-admin-enabled: false
+      #승인 담당자 권한 허용
+      approval-manager-enabled: false
+  drm:
+    enabled: false
+  file:
+    #파일 업로드 경로
+    upload-path: C:\B-PLMS\uploadFile\
+    support:
+      hwp: true
+      pdf: true
+      ppt: true
+      word: true
+      jpg: true
+      png: true
+      bmp: true
+      gif: true
+    cvt:
+      #데스크탑 명
+      desktop: DESKTOP-2EVA6VU
+      cvt_user_list:
+        test1/true,
+        test2/true,
+        test3/true
+      #파일 변환기 최대 개수
+      pool-max: 20
+  scheduledTasks:
+    syncResourceScheduler: #동서 경영지원서비스와 동기화
+      enabled: false
+      cron: 0/10 * * * * ?
+    alarmSendScheduler: #메신저 및 SMS 전송처리
+      enabled: false
+      cron: 0/1 * * * * ?

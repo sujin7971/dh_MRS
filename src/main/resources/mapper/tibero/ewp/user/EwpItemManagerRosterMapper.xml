@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egov.framework.plms.sub.ewp.bean.mvc.mapper.tibero.admin.EwpItemManagerRosterMapper">
+	<select id="getOfficeApprovalManagerList" parameterType="string" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.admin.EwpItemManagerRosterVO">
+		SELECT SEQ_CHARGE as seqCharge, SEQ_MENU as seqMenu, SAUPSO_ID as officeCode, ORG_ID as deptId,
+		       SABUN as userId, REG_USER as regUser, REG_DATE as regDate, MODIFY_USER as modifyUser, MODIFY_DATE as modifyDate,
+		       DEL_YN as delYN
+		FROM TBL_CHARGE
+	  	<where>
+	  		AND SAUPSO_ID NOT IN ('D000', 'G000')
+	  		AND SEQ_MENU IN (30, 31, 32)
+		 	<if test=" officeCode != null and officeCode != ''">
+		 	AND SAUPSO_ID = #{officeCode}
+		 	</if>
+	  	</where>
+	  	ORDER BY officeCode, seqMenu, userId
+	</select>
+	<select id="getItemManagerList" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.admin.EwpItemManagerRosterVO" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.admin.EwpItemManagerRosterVO">
+		SELECT SEQ_CHARGE as seqCharge, SEQ_MENU as seqMenu, SAUPSO_ID as officeCode, ORG_ID as deptId,
+		       SABUN as userId, REG_USER as regUser, REG_DATE as regDate, MODIFY_USER as modifyUser, MODIFY_DATE as modifyDate,
+		       DEL_YN as delYN
+		FROM TBL_CHARGE
+	  	<where>
+	  		AND SAUPSO_ID NOT IN ('D000', 'G000')
+	  		<choose>
+	  		<when test="seqMenu != null">
+	  		AND SEQ_MENU = #{seqMenu}
+	  		</when>
+	  		<otherwise>
+	  		AND SEQ_MENU IN (30, 31, 32)
+	  		</otherwise>
+	  		</choose>
+		 	<if test=" officeCode != null and officeCode != ''">
+		 	AND SAUPSO_ID = #{officeCode}
+		 	</if>
+		 	<if test=" userId != null and userId != ''">
+			AND SABUN = #{userId}
+			</if>
+			<choose>
+	  		<when test="delYN != null and (delYN == 'Y' or delYN == 'N')">
+	  		AND DEL_YN = #{delYN}
+	  		</when>
+	  		<otherwise>
+	  		AND DEL_YN = 'N'
+	  		</otherwise>
+	  		</choose>
+	  	</where>
+	  	ORDER BY officeCode, seqMenu, userId
+	</select>
+</mapper>

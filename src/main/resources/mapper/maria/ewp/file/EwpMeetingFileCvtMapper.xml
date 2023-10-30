@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egov.framework.plms.sub.ewp.bean.mvc.mapper.maria.file.EwpMeetingFileCvtMapper">
+	
+	<!-- 변환 요청 등록 -->
+	<insert id="postCvt" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.file.MeetingFileConvertVO">
+	/* FileMapper postCvt */
+		INSERT INTO meeting_file_cvt(meetingKey, fileKey, cvtPriority)
+		VALUES(#{meetingKey}, #{fileKey}, #{cvtPriority})
+	</insert>
+	
+	<!-- 파일 정보 수정 -->
+	<update id="putCvt" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.file.MeetingFileConvertVO">
+	/* FileMapper putCvt */
+		UPDATE meeting_file_cvt
+		<set>
+			<if test='cvtPriority != null'>	cvtPriority = #{cvtPriority}, 	</if>
+			<if test='cvtCount != null'>	cvtCount = #{cvtCount}, 		</if>
+			<if test='cvtStep != null'>		cvtStep = #{cvtStep}, 			</if>
+			<if test='errMsg != null'>		errMsg = #{errMsg}, 			</if>
+			<if test='startDT != null'>		startDT = #{startDT}, 			</if>
+			<if test='endDT != null'>		endDT = #{endDT}, 			</if>
+		</set>
+		<where>
+			<if test='cvtKey != null'>	AND cvtKey = #{cvtKey} 	</if>
+			<if test='meetingKey != null'>	AND meetingKey = #{meetingKey} 	</if>
+			<if test='fileKey != null'>	AND fileKey = #{fileKey} 	</if>
+		</where>
+	</update>
+	
+	<!-- 서비스에서 사용할 파일 조회 쿼리 -->
+	<select id="getReqCvtList" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.file.MeetingFileConvertVO">
+	/* FileMapper getCvtListToProcess */
+	/* NO_SQL_LOG */
+		SELECT 
+		fileKey,
+		meetingKey
+		FROM meeting_file_info
+		<where>
+		AND delYN = 'N'
+		AND state = 0
+		AND roleType = "MATERIAL"
+		AND fileKey NOT IN (
+			SELECT fileKey
+			FROM meeting_file_cvt
+		)
+		</where>
+	</select>
+	
+	<!-- 서비스에서 사용할 파일 조회 쿼리 -->
+	<select id="getCvtListToProcess" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.file.MeetingFileConvertVO" resultType="egov.framework.plms.sub.ewp.bean.mvc.entity.file.MeetingFileConvertVO">
+	/* FileMapper getCvtListToProcess */
+	/* NO_SQL_LOG */
+		SELECT 
+		cvtKey,
+		fileKey,
+		meetingKey,
+		cvtPriority,
+		cvtCount,
+		cvtStep,
+		errMsg,
+		startDT,
+		endDT,
+		regDT,
+		modDT
+		FROM meeting_file_cvt
+		<where>
+		<if test='cvtKey != null'>	AND cvtKey = #{cvtKey} 	</if>
+		<if test='meetingKey != null'>	AND meetingKey = #{meetingKey} 	</if>
+		<if test='fileKey != null'>	AND fileKey = #{fileKey} 	</if>
+		AND (
+			cvtStep = 0
+			OR
+			cvtStep = -1
+			)
+		<![CDATA[
+		AND cvtCount < 2
+		]]>
+		</where>
+	</select>
+	
+	<!-- 서버 시작시 변환 단계가 완료되지 않은 파일들의 단계를 모두 초기화하여 다시 변환대기열에 추가 될 수 있도록 함 -->
+	<update id="putUnfinishedCvtInit">
+	/* FileMapper putUnfinishedCvtInit */
+		UPDATE meeting_file_info f
+		INNER JOIN meeting_file_cvt c
+		ON f.fileKey = c.fileKey
+		<set>
+		f.state = 0,
+		c.cvtStep = 0,
+		</set>
+		<where>
+		AND c.cvtStep = 1
+		</where>
+	</update>
+</mapper>

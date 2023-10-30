@@ -1,0 +1,180 @@
+@charset "UTF-8";
+/* 공통 */
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+
+div::-webkit-scrollbar {
+  width: 6px;
+}
+div::-webkit-scrollbar-track {
+  background-color: transparent;
+}
+div::-webkit-scrollbar-thumb {
+  border-radius: 3px;
+  background-color: gray;
+}
+div::-webkit-scrollbar-button {
+  width: 0;
+  height: 0;
+}
+.radioTab label.focus span {
+    background: #fff;
+    color: #000;
+}
+.overlay {
+	width: 100%;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index:50;
+    cursor: default;
+}
+.listBodyDiv:empty {
+	margin: auto;
+	padding: 10px;
+}
+div.empty:empty {
+	margin: auto;
+	padding: 10px;
+}
+div.empty:empty:after {
+	content: '검색 결과가 없습니다'
+}
+.listBodyDiv:empty:after {
+	content: '검색 결과가 없습니다'
+}
+/* 공통 */
+/* 회의공개등급 */
+
+/* 회의공개등급 */
+
+/* 관리자 페이지 */
+.itemSort.asc::after {
+    content: '\f0de';
+}
+.itemSort.desc::after {
+    content: '\f0dd';
+}
+/* 관리자 페이지 */
+
+/* 모달 */
+.modal_content .modalBtnDiv.flex-direction-column > .btn {
+    flex: auto;
+    height: 42px;
+}
+.modal_content .modalBtnDiv.flex-direction-column > .btn+.btn {
+    margin-left: 0;
+    margin-top: 10px;
+}
+/* 모달 */
+
+/* 스케줄 */
+.ui-widget.ui-widget-content {
+    border: none;
+}
+/* 스케줄 */
+/* 회의 페이지 */
+.tool .colorDiv {
+	z-index: 1000 !important;
+}
+.bodyDiv .infoSection {
+	z-index: 2 !important;
+}
+.bodyDiv .docuLeftSection {
+    min-width: 100px;
+}
+
+.bodyDiv .docuLeftSection .list {
+    height: 100%;
+}
+
+.bodyDiv .docuLeftSection .list li.selected {
+    border: none;
+}
+
+.bodyDiv .docuLeftSection .list li.selected img {
+    border: 2px solid #000;
+}
+
+.thumbnailDiv li img, .bookmarkDiv li img{
+	cursor: pointer;
+}
+.thumbnailDiv li img:hover, .bookmarkDiv li img:hover{
+	box-shadow: 0px 0px 20px 0px #999;
+}
+
+.thumbnailDiv li div.thumbMenu, .bookmarkDiv li div.thumbMenu {
+    position: absolute;
+    left: 90%;
+    bottom: 15%;
+    cursor: pointer;
+}
+
+.menuToolDiv {
+    right: 0;
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    color: #555;
+    flex: 0 0 auto;
+}
+
+.menuToolDiv.thumbMenuDiv {
+	position: absolute;
+	top: -10%;
+	height: 0;
+}
+
+.menuToolDiv.thumbMenuDiv .subDiv {
+	position: absolute;
+	top: 0;
+	z-index: 9999;
+	right: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    cursor: default;
+}
+
+.menuToolDiv.thumbMenuDiv .subDiv > button{
+	cursor: pointer;
+}
+
+.menuToolDiv.thumbMenuDiv .subDiv > button {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    white-space: nowrap;
+    padding: 16px;
+    counter-reset: chapter 0;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    font-family: inherit;
+    background-color: #fff;
+}
+
+.bodyDiv .docuLeftSection .list li::after{
+	content: attr(data-page);
+}
+
+#timeExtensionModal .intervalInfo span {
+    margin: 0 2px 0 2px;
+}
+#timeExtensionModal .intervalInfo {
+    text-align: center;
+}
+.userListDiv li.connect .userName {
+    color: #307dc1;
+}
+/* 회의 페이지 */
+/* 달력 */
+
+/* 달력 */
+/* 관리자 페이지 */

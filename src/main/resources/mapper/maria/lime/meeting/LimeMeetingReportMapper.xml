@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egov.framework.plms.sub.lime.bean.mvc.mapper.meeting.LimeMeetingReportMapper">
+	<!-- **********************회의록 본문 관련 쿼리**********************  -->
+	<!-- 회의록 등록 -->
+	<insert id="postMeetingReport" parameterType="egov.framework.plms.main.bean.mvc.entity.meeting.MeetingReportVO">
+	/* LimeMeetingReportMapper postMeetingReport */
+		INSERT meeting_report (meetingId, reporterId)
+		VALUES (#{meetingId}, #{reporterId})
+	</insert>
+	
+	<!-- 회의록 수정 -->
+	<update id="putMeetingReport" parameterType="egov.framework.plms.main.bean.mvc.entity.meeting.MeetingReportVO">
+	/* LimeMeetingReportMapper putMeetingReport */
+		UPDATE meeting_report
+		<set>
+		<if test='reportContents != null'>
+			reportContents = #{reportContents},
+		</if>
+		<if test='reporterId != null'>
+			reporterId = #{reporterId},
+		</if>
+		<if test='reportStatus != null'>
+			reportStatus = #{reportStatus.code},
+		</if>
+		</set> 
+		WHERE meetingId = #{meetingId}
+	</update>
+	
+	<!-- 회의록 삭제 -->
+	<update id="deleteMeetingReport" parameterType="integer">
+	/* LimeMeetingReportMapper deleteMeetingReport */
+		DELETE FROM meeting_report
+		WHERE meetingId = #{meetingId}
+	</update>
+	
+	<!-- 회의록 요청 -->
+	<select id="getMeetingReportOne" resultType="egov.framework.plms.main.bean.mvc.entity.meeting.MeetingReportVO">
+	/* LimeMeetingReportMapper getMeetingReportOne */
+		SELECT *
+		FROM meeting_report 
+		<where>
+		AND meetingId = #{meetingId}
+		</where>
+	</select>
+	
+	<!-- 회의록 내용 요청 -->
+	<select id="getMeetingReportContents" parameterType="integer" resultType="string">
+	/* LimeMeetingReportMapper getMeetingReportContents */
+		SELECT reportContents																					/* 수정일 */
+		FROM meeting_report
+		WHERE
+		meetingId = #{meetingId}
+	</select>
+</mapper>

@@ -1,0 +1,34 @@
+@charset "UTF-8";
+.bg-primary {
+    background-color: #007bff!important;
+}
+.bg-secondary {
+    background-color: #6c757d!important;
+}
+.bg-success {
+    background-color: #28a745!important;
+}
+.bg-danger {
+    background-color: #dc3545!important;
+}
+.bg-warning {
+    background-color: #ffc107!important;
+}
+.bg-info {
+    background-color: #17a2b8!important;
+}
+.bg-light {
+    background-color: #f8f9fa!important;
+}
+.bg-dark {
+    background-color: #343a40!important;
+}
+.bg-white {
+    background-color: #fff!important;
+}
+.bg-transparent {
+    background-color: transparent!important;
+}
+.bg-yellow {
+	background-color: #FFFF00 !important;
+}

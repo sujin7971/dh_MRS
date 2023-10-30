@@ -1,0 +1,63 @@
+@charset "UTF-8";
+.roomTitContainer {
+	height: 80px;
+	padding-right: 6px;
+}
+
+.roomTitContainer .roomTit {
+    width: 100%;
+    height: 60px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border-top-left-radius: 8px;
+    border-top-right-radius: 8px;
+    background-color: #dce8ed;
+    font-weight: 600;
+    border: 1px solid #588ba1;
+    padding: 0 10px;
+    position: relative;
+}
+
+.roomTitContainer .roomTit .roomName {
+    height: 50px;
+}
+
+.roomTitContainer .roomTit .roomInfo {
+    height: 10px;
+}
+
+.roomTimeContainer {
+	overflow: initial;
+}
+.roomTimeContainer .room .timeRow:first-child {
+	border-top: none;
+}
+
+.roomTimeContainer .timeText .minute {
+    font-size: 16px;
+    z-index: 5;
+    color: #3c5a7b;
+    font-weight: 700;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    background-color: unset;
+    display: block !important;
+}
+
+.roomTimeContainer .room {
+    width: 100%;
+    display: inline-flex;
+    flex-direction: column;
+}
+
+.roomTimeContainer .timeRow {
+    flex: 0 0 50px;
+}
+
+.roomTimeContainer .timeRow.selectable {
+    flex: 0 0 50px;
+}

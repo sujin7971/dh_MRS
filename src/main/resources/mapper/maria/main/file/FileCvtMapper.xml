@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egov.framework.plms.main.bean.mvc.mapper.file.FileCvtMapper">
+	
+	<!-- 변환 요청 등록 -->
+	<insert id="insertCvtOne" parameterType="egov.framework.plms.main.bean.mvc.entity.file.FileConvertVO">
+	/* FileCvtMapper insertCvtOne */
+		INSERT INTO drive_file_cvt(fileId, conversionType, cvtPriority, sourcePath, destinationPath)
+		VALUES(#{fileId}, #{conversionType}, IFNULL(#{cvtPriority}, 0), #{sourcePath}, #{destinationPath})
+	</insert>
+	
+	<!-- 파일 정보 수정 -->
+	<update id="updateCvtOne" parameterType="egov.framework.plms.main.bean.mvc.entity.file.FileConvertVO">
+	/* FileCvtMapper updateCvtOne */
+		UPDATE drive_file_cvt
+		<set>
+			, cvtId = cvtId
+			<if test='cvtPriority != null'>		,cvtPriority = #{cvtPriority} 	</if>
+			<if test='cvtCount != null'>		,cvtCount = #{cvtCount} 		</if>
+			<if test='cvtStep != null'>			,cvtStep = #{cvtStep}			</if>
+			<if test='conversionType != null'>	,conversionType = #{conversionType} 			</if>
+			<if test='sourcePath != null'>		,sourcePath = #{sourcePath} 			</if>
+			<if test='destinationPath != null'>	,destinationPath = #{destinationPath} 			</if>
+			<if test='errMsg != null'>			,errMsg = #{errMsg} 			</if>
+			<if test='startDateTime != null'>	,startDateTime = #{startDateTime} 			</if>
+			<if test='endDateTime != null'>		,endDateTime = #{endDateTime} 			</if>
+		</set>
+		<where>
+			<if test='cvtId != null'>	AND cvtId = #{cvtId} 	</if>
+		</where>
+	</update>
+	
+	<!-- 서버 시작시 변환 단계가 완료되지 않은 파일들의 단계를 모두 초기화하여 다시 변환대기열에 추가 될 수 있도록 함 -->
+	<update id="updateUnfinishedFileConversionsToInit">
+	/* FileCvtMapper updateUnfinishedFileConversionsToInit */
+		UPDATE drive_file_info fi
+		INNER JOIN drive_file_cvt fc
+		ON fi.fileId = fc.fileId
+		<set>
+		fi.conversionStatus = 100,
+		fc.cvtStep = 0,
+		</set>
+		<where>
+		AND fc.cvtStep = 1
+		</where>
+	</update>
+	
+	<select id="selectCvtOne" resultType="egov.framework.plms.main.bean.mvc.entity.file.FileConvertVO">
+	/* FileCvtMapper selectFilesToConvert */
+	/* NO_SQL_LOG */
+		SELECT *
+		FROM drive_file_cvt
+		<where>
+		AND cvtId = #{cvtId}
+		</where>
+	</select>
+	
+	<!-- 서비스에서 사용할 파일 조회 쿼리 -->
+	<select id="selectFilesToConvert" resultType="egov.framework.plms.main.bean.mvc.entity.file.FileConvertVO">
+	/* FileCvtMapper selectFilesToConvert */
+	/* NO_SQL_LOG */
+		SELECT *
+		FROM drive_file_cvt
+		<where>
+		AND (
+			cvtStep = 0
+			OR
+			cvtStep = -1
+			)
+		<![CDATA[
+		AND cvtCount < 2
+		]]>
+		</where>
+	</select>
+</mapper>

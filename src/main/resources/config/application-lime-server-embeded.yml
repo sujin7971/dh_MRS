@@ -1,0 +1,49 @@
+#내장 톰캣 서버 설정
+application:
+  title: B-PLMS PROD LIME-EMBEDED
+server:
+  type: embeded
+  port: 8443
+  http: 8080
+  ssl:
+    enabled: true
+    key-store: "plmskeystore.pkcs12"
+    key-store-type: PKCS12 #"JKS" 또는 "PKCS12" 지정
+    key-store-password: fhEh1q2w3e!
+    key-alias: plmskeystore
+    trust-store: plmstrust.pkcs12
+    trust-store-password: fhEh1q2w3e!
+config:
+  login:
+    temp-account:
+      - principal: sysadmin
+        credential: sysadmin
+        domain-role: SYSTEM_ADMIN
+        name: 시스템관리자
+      - principal: masteradmin
+        credential: masteradmin
+        domain-role: MASTER_ADMIN
+        name: 최고관리자 
+    #동시접속 제한 인원 설정값
+    maximum-concurrent-user: 100
+    #권한 부여 허용 설정
+    login-permission:
+      #일반 사용자 권한 허용
+      general-user-enabled: true
+      #외부 참석자 권한 허용
+      guest-user-enabled: true
+      #관리자 권한 허용
+      system-admin-enabled: true
+      #최고 관리자 권한 허용
+      master-admin-enabled: true
+      #승인 담당자 권한 허용
+      approval-manager-enabled: true
+  scheduledTasks:
+    fileConversionScheduler: #파일 변환 처리
+      enabled: true
+    fileMaintenanceScheduler: #파일 관리
+      enabled: false
+    meetingApprovalScheduler: #회의 결재 처리
+      enabled: true
+    meetingMonitoringScheduler: #회의 모니터링 처리
+      enabled: true

@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="egov.framework.plms.main.bean.mvc.mapper.common.CodeMapper">
+	<update id="putComCode" parameterType="egov.framework.plms.main.bean.mvc.entity.common.CodeVO">
+	/* AdminMapper putComCode */
+		UPDATE common_code
+		<set>
+			, LAST_UPD_EMP_ID = #{lastUpdEmpId}
+			<if test="etcCol1">
+			,ETC_COL1 = #{etcCol1}
+			</if>
+			<if test="etcCol2">
+			,ETC_COL2 = #{etcCol2}
+			</if>
+			<if test="etcCol3">
+			,ETC_COL3 = #{etcCol3}
+			</if>
+			<if test="etcCol4">
+			,ETC_COL4 = #{etcCol4}
+			</if>
+		</set>
+		<where>
+		AND CLASS_CD = #{classCd}
+		AND DTL_CD = #{dtlCd}
+		</where>
+	</update>
+	<select id="getComCodeOne" resultType="egov.framework.plms.main.bean.mvc.entity.common.CodeVO">
+	/* AdminMapper getComCodeOne */
+	/* NO_SQL_LOG */
+		SELECT *
+		FROM common_code
+		<where>
+		AND CLASS_CD = #{classCd}
+		AND DTL_CD = #{dtlCd}
+		</where>
+	</select>
+	<select id="getComCodeList" parameterType="egov.framework.plms.main.bean.mvc.entity.common.CodeVO" resultType="egov.framework.plms.main.bean.mvc.entity.common.CodeVO">
+	/* AdminMapper getComCodeList */
+	/* NO_SQL_LOG */
+		SELECT * from common_code
+		WHERE CLASS_CD = #{classCd}
+	</select>
+</mapper>

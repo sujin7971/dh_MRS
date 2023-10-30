@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="egov.framework.plms.sub.ewp.bean.mvc.mapper.oracle.alarm.EwpMessengerMapper">
+	<insert id="doSndMsg" parameterType="egov.framework.plms.sub.ewp.bean.mvc.entity.alarm.EwpMessengerDTO">
+	/* EwpMessengerMapper doSndMsg */
+		INSERT 
+		INTO MSG_NOTICE (
+			MSG_KEY    , MSG_GUBUN     , ACTION_CODE, 
+			SYSTEM_NAME, EN_SYSTEM_NAME, SEND_ID, 
+			SEND_NAME  , EN_SEND_NAME  , RECV_IDS, 
+			EMPNO      , SUBJECT       , EN_SUBJECT, 
+			CONTENTS   , EN_CONTENTS   , URL, 
+			URL_ENCODE , SEND_YN       , SEND_DATE
+		) VALUES (
+			  #{msgKey}
+			, #{msgGubun}
+			, #{actionCode}
+			, #{systemName}
+			, #{enSystemName}
+			, #{sendId}
+			, #{sendName}
+			, #{enSendName}
+			, #{recvIds}
+			, #{empno}
+			, #{subject}
+			, #{enSubject}
+			, #{contents}
+			, #{enContents}
+			, #{url}
+			, #{urlEncode}
+			, #{sendYn}
+			, #{sendDate}
+		)
+	</insert>
+</mapper>
