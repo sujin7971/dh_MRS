@@ -9,7 +9,7 @@ spring:
       #기본: lime
     #동서 프로필: 구동환경 프로필은 반드시 하나 선택
       #기본: ewp
-    active: ewp
+    active: lime
   resources:
     cache: 
       cachecontrol:
