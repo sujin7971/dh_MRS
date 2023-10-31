@@ -255,7 +255,6 @@ export const createNoticeModalManager = (noticeSearchManager) => {
 					}
 				}
 				const setWriterInfo = () => {
-					console.log(notice);
 					$writerViewBox.setWriteDate(notice.regDateTime);
 					if(notice.writerId == "sysadmin") {
 						$writerViewBox.setWriterName("시스템관리자");
