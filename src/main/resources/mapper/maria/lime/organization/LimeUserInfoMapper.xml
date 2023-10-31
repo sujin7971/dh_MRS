@@ -122,5 +122,8 @@
 		<if test="delYN != null and (delYN == 'Y' or delYN == 'N')">
 			AND ui.delYN = #{delYN}
 		</if>
+		<if test="delYN == null">
+			AND ui.delYN = 'N'
+		</if>
 	</sql>
 </mapper>

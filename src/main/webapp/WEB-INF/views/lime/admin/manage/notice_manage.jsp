@@ -70,7 +70,7 @@
             <jsp:include page="/WEB-INF/views/lime/admin/admin_nav.jsp"></jsp:include>
         </div>
         <div class="listSrchDiv">
-            <div class="row">
+            <div class="row" style="display:none;">
                 <div class="item"><span>사업소</span></div>
                 <div class="answer">
                     <div class="selectDiv select-script">
@@ -111,8 +111,8 @@
             <div class="listHeaderDiv">
                 <div class="row">
                     <div class="item col-1">No</div>
-                    <div class="item col-1">사업소</div>
-                    <div class="item col-8">제 목</div>
+<!--                     <div class="item col-1">사업소</div> -->
+                    <div class="item col-9">제 목</div>
                     <div class="item col-2">등록일</div>
                 </div>
             </div>
@@ -163,7 +163,7 @@
         <div class="modal_content overflow-visible">
             <div class="modalBody">
                 <div class="modalFormDiv">
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="item"><span class="mandatoryInput">사업소</span></div>
                         <div class="answer">
                             <select id="officeSelect" title="선택 구분" name="officeCode" class="form-control-sm">
@@ -175,7 +175,7 @@
 	                            </c:forEach>
 		                    </select>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="row">
                         <div class="item"><span>상단고정</span></div>
                         <div class="answer">

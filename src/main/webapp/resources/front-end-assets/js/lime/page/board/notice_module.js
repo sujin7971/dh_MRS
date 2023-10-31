@@ -4,7 +4,7 @@
 import {eventMixin, Util, Modal, AjaxBuilder} from '/resources/core-assets/essential_index.js';
 import {SearchBar} from '/resources/front-end-assets/js/lime/comm/module_index.js';
 import {Final, FileManager} from '/resources/front-end-assets/js/lime/comm/module_index.js';
-import {NoticeCall as $NOTICE, AdminCall as $ADM, FileCall as $FILE} from '/resources/front-end-assets/js/lime/ajax/ajax_index.js';
+import {NoticeCall as $NOTICE, FileCall as $FILE} from '/resources/front-end-assets/js/lime/ajax/ajax_index.js';
 
 
 export const createNoticeSearchManager = (noticeRowRenderer) => {
@@ -255,9 +255,15 @@ export const createNoticeModalManager = (noticeSearchManager) => {
 					}
 				}
 				const setWriterInfo = () => {
+					console.log(notice);
 					$writerViewBox.setWriteDate(notice.regDateTime);
-					$writerViewBox.setWriterName(notice.writer?.nameplate);
-					$writerViewBox.setWriterDeskPhone(notice.writer?.officeDeskPhone);
+					if(notice.writerId == "sysadmin") {
+						$writerViewBox.setWriterName("시스템관리자");
+						$writerViewBox.setWriterDeskPhone('');
+					} else {
+						$writerViewBox.setWriterName(notice.writer?.nameplate);
+						$writerViewBox.setWriterDeskPhone(notice.writer?.officeDeskPhone);
+					}
 				}
 				setBasicInfo();
 				setAttachedFileInfo();
@@ -297,7 +303,7 @@ export const createNoticeModalManager = (noticeSearchManager) => {
 			const $fileUploadInfoBox = $writeModal.querySelector("#fileUploadInfoBox");
 			const createFormData = () => {
 				const formData = new FormData();
-				const officeCode = $officeInput.value;
+				//const officeCode = $officeInput.value;
 				const fixYN = $fixYNInput.checked ? "Y" : "N";
 				const title = $titleInput.value;
 				const contents = $contentsInput.value;
@@ -310,14 +316,14 @@ export const createNoticeModalManager = (noticeSearchManager) => {
 			  	return formData;
 			}
 			const setFormData = (notice) => {
-				$officeInput.value = notice.officeCode;
+				//$officeInput.value = notice.officeCode;
 				$fixYNInput.checked = (notice.fixYN == 'Y')?true:false;
 				$titleInput.value = Util.unescape(notice.title);
 				$contentsInput.value = Util.unescape(notice.contents);
 				FileManager.setFiles(notice.fileList);
 			}
 			const initFormData = () => {
-				$officeInput.children[0].selected = true;
+				//$officeInput.children[0].selected = true;
 				$fixYNInput.checked = false;
 				$titleInput.value = "";
 				$contentsInput.value = "";

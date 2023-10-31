@@ -5,7 +5,7 @@ import {eventMixin, Util, Modal, AjaxBuilder} from '/resources/core-assets/essen
 import {createNoticeSearchManager, createNoticeModalManager} from '/resources/front-end-assets/js/lime/page/board/notice_module.js';
 import {SearchBar} from '/resources/front-end-assets/js/lime/comm/module_index.js';
 import {Final, FileManager} from '/resources/front-end-assets/js/lime/comm/module_index.js';
-import {NoticeCall as $NOTICE, AdminCall as $ADM, FileCall as $FILE} from '/resources/front-end-assets/js/lime/ajax/ajax_index.js';
+import {NoticeCall as $NOTICE, FileCall as $FILE} from '/resources/front-end-assets/js/lime/ajax/ajax_index.js';
 
 $(async () => {
 	noticeRowRenderer.init();
@@ -68,15 +68,15 @@ const noticeBuilder = (notice) => {
 		
 		$row.appendChild($column);
 	}
-	// 제목 칼럼
+	// 사업소 칼럼
 	const createOfficeColumn = () => {
-		const $column = Util.createElement("div", "item", "col-1", "justify-content-center", "ellipsis");
-		$column.innerHTML = notice.officeName;
-		$row.appendChild($column);
+		//const $column = Util.createElement("div", "item", "col-1", "justify-content-center", "ellipsis");
+		//$column.innerHTML = notice.officeName;
+		//$row.appendChild($column);
 	}
 	// 제목 칼럼
 	const createTitleColumn = () => {
-		const $column = Util.createElement("div", "item", "col-8");
+		const $column = Util.createElement("div", "item", "col-9");
 		if(!Util.isEmpty(notice.fileList)){
 			notice.fileList.forEach(file => file.fileKey = file.fileId);
 			const $clipIcon = Util.createElement("i", "fas", "fa-paperclip", "mr-2");

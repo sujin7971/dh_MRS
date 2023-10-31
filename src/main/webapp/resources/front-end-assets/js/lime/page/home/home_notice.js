@@ -9,7 +9,7 @@ $(async () => {
 	noticeRowRenderer.init();
 	const noticeSearchManager = createNoticeSearchManager(noticeRowRenderer);
 	noticeSearchManager.init({
-		officeCode: officeCode,
+		officeCode: null,
 		pageNo: 1
 	});
 	objectManager.setSearchManager(noticeSearchManager);
