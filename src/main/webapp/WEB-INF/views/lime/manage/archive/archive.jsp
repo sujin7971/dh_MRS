@@ -62,9 +62,9 @@
             </div>
             <div class="srchBtnDiv">
                 <!--초기화 버튼은 2개. 모바일용, pc용-->
-                <button type="button" class="btn btn-md btn-white mobileReset" data-form-btn="reset">초기화</button>
-                <button type="button" class="btn btn-md btn-blue srch" data-form-btn="search">검 색</button>
-                <button type="button" class="btn btn-md btn-silver reset" data-form-btn="reset">초기화</button>
+                <button type="button" class="btn btn-md btn-white mobileReset" name="mobileReset">초기화</button>
+                <button type="button" class="btn btn-md btn-blue srch" name="search">검 색</button>
+                <button type="button" class="btn btn-md btn-silver reset" name="reset">초기화</button>
             </div>
         </div>
         </form>

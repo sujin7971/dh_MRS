@@ -25,7 +25,7 @@ const searchHandler = {
 		searchHelper.addFormElements("#searchForm");
 		this.search(searchHelper.getFormValues());
 		
-		searchHelper.addFormElements("#searchForm").on({
+		searchHelper.on({
 			click: (event, instance) => {
 				const {
 					name

@@ -71,13 +71,24 @@ const searchHandler = {
 		});
 		const dateInputHelper = new DateInputHelper();
 		dateInputHelper.addInput(searchHelper.getForm("startDate").getElement()).addInput(searchHelper.getForm("endDate").getElement());
-		searchHelper.on("search", (data = {}) => {
-			this.search(data);
-		});
-		searchHelper.on("reset", (data = {}) => {
-			this.reset(data);
-		});
 		this.search(searchHelper.getFormValues());
+		
+		searchHelper.on({
+			click: (event, instance) => {
+				const {
+					name
+				} = instance;
+				switch(name){
+					case "mobileReset":
+					case "reset":
+						this.reset();
+						break;
+					case "search":
+						this.search(searchHelper.getFormValues());
+						break;
+				}
+			}
+		});
 	},
 	async search(data = {}){
 		const {
@@ -108,6 +119,7 @@ const searchHandler = {
 	},
 	reset(data){
 		this.pageNo = 1;
+		this.searchHelper.reset();
 		this.search(data);
 	},
 	async nextPage(){
