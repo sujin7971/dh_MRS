@@ -57,31 +57,31 @@
         </div>
         <div class="listSrchDiv user_list">
         	<form id="searchForm" class="d-flex">
-        	<div class="row">
-                <div class="answer width200">
-                	<select name="roomType" class="input-md w-100">
-	                   	<option value="ALL_ROOM">장소 전체</option>
-						<option value="MEETING_ROOM">회의실</option>
-						<option value="EDU_ROOM">강의실</option>
-						<option value="HALL">강당</option>
-					</select>
-                </div>
-            </div>
-            <div class="row mx-2">
-                <div class="answer width200">
-	                <select title="선택 구분" name="disableYN" class="input-md w-100">
-	                    <option value="ALL">대여가능여부 전체</option>
-	                    <option value="N">대여가능</option>
-	                    <option value="Y">대여불가</option>
-	                </select>
-                </div>
-            </div>
-            <div class="srchBtnDiv">
-                <!--초기화 버튼은 2개. 모바일용, pc용-->
-                <button type="button" class="btn btn-md btn-white mobileReset" data-form-btn="reset">초기화</button>
-                <button type="button" class="btn btn-md btn-blue srch" data-form-btn="search">검 색</button>
-                <button type="button" class="btn btn-md btn-white reset" data-form-btn="reset">초기화</button>
-            </div>
+	        	<div class="row">
+	                <div class="answer width200">
+	                	<select name="roomType" class="input-md w-100">
+		                   	<option value="ALL_ROOM">장소 전체</option>
+							<option value="MEETING_ROOM">회의실</option>
+							<option value="EDU_ROOM">강의실</option>
+							<option value="HALL">강당</option>
+						</select>
+	                </div>
+	            </div>
+	            <div class="row mx-2">
+	                <div class="answer width200">
+		                <select title="선택 구분" name="disableYN" class="input-md w-100">
+		                    <option value="ALL">대여가능여부 전체</option>
+		                    <option value="N">대여가능</option>
+		                    <option value="Y">대여불가</option>
+		                </select>
+	                </div>
+	            </div>
+	            <div class="srchBtnDiv">
+	                <!--초기화 버튼은 2개. 모바일용, pc용-->
+	                <button type="button" class="btn btn-md btn-white mobileReset" name="mobileReset">초기화</button>
+	                <button type="button" class="btn btn-md btn-blue srch" name="search">검 색</button>
+	                <button type="button" class="btn btn-md btn-white reset" name="reset">초기화</button>
+	            </div>
             </form>
         </div>
         <div class="roomListDiv overflow-auto">

@@ -256,6 +256,7 @@ export const createNoticeModalManager = (noticeSearchManager) => {
 				}
 				const setWriterInfo = () => {
 					$writerViewBox.setWriteDate(notice.regDateTime);
+					console.log(notice);
 					if(notice.writerId == "sysadmin") {
 						$writerViewBox.setWriterName("시스템관리자");
 						$writerViewBox.setWriterDeskPhone('');

@@ -70,9 +70,9 @@
 					<li>
 						<h3 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">계층 관리자</h3>
 					</li>
-					<li>
+					<!-- <li>
 						<a href="#" data-role="sys-master" class="nav-link">최고 관리자</a>
-					</li>
+					</li> -->
 					<li>
 						<a href="#" data-role="sys-admin" class="nav-link active">시스템 관리자</a>
 					</li>

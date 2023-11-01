@@ -1,4 +1,4 @@
-import {Util, Modal, AjaxBuilder, eventMixin, FormHelper} from '/resources/core-assets/essential_index.js';
+import {Dom, Util, Modal, AjaxBuilder, eventMixin, FormHelper} from '/resources/core-assets/essential_index.js';
 import {SearchBar} from '/resources/front-end-assets/js/lime/comm/module_index.js';
 import {RoomCall as $RM} from '/resources/front-end-assets/js/lime/ajax/ajax_index.js';
 
@@ -21,14 +21,25 @@ const searchHandler = {
 		} = data;
 		this.pageNo = 1;
 		this.pageCnt = 10;
-		const searchHelper = new FormHelper();
+		const searchHelper = this.searchHelper = new FormHelper();
 		searchHelper.addFormElements("#searchForm");
 		this.search(searchHelper.getFormValues());
-		searchHelper.on("search", (data = {}) => {
-			this.search(data);
-		});
-		searchHelper.on("reset", (data = {}) => {
-			this.reset(data);
+		
+		searchHelper.addFormElements("#searchForm").on({
+			click: (event, instance) => {
+				const {
+					name
+				} = instance;
+				switch(name){
+					case "mobileReset":
+					case "reset":
+						this.reset();
+						break;
+					case "search":
+						this.search(searchHelper.getFormValues());
+						break;
+				}
+			}
 		});
 	},
 	async search(data = {}){
@@ -42,6 +53,7 @@ const searchHandler = {
 	},
 	reset(data){
 		this.pageNo = 1;
+		this.searchHelper.reset();
 		this.search(data);
 	},
 	async pageMove(pageNo){
