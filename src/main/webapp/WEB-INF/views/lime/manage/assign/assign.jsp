@@ -59,7 +59,7 @@
 	                <input type="text" name="endDate" class="width100p input-md" readonly></div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row d-none">
                 <div class="item"><span>장소구분</span></div>
                 <div class="answer">
                     <select name="roomType" class="input-md w-100">
@@ -70,7 +70,7 @@
 					</select>
                 </div>
             </div>
-            <div class="rowGroup">
+            <div class="rowGroup d-none">
                 <div class="item">옵 션</div>
                 <div class="answer">
                     <div class="row">

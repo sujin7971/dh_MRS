@@ -58,7 +58,7 @@
         <div class="listSrchDiv user_list">
         	<form id="searchForm" class="d-flex">
 	        	<div class="row">
-	                <div class="answer width200">
+	                <div class="answer width200 d-none">
 	                	<select name="roomType" class="input-md w-100">
 		                   	<option value="ALL_ROOM">장소 전체</option>
 							<option value="MEETING_ROOM">회의실</option>
@@ -88,7 +88,7 @@
             <div class="listHeaderDiv">
                 <div class="row">
                     <div class="item no">No</div>
-                    <div class="item category">장소구분</div>
+                    <div class="item category d-none">장소구분</div>
                     <div class="item room justify-content-start">명칭</div>
                     <div class="item rent">대여가능<span>여부</span></div>
                     <div class="item reason justify-content-start">대여불가사유</div>
@@ -99,7 +99,7 @@
             <div class="listBodyDiv overflow-auto-y" id="listBox">
                 <div class="row placeholder-wave">
                     <div class="item no"><span class="placeholder w-100"></span></div>
-                    <div class="item category"><span class="placeholder w-100"></span></div>
+                    <div class="item category d-none"><span class="placeholder w-100"></span></div>
                     <div class="item room"><span class="placeholder w-100"></span></div>
                     <div class="item rent"><span class="placeholder w-100"></span></div><!-- 대여가능 rentY / 대여불가 rentN-->
                     <div class="item reason"><span class="placeholder w-100"></span></div>
@@ -122,7 +122,7 @@
                 <div class="modalFormDiv">
                 <form id="roomForm">
                     <input type="hidden" name="roomId">
-                    <div class="row">
+                    <div class="row d-none">
                         <div class="item"><span class="mandatoryInput">구분</span></div>
                         <div class="answer">
                             <div class="radioDiv">

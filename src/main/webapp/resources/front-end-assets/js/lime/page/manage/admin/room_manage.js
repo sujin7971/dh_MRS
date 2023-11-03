@@ -121,7 +121,7 @@ const roomRowBuilder = () => {
 	}
 	// 장소구분 칼럼
 	const createRoomTypeColumn = () => {
-		const $column = Util.createElement("div", "item", "category");
+		const $column = Util.createElement("div", "item", "category", "d-none");
 		const $span = Util.createElement("span");
 		$column.appendChild($span);
 		$row.appendChild($column);

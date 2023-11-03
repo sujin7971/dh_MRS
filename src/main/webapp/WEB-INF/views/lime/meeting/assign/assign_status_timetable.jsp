@@ -76,7 +76,7 @@
                 </div>
             </div>
         </div> --%>
-        <div class="row radio">
+        <div class="row radio d-none">
             <div class="item mobileOnly"><span>장소구분</span></div>
             <div class="answer">
                 <div class="radioDiv">

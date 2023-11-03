@@ -77,7 +77,7 @@
 					</div>
 				</c:if>
 				
-				<div class="row except">
+				<div class="row except d-none">
 					<div class="item">
 						<span>전자회의 여부</span>
 					</div>
@@ -88,7 +88,7 @@
 						</label>
 					</div>
 				</div>
-				<div class="row infoMent">
+				<div class="row infoMent d-none">
 					<div class="item"></div>
 					<div class="answer">전자회의는 자료파일을 업로드하고 참석자들과 공유 및 개별 판서기능을 제공합니다.</div>
 				</div>
