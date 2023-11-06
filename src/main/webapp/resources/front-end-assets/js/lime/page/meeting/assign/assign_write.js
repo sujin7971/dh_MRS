@@ -247,18 +247,12 @@ const requestHandler = {
 			$("input[name='finishDateTime']").val($("input[name='finishDateTime']").val().split("T")[0] + "T" + $("input[name='finishTime']").val() + ":00");
 			const formData = formHelper.getFormData();
 			
-			console.log(formData);
-			for (const key of formData.keys()) {
-			  console.log(key, formData[key]);
-			}
-			console.log(formHelper.getFormValues());
 			const result = await $MEETING.Put.assignOne({scheduleId: scheduleId, formData: formData});
 			if(result.status != 200){
 				throw result;
 			}
 			return result;
 		}catch(error){
-			console.log(error);
 			throw error;
 		}
 	},

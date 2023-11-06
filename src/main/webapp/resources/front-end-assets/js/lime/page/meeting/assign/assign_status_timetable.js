@@ -44,7 +44,6 @@ const searchHandler = {
 		searchHelper.getForm("holdingDate").setDefault(holdingDate);
 		searchHelper.on({
 			change: async (event, instance) => {
-			console.log("asdfadsf");
 				const {
 					name,
 					value,
