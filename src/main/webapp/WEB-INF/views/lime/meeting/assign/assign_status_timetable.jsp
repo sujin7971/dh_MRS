@@ -104,8 +104,8 @@
             <button type="button" class="btn btn-lg btn-blue" id="nextBtn">다 음</button>
         </div>
         <div class="f2">
-            <div id="reserveRoomNameInput" class="selectedMeetingRoom">제7 대회의실</div>
-            <div id="reserveScheduleInput" class="selectedMeetingTime">08:00~12:00</div>
+            <div id="reserveRoomNameInput" class="selectedMeetingRoom"></div>
+            <div id="reserveScheduleInput" class="selectedMeetingTime"></div>
         </div>        
     </div>
 </div>

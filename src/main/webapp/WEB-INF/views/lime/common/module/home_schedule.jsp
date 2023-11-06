@@ -63,4 +63,4 @@
 //로그인한 사원정보
 const date = ("${date}" != "")?"${date}":undefined;
 </script>
-<script type="module" src="/resources/front-end-assets/js/ewp/page/common/home_schedule.js"></script>
+<script type="module" src="/resources/front-end-assets/js/lime/page/home/home_schedule.js"></script>

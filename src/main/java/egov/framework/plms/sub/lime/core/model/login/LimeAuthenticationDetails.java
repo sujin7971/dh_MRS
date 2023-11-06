@@ -72,6 +72,9 @@ public class LimeAuthenticationDetails extends AuthenticationDetails<UserInfoVO>
 	}
 	@Override
 	public boolean hasPosition(ManagerRole role) {
+		if(positions == null) {
+			return false;
+		}
 		Iterator<? extends GrantedAuthority> authlist_it= positions.stream().filter(auth -> auth.getAuthority().contains("MNG_")).iterator();
 		while(authlist_it.hasNext()) {
 			GrantedAuthority authority= authlist_it.next();

@@ -44,15 +44,17 @@ const searchHandler = {
 		searchHelper.getForm("holdingDate").setDefault(holdingDate);
 		searchHelper.on({
 			change: async (event, instance) => {
+			console.log("asdfadsf");
 				const {
 					name,
 					value,
 					element,
 				} = event;
+				console.log(event.target.name);
 				if (name == "roomType") {
 					await this.setRoomList();
 				}
-				if (name == "holdingDate") {
+				if (event.target.name == "holdingDate") {
 					await this.search({
 						holdingDate: value
 					});

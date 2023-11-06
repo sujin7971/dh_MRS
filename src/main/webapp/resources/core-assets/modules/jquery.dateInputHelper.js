@@ -96,7 +96,7 @@ class DateInputHelper {
                 if (action == "OK") {
                     const selectedDate = this.modal.getSelectedDate();
                     input.value = selectedDate;
-                    this.trigger("change", {name: input.name, value: formattedDate});
+                    this.trigger("change", {name: input.name, value: selectedDate});
                 }
             };
             this.inputs.push(input);

@@ -198,6 +198,7 @@ const requestHandler = {
 			const scheduleId = assignResult.data.scheduleId;
 			location.href  = `/lime/meeting/assign/${scheduleId}`;
 		}catch(error){
+			error.detail = error.detail + "<br/>회의실 사용일정이 겹치지 않는지 확인해주세요."
 			Modal.error({response:error});
 		}finally{
 			Modal.endLoading();
@@ -222,6 +223,7 @@ const requestHandler = {
 			history.replaceState(null, null, '/lime/dashboard');
 			location.href  = `/lime/meeting/assign/${scheduleId}`;
 		}catch(error){
+			error.detail = error.detail + "<br/>회의실 사용일정이 겹치지 않는지 확인해주세요."
 			Modal.error({response:error});
 		}finally{
 			Modal.endLoading();
@@ -241,13 +243,22 @@ const requestHandler = {
 	},
 	async updateAssign(scheduleId){
 		try{
+			$("input[name='beginDateTime']").val($("input[name='beginDateTime']").val().split("T")[0] + "T" + $("input[name='beginTime']").val() + ":00");
+			$("input[name='finishDateTime']").val($("input[name='finishDateTime']").val().split("T")[0] + "T" + $("input[name='finishTime']").val() + ":00");
 			const formData = formHelper.getFormData();
+			
+			console.log(formData);
+			for (const key of formData.keys()) {
+			  console.log(key, formData[key]);
+			}
+			console.log(formHelper.getFormValues());
 			const result = await $MEETING.Put.assignOne({scheduleId: scheduleId, formData: formData});
 			if(result.status != 200){
 				throw result;
 			}
 			return result;
 		}catch(error){
+			console.log(error);
 			throw error;
 		}
 	},

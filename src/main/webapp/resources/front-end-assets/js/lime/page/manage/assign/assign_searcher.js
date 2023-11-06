@@ -117,10 +117,10 @@ const searchHandler = {
 		assignRowGenerator.clear();
 		await this.showList();
 	},
-	reset(data){
+	reset(){
 		this.pageNo = 1;
 		this.searchHelper.reset();
-		this.search(data);
+		this.search(this.searchHelper.getFormValues());
 	},
 	async nextPage(){
 		this.pageNo = this.pageNo + 1;
@@ -152,7 +152,7 @@ const searchHandler = {
 		}).exe();
 		Modal.endLoading();
 		assignEvtHandler.enableScrollPagination();
-		if(assignList){
+		if(assignList){	
 			if(assignList.length < this.pageCnt){
 				assignEvtHandler.disableScrollPagination();
 			}

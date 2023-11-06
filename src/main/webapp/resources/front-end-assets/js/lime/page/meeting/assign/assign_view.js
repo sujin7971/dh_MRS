@@ -2,10 +2,10 @@
  * 
  */
 
-import {eventMixin, Util, Modal, FormHelper} from '/resources/core-assets/essential_index.js';
+import {eventMixin, Util, Modal, FormHelper, AjaxBuilder} from '/resources/core-assets/essential_index.js';
 import {attendeeHandler} from './module_index.js';
 import {Final, FileManager} from '/resources/front-end-assets/js/lime/comm/module_index.js';
-import {MeetingCall as $MEETING, RoomCall as $RM} from '/resources/front-end-assets/js/lime/ajax/ajax_index.js';
+import {MeetingCall as $MEETING, RoomCall as $RM, AssignCall as $AS} from '/resources/front-end-assets/js/lime/ajax/ajax_index.js';
 
 window.onload = async () => {
 	await domHandler.init();

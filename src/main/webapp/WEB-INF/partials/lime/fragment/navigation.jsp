@@ -35,10 +35,10 @@
                     </g>
                 </svg>
             </div>
-            <span>B-PLMS</span>
+            <span>L-MRS</span>
         </div>        
         <div class="lct">
-            <div class="pgName">B-PLMS</div>
+            <div class="pgName">L-MRS</div>
             <div class="com"><c:out value="${loginEmp.deptName }"/></div>
             <div data-input="userName" data-btn="userName" class="userName"><c:out value="${loginEmp.userName }"/></div>
         </div>

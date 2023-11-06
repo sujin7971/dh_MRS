@@ -25,8 +25,6 @@ import egov.framework.plms.main.bean.component.auth.PassTokenProvider;
 import egov.framework.plms.main.bean.component.auth.ResourceAuthorityProvider;
 import egov.framework.plms.main.bean.mvc.entity.common.StatDTO;
 import egov.framework.plms.main.bean.mvc.entity.common.StatVO;
-import egov.framework.plms.main.bean.mvc.entity.meeting.MeetingArchiveDTO;
-import egov.framework.plms.main.bean.mvc.entity.meeting.MeetingArchiveVO;
 import egov.framework.plms.main.bean.mvc.entity.meeting.MeetingAssignDTO;
 import egov.framework.plms.main.bean.mvc.entity.meeting.MeetingAssignVO;
 import egov.framework.plms.main.bean.mvc.entity.meeting.MeetingScheduleVO;
@@ -35,6 +33,7 @@ import egov.framework.plms.main.bean.mvc.service.meeting.MeetingApprovalService;
 import egov.framework.plms.main.core.exception.ApiDataOperationException;
 import egov.framework.plms.main.core.exception.abst.ApiException;
 import egov.framework.plms.main.core.model.auth.ResourceAuthorityCollection;
+import egov.framework.plms.main.core.model.enums.auth.AssignApprovalAuth;
 import egov.framework.plms.main.core.model.enums.auth.MeetingAuth;
 import egov.framework.plms.main.core.model.enums.common.OrderColumn;
 import egov.framework.plms.main.core.model.enums.common.OrderDirection;
@@ -44,7 +43,6 @@ import egov.framework.plms.main.core.model.enums.meeting.MeetingStatus;
 import egov.framework.plms.main.core.model.enums.meeting.RoomType;
 import egov.framework.plms.main.core.model.response.ResponseMessage;
 import egov.framework.plms.main.core.util.DateTimeUtil;
-import egov.framework.plms.sub.ewp.core.model.enums.FileRole;
 import egov.framework.plms.sub.lime.bean.mvc.service.meeting.LimeMeetingAssignService;
 import egov.framework.plms.sub.lime.bean.mvc.service.meeting.LimeMeetingAttendeeService;
 import egov.framework.plms.sub.lime.bean.mvc.service.organization.LimeUserInfoService;
@@ -186,8 +184,8 @@ public class LimeMeetingAssignRestController {
 	@PostMapping("/meeting/assign/{scheduleId}/approval/{approvalStatus}")
 	public ResponseMessage postAssignApprovalRequest(@PathVariable Integer scheduleId,
 			@PathVariable ApprovalStatus approvalStatus, @RequestParam @Nullable String comment) {
-		return ResponseMessage.builder(ResponseMessage.StatusCode.FORBIDDEN).build();
-		/*
+		//return ResponseMessage.builder(ResponseMessage.StatusCode.FORBIDDEN).build();
+		
 		ResourceAuthorityCollection authorityCollection = authorityProvider.getAssignApprovalAuthorityCollection(scheduleId);
 		if(authorityCollection.isEmpty()) {
 			return ResponseMessage.builder(ResponseMessage.StatusCode.FORBIDDEN)
@@ -231,7 +229,7 @@ public class LimeMeetingAssignRestController {
 					.detail(ResponseMessage.DetailCode.ASSIGN.FORBIDDEN.value())
 					.build();
 		}
-		*/
+		
 	}
 	
 	/**

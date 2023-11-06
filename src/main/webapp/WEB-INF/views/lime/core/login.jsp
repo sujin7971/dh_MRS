@@ -50,8 +50,8 @@
                     </g>
                 </svg>
             </div>
-            <div class="ciTit">B-PLMS</div>
-            <div class="ciSubTit">BELLOCK PAPERLESS MEETING SYSTEM</div>
+            <div class="ciTit">L-MRS</div>
+            <div class="ciSubTit">LIME MEETINGROOM RESERVATION SYSTEM</div>
         </div>
         <!-- <ul class="loginTabDiv">
             <li id="empNav" class="active">내부 임직원</li>

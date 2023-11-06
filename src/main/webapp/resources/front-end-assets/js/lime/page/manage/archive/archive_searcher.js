@@ -128,7 +128,7 @@ const searchHandler = {
 	},
 	reset(data){
 		this.searchHelper.reset();
-		this.search(data);
+		this.search(this.searchHelper.getFormValues());
 	},
 	async nextPage(){
 		this.pageNo = this.pageNo + 1;

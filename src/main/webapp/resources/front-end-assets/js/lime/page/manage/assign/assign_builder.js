@@ -122,7 +122,7 @@ export const assignRowGenerator = {
 					Util.addClass($row, "at");
 					break;
 			}
-			$row.appendChild($column);
+			//$row.appendChild($column);
 		}
 		// 전자회의 칼럼
 		const createElecColumn = () => {
@@ -132,7 +132,7 @@ export const assignRowGenerator = {
 			if(assign.elecYN == 'Y'){
 				Util.addClass($row, "elec");
 			}
-			$row.appendChild($column);
+			//$row.appendChild($column);
 		}
 		// 일시/장소 칼럼
 		const createScheduleColumn = () => {

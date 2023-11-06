@@ -122,8 +122,8 @@
                 <div class="row">
                     <div class="item no">No</div>
                     <div class="item status">진행상태</div>
-                    <div class="item type">장소구분</div>
-                    <div class="item elecDocs">전자회의</div>
+                    <!-- <div class="item type">장소구분</div>
+                    <div class="item elecDocs">전자회의</div> -->
                     <div class="item dateTimeRoom justify-content-start">일시 / 장소</div>
                     <div class="item security">보안설정</div>
                     <div class="item title">제목</div> 
