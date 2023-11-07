@@ -166,7 +166,7 @@
 					<div class="item"></div>
 					<div class="answer">실제로 회의를 진행하는 사용자로서 참석자확인, 사용자초대, 회의록작성, 보조진행 지정 등의 권한을 가집니다.</div>
 				</div>
-				<div class="row electContent">
+				<div class="row">
 					<div class="item">
 						<span>참석자</span>
 						<button type="button" class="btn btn-sm btn-blue-border" data-btn="attendeeBtn">사용자 선택</button>

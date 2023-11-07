@@ -68,7 +68,6 @@ public class LimeMeetingAuthorityCertificater {
 		}
 		if(assignVO.getElecYN() == 'N') {
 			bannedCollection.add(MeetingAuth.UPLOAD);
-			bannedCollection.add(MeetingAuth.INVITE);
 			bannedCollection.add(MeetingAuth.ATTEND);
 			bannedCollection.add(MeetingAuth.CHECK);
 			bannedCollection.add(MeetingAuth.SIGN);
@@ -123,7 +122,8 @@ public class LimeMeetingAuthorityCertificater {
 				functionCollection.addAll(new HashSet<>(Arrays.asList(
 						MeetingAuth.VIEW,
 						MeetingAuth.UPDATE,
-						MeetingAuth.CANCEL
+						MeetingAuth.CANCEL,
+						MeetingAuth.INVITE
 					)));
 				break;
 			case START:
@@ -131,7 +131,8 @@ public class LimeMeetingAuthorityCertificater {
 						MeetingAuth.VIEW,
 						MeetingAuth.UPDATE,
 						MeetingAuth.CANCEL,
-						MeetingAuth.FINISH
+						MeetingAuth.FINISH,
+						MeetingAuth.INVITE
 					)));
 				break;
 			case FINISH:
@@ -333,7 +334,8 @@ public class LimeMeetingAuthorityCertificater {
 						MeetingAuth.READ,
 						MeetingAuth.VIEW,
 						MeetingAuth.CANCEL,
-						MeetingAuth.UPDATE
+						MeetingAuth.UPDATE,
+						MeetingAuth.INVITE
 					)));
 				break;
 			case START:
@@ -342,7 +344,8 @@ public class LimeMeetingAuthorityCertificater {
 						MeetingAuth.VIEW,
 						MeetingAuth.CANCEL,
 						MeetingAuth.UPDATE,
-						MeetingAuth.FINISH
+						MeetingAuth.FINISH,
+						MeetingAuth.INVITE
 					)));
 				break;
 			case FINISH:

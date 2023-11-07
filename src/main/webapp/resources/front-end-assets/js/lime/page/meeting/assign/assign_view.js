@@ -94,11 +94,13 @@ const domHandler = {
 			formHelper.setDefaultValues(assign.room);
 			formHelper.setDefaultValues(assign.writer);
 			if(assign.elecYN == 'Y'){
-				const attendeeList = await $MEETING.Get.attendeeSimpleListByMeeting({meetingId: assign.meetingId});
-				attendeeHandler.initAttendeeList(attendeeList);
+				//const attendeeList = await $MEETING.Get.attendeeSimpleListByMeeting({meetingId: assign.meetingId});
+				//attendeeHandler.initAttendeeList(attendeeList);
 				const fileList = await $MEETING.Get.meetingAllFileList(assign.meetingId);
 				FileManager.setFiles(fileList);
 			}
+			const attendeeList = await $MEETING.Get.attendeeSimpleListByMeeting({meetingId: assign.meetingId});
+			attendeeHandler.initAttendeeList(attendeeList);
 		}else{
 			location.href = history.back();
 		}

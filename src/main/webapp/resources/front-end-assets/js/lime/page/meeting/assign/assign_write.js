@@ -138,11 +138,13 @@ const domHandler = {
 			formHelper.setDefaultValues(assign);
 			formHelper.setDefaultValues(assign.room);
 			if(assign.elecYN == 'Y'){
-				const attendeeList = await $MEETING.Get.attendeeSimpleListByMeeting({meetingId: assign.meetingId});
-				attendeeHandler.initAttendeeList(attendeeList);
+				//const attendeeList = await $MEETING.Get.attendeeSimpleListByMeeting({meetingId: assign.meetingId});
+				//attendeeHandler.initAttendeeList(attendeeList);
 				const fileList = await $MEETING.Get.meetingMaterialFileList(assign.meetingId);
 				FileManager.setFiles(fileList);
 			}
+			const attendeeList = await $MEETING.Get.attendeeSimpleListByMeeting({meetingId: assign.meetingId});
+			attendeeHandler.initAttendeeList(attendeeList);
 		}else{
 			location.href = history.back();
 		}
@@ -187,9 +189,12 @@ const requestHandler = {
 			const meetingId = assignResult.data.meetingId;
 			const elecYN = formHelper.getForm("elecYN").getValue();
 			if(elecYN == 'Y'){
-				await this.updateAttendee(meetingId);
+				//await this.updateAttendee(meetingId);
 				await this.updateFile(meetingId);
 			}
+			console.log("참석자 추가");
+			await this.updateAttendee(meetingId);
+			console.log("참석자 추가 끝");
 			Modal.endLoading();
 			await Modal.info({
 				msg: "회의가 등록되었습니다."
@@ -213,9 +218,12 @@ const requestHandler = {
 			const assignResult = await this.updateAssign(scheduleId);
 			const elecYN = formHelper.getForm("elecYN").getValue();
 			if(elecYN == 'Y'){
-				await this.updateAttendee(meetingId);
+				//await this.updateAttendee(meetingId);
 				await this.updateFile(meetingId);
 			}
+			console.log("참석자 추가");
+			await this.updateAttendee(meetingId);
+			console.log("참석자 추가 끝");
 			Modal.endLoading();
 			await Modal.info({
 				msg: "회의가 수정되었습니다."

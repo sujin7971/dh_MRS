@@ -132,18 +132,13 @@ public class LimeMeetingAssignRestController {
 				if(isSucess) {
 					Integer meetingKey = newAssignVO.getMeetingId();
 					newAssignVO = assignServ.getMeetingAssignOneByMeetingId(meetingKey).get();
-					if(newAssignVO.getElecYN() != null && newAssignVO.getElecYN() == 'N') {
-						attServ.deleteMeetingAttendeeAll(meetingKey);
-						//fileServ.deleteMeetingFolder(meetingKey);
-					}else {
-						String token = tokenProvider.createToken((String) authentication.getPrincipal(), meetingKey.toString(), new HashSet<>(Arrays.asList(
+					String token = tokenProvider.createToken((String) authentication.getPrincipal(), meetingKey.toString(), new HashSet<>(Arrays.asList(
 							MeetingAuth.VIEW,
 							MeetingAuth.UPDATE,
 							MeetingAuth.UPLOAD,
 							MeetingAuth.INVITE
 						)));
 						session.setAttribute("passToken", token);
-					}
 					return ResponseMessage.builder(ResponseMessage.StatusCode.OK)
 							.message(ResponseMessage.MessageCode.ASSIGN.PUT_SUCCESS.value())
 							.build();
