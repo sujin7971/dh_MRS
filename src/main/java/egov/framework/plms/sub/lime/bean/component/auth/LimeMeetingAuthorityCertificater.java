@@ -337,6 +337,10 @@ public class LimeMeetingAuthorityCertificater {
 						MeetingAuth.UPDATE,
 						MeetingAuth.INVITE
 					)));
+				meetingAuthorityMng.changePermissionForAttendee(AttendRole.ATTENDEE, meetingId, new HashSet<>(Arrays.asList(
+						MeetingAuth.READ,
+						MeetingAuth.VIEW
+				)));
 				break;
 			case START:
 				meetingAuthorityMng.changePermissionForUser(assignVO.getWriterId(), meetingId, new HashSet<>(Arrays.asList(
@@ -347,11 +351,19 @@ public class LimeMeetingAuthorityCertificater {
 						MeetingAuth.FINISH,
 						MeetingAuth.INVITE
 					)));
+				meetingAuthorityMng.changePermissionForAttendee(AttendRole.ATTENDEE, meetingId, new HashSet<>(Arrays.asList(
+						MeetingAuth.READ,
+						MeetingAuth.VIEW
+				)));
 				break;
 			case FINISH:
 				meetingAuthorityMng.changePermissionForUser(assignVO.getWriterId(), meetingId, new HashSet<>(Arrays.asList(
 					MeetingAuth.READ,
 					MeetingAuth.VIEW
+				)));
+				meetingAuthorityMng.changePermissionForAttendee(AttendRole.ATTENDEE, meetingId, new HashSet<>(Arrays.asList(
+						MeetingAuth.READ,
+						MeetingAuth.VIEW
 				)));
 				break;
 			case CLOSING:
