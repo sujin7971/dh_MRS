@@ -66,7 +66,7 @@
 	                    <i class="fas fa-list"></i>
 	                    <span>회의목록</span>
 	                </li>
-	                <li class="mainMenu mn2" title="파일함" onclick="location.href='/lime/meeting/archive/manage/user'">
+	                <li class="mainMenu mn2 d-none" title="파일함" onclick="location.href='/lime/meeting/archive/manage/user'">
 	                    <i class="fas fa-folder-open"></i>
 	                    <span>파일함</span>
 	                </li>

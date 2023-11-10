@@ -51,6 +51,17 @@
 		<%-- Fancytree --%>
 	<link rel="stylesheet" href="/resources/library/fancytree/skin-awesome/ui.fancytree.css">
 	<script src="/resources/library/fancytree/jquery.fancytree-all.min.js"></script>
+	
+	<style>
+		ul.fancytree-container {border:none !important;}
+		ul.fancytree-container * {outline:none !important;}
+		#deptTree > ul > li > span span, 
+		#deptTree > ul > li > ul li > span span {padding: 5px 5px; border-radius: 5px;}
+		#deptTree > ul > li > span span.fancytree-title, 
+		#deptTree > ul > li > ul li > span span.fancytree-title {font-family: 'Pretendard', 'malgun-gothic', sans-serif !important;}
+		ul.fancytree-container ul {padding-top:0;}
+		.fancytree-treefocus span.fancytree-active span.fancytree-title{background-color:#2667a0 !important;}
+	</style>
 </head>
 <body class="mm8">
 	<jsp:include page="/WEB-INF/partials/lime/fragment/navigation.jsp"></jsp:include>
@@ -83,7 +94,7 @@
 			</aside>
 			<section class="col-8 col-sm-9 col-md-9 col-xxl-10 bg-white p-3 ml-2" data-section="dept-member">
 				<div class="d-flex">
-					<span id="memberTitle" class="fs-4">사원</span>
+					<span id="memberTitle" class="fs-4">직원</span>
 					<div id="addMemberBtn" class="btn-add h-auto ml-2" title="부서원 추가"></div>
 				</div>
 				<hr>

@@ -18,7 +18,7 @@ CSS는 /resources/front-end-assets/css/main/custom.css 에 설정.
 
 <c:if test='${userDetails.hasRole("ROLE_SYSTEM_ADMIN") or userDetails.hasRole("ROLE_MASTER_ADMIN")}'>
    <c:if test='${userDetails.hasRole("ROLE_MASTER_ADMIN")}'>
-      <div class="subTab archiveTab" onclick="location.href='/lime/admin/master/manage/meeting/archive'">파일함 관리</div>
+      <div class="subTab archiveTab d-none" onclick="location.href='/lime/admin/master/manage/meeting/archive'">파일함 관리</div>
    </c:if>
    <div class="subTab noticeTab" onclick="location.href='/lime/admin/system/manage/notice'">공지사항 관리</div>
    <div class="subTab roomTab" onclick="location.href='/lime/admin/system/manage/room'">장소 관리</div>

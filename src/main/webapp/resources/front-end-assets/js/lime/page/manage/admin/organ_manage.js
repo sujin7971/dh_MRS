@@ -191,12 +191,14 @@ const DeptHandler = {
 		this.deptId = deptId;
 		this.deptName = deptName;
 		const $memberTitle = Util.getElement("#memberTitle");
-		$memberTitle.innerText = `${deptName} 사원`;
+		$memberTitle.innerText = `${deptName} 직원`;
 		
 		const tree = $("#deptTree").fancytree("getTree");
+		//console.log(tree);
 		const node = tree.getNodeByKey(deptId);
-		node.setSelected(true);
-		
+		//console.log(node);
+		if(node != null) node.setSelected(true);
+		else $.ui.fancytree.getTree("#deptTree").setActive(false);
 		await this.showDeptMember();
 	},
 	getSelectedDept(){

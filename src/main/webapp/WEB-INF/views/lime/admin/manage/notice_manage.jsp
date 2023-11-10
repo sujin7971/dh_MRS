@@ -54,6 +54,12 @@
 <%-- 페이지네이션 --%>
 	<link rel="stylesheet" href="/resources/library/pagination/dist/pagination.css">
 	<script src="/resources/library/pagination/dist/pagination.js"></script>
+	
+	<style>
+		div#fixedNoticeListBox.empty:empty:after {
+			content: '상단고정 검색 결과가 없습니다';
+		}
+	</style>
 </head>
 <c:set var = "userRole" value = "${sessionScope.SPRING_SECURITY_CONTEXT.authentication.details}"/>
 <body class="mm4">
@@ -196,7 +202,7 @@
                             <textarea rows="20" name="contents"></textarea>
                         </div>
                     </div>
-                    <div class="row">
+                    <div class="row d-none">
 						<div class="item py-2 align-items-start">
                             <span>첨부파일</span>
 						</div>

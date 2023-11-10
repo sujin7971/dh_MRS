@@ -134,7 +134,9 @@ body.index .loginTabDiv li.active {background-Color:#2592f3; color:#fff}
   body.mm3 .mn3 i,
   body.mm4 .mn4 i,
   body.mm5 .mn5 i,
-  body.mm6 .mn6 i {font-size:36px; color:#fff !important;  text-shadow:0 3px 0 rgba(0,0,0,0.1)}
+  body.mm6 .mn6 i,
+  body.mm7 .mn7 i,
+  body.mm8 .mn8 i {font-size:36px; color:#fff !important;  text-shadow:0 3px 0 rgba(0,0,0,0.1)}
   body.mm1 .mn1 i::after {color:#2955b6}
   .shy-menu-panel li:hover i {cursor:pointer; font-size:40px}
   .shy-menu-panel li.mn12 .fa-large {position:relative}
