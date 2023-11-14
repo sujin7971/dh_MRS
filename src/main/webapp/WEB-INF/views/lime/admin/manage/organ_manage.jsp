@@ -53,6 +53,9 @@
 	<script src="/resources/library/fancytree/jquery.fancytree-all.min.js"></script>
 	
 	<style>
+		.btn-edit:focus{box-shadow: none !important;}
+		#invalidDeptLink{cursor: default !important;}
+		#invalidDeptLink:hover{color: #000;}
 		ul.fancytree-container {border:none !important;}
 		ul.fancytree-container * {outline:none !important;}
 		#deptTree > ul > li > span span, 

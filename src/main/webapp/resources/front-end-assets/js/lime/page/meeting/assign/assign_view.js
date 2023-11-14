@@ -91,6 +91,9 @@ const domHandler = {
 		if(assign){
 			console.log("assign", assign)
 			formHelper.setDefaultValues(assign);
+			$("input[name='title']").parent().parent().children(".item").children(".input-limit").text(assign.title.length + "/30");
+			$("input[name='scheduleHost']").parent().parent().children(".item").children(".input-limit").text(assign.scheduleHost.length + "/10");
+			$("textarea[name='contents']").parent().parent().children(".item").children(".input-limit").text(assign.contents.length + "/100");
 			formHelper.setDefaultValues(assign.room);
 			formHelper.setDefaultValues(assign.writer);
 			if(assign.elecYN == 'Y'){

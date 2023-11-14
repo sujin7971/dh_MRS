@@ -136,6 +136,9 @@ const domHandler = {
 		const assign = await $MEETING.Get.assignOne(scheduleId);
 		if(assign){
 			formHelper.setDefaultValues(assign);
+			$("input[name='title']").parent().parent().children(".item").children(".input-limit").text(assign.title.length + "/30");
+			$("input[name='scheduleHost']").parent().parent().children(".item").children(".input-limit").text(assign.scheduleHost.length + "/10");
+			$("textarea[name='contents']").parent().parent().children(".item").children(".input-limit").text(assign.contents.length + "/100");
 			formHelper.setDefaultValues(assign.room);
 			if(assign.elecYN == 'Y'){
 				//const attendeeList = await $MEETING.Get.attendeeSimpleListByMeeting({meetingId: assign.meetingId});
@@ -203,7 +206,7 @@ const requestHandler = {
 			const scheduleId = assignResult.data.scheduleId;
 			location.href  = `/lime/meeting/assign/${scheduleId}`;
 		}catch(error){
-			error.detail = error.detail + "<br/>회의실 사용일정이 겹치지 않는지 확인해주세요."
+			if(error.detail == "회의 일정 생성에 실패했습니다.") error.detail = error.detail + "<br/>회의실 사용일정이 겹치지 않는지 확인해주세요."
 			Modal.error({response:error});
 		}finally{
 			Modal.endLoading();
@@ -231,7 +234,7 @@ const requestHandler = {
 			history.replaceState(null, null, '/lime/dashboard');
 			location.href  = `/lime/meeting/assign/${scheduleId}`;
 		}catch(error){
-			error.detail = error.detail + "<br/>회의실 사용일정이 겹치지 않는지 확인해주세요."
+			if(error.detail == "회의 일정 생성에 실패했습니다.") error.detail = error.detail + "<br/>회의실 사용일정이 겹치지 않는지 확인해주세요."
 			Modal.error({response:error});
 		}finally{
 			Modal.endLoading();

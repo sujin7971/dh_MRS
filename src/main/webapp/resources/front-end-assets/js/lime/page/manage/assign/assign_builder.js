@@ -201,7 +201,7 @@ export const assignRowGenerator = {
 			const $tipSpan = Util.createElement("span", "headerTip");
 			$tipSpan.innerHTML = "참석자: ";
 			$column.appendChild($tipSpan);
-			if(assign.elecYN == 'Y'){
+			//if(assign.elecYN == 'Y'){
 				const attendeeList = assign.attendeeList;
 				console.log("attendeeList", attendeeList);
 				for(const attendee of attendeeList){
@@ -209,7 +209,7 @@ export const assignRowGenerator = {
 					$attendee.innerHTML = attendee.userName;
 					$column.appendChild($attendee);
 				}
-			}
+			//}
 			$row.appendChild($column);
 		}
 		// 등록일 칼럼
