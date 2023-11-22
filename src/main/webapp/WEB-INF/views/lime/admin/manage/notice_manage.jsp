@@ -116,9 +116,9 @@
         <div class="noticeDiv overflow-auto">
             <div class="listHeaderDiv">
                 <div class="row">
-                    <div class="item col-1">No</div>
+                    <div class="item col-2">No</div>
 <!--                     <div class="item col-1">사업소</div> -->
-                    <div class="item col-9">제 목</div>
+                    <div class="item col-8">제 목</div>
                     <div class="item col-2">등록일</div>
                 </div>
             </div>

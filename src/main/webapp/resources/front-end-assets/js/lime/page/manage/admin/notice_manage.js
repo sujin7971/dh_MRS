@@ -58,7 +58,7 @@ const evtHandler = {
 const noticeBuilder = (notice) => {
 	const $row = Util.createElement("div", "row");
 	const createNoColumn = () => {
-		const $column = Util.createElement("div", "item", "col-1", "justify-content-center");
+		const $column = Util.createElement("div", "item", "col-2", "justify-content-center");
 		if(notice.fixYN == 'Y'){
 			const $icon = Util.createElement("i", "fas", "fa-thumbtack");
 			$column.appendChild($icon);
@@ -76,7 +76,7 @@ const noticeBuilder = (notice) => {
 	}
 	// 제목 칼럼
 	const createTitleColumn = () => {
-		const $column = Util.createElement("div", "item", "col-9");
+		const $column = Util.createElement("div", "item", "col-8");
 		if(!Util.isEmpty(notice.fileList)){
 			notice.fileList.forEach(file => file.fileKey = file.fileId);
 			const $clipIcon = Util.createElement("i", "fas", "fa-paperclip", "mr-2");
