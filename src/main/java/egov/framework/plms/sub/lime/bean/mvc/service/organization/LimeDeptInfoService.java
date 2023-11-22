@@ -39,4 +39,15 @@ public class LimeDeptInfoService extends DeptInfoAbstractService<DeptInfoVO>{
 			return false;
 		}
 	}
+	
+	public boolean updateDeptInfoOneToDelete(String deptId) {
+		try {
+			Integer result = mapper.updateDeptInfoOneToDelete(deptId);
+			return (result == 0)?false:true;
+		}catch(Exception e) {
+			log.error("Failed to update DeptInfo one to Delete with id: {}", deptId);
+			log.error("Failed to update DeptInfo one to Delete messages: {}", e.toString());
+			return false;
+		}
+	}
 }

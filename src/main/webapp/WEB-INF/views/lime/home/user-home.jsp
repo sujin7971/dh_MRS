@@ -15,7 +15,7 @@
 	style-src 'self' 'unsafe-inline'; 
 	style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com; 
 	font-src 'self' https://fonts.gstatic.com">
-	<title>B-PLMS</title>
+	<title>L-MRS</title>
 	<meta name="description" content="SMART MEETING MANAGEMENT SYSTEM">
 	<meta name="author" content="BPLMS">
 	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -35,7 +35,31 @@
 	<script src="/resources/meetingtime/lime/js/jquery-ui.js"></script>
 	<script src="/resources/meetingtime/lime/js/jquery-ui-datepicker.js"></script>
 	<script src="/resources/library/moment/dist/moment-with-locales.min.js"></script>
-	
+	<style>
+		.homeRightDiv > .statSection .container {
+			background-image: none;
+			background-color: #e6e6e6;
+		}
+		
+		.homeRightDiv > .statSection > .container {
+		    border: 1px solid #ccc;
+		}
+		
+		.homeRightDiv > .statSection {
+			flex: 0.5;
+		}
+		
+		body > div.wrapper.home > div > div.homeRightDiv > div.statSection.margin-top-20 > div.container > div > div > div {
+			align-items: center;
+			justify-content: center;
+			font-size: 22px;
+			font-weight: 600;
+			color: #396281;
+			padding: 20px 0;
+		}
+		
+		
+	</style>
 	
 </head>
 <body class="mm1">

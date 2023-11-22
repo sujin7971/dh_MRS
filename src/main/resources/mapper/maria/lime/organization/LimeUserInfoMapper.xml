@@ -84,6 +84,18 @@
 		</where>
 	</select>
 	
+	<!-- 사원 정보 수정 -->
+	<update id="updateDeletedDeptUser" parameterType="egov.framework.plms.main.bean.mvc.entity.organization.UserInfoVO">
+	/* LimeUserInfoMapper updateDeletedDeptUser */
+		UPDATE org_user_info
+		<set>
+			,deptId = 0
+		</set>
+		<where>
+			AND deptId = #{deptId}
+		</where>
+	</update>
+	
 	<sql id="selectJoinedUserInfo">
 		ui.*, di.officeCode, di.deptName
 	</sql>

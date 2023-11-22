@@ -11,4 +11,5 @@ public interface LimeUserInfoMapper extends UserInfoAbstractMapper<UserInfoVO>{
 	Integer updateUserInfoOne(UserInfoVO param);
 	Integer updateUserInfoOneToDelete(String userId);
 	Integer deleteUserInfoOne(String userId);
+	Integer updateDeletedDeptUser(String deptId);
 }

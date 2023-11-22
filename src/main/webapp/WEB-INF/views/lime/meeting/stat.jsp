@@ -12,7 +12,7 @@
 	style-src 'self' 'unsafe-inline'; 
 	style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com; 
 	font-src 'self' https://fonts.gstatic.com">
-	<title>스마트 회의시스템</title>
+	<title>L-MRS</title>
 	<meta name="description" content="SMART MEETING MANAGEMENT SYSTEM">
 	<meta name="author" content="BPLMS">
 	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">    
@@ -47,7 +47,7 @@
 	</div>
 	<div id="searchBox" class="scdSrchDiv">
 		<div class="row">
-               <div class="radioDiv2">
+               <div class="radioDiv2 d-none">
                    <label for="targetC">
                        <input type="radio" id="targetC" name="target" value="company" checked>
                        <span>회사전체</span>
@@ -59,7 +59,7 @@
                </div>
 		</div>
 		<div class="row ml-auto">
-			<div class="answer">
+			<div class="answer d-none">
 				<div class="selectDiv">
 					<label for="periodPresetSelect" class="ellipsis p-1" id="periodPresetLabel">기간선택</label>
 				   	<select id="periodPresetSelect" title="선택 구분" style="width:fit-content;">
@@ -76,13 +76,14 @@
 			</div>
     	</div>
     	<div class="row">
+    		<div class="item"><span>기 간</span></div>
     		<div class="answer date">
 				<div data-input="startDate" id="startDateDiv">
-					<input type="text" id="startDateInput" class="width100p input-md" readonly>
+					<input type="text" id="startDateInput" class="width100p input-md" style="background-color:#fff; cursor:pointer;" readonly>
 				</div>
 				<span class="period">~</span>
 		   		<div data-input="endDate" id="endDateDiv">
-		    		<input type="text" id="endDateInput" class="width100p input-md" readonly>
+		    		<input type="text" id="endDateInput" class="width100p input-md" style="background-color:#fff; cursor:pointer;" readonly>
 		    	</div>
 			</div>
     	</div>
@@ -105,7 +106,7 @@
             <div class="box">
                 <div class="box">
                     <div class="box">
-                        <div class="box_paper">
+                        <div class="box_paper" style="display: none;">
                             <div class="commonTit">Paperless 회의 성과</div>
                             <div class="container display-flex flex-direction-column" style="font-size:14px">
                                 <div class="tit" id="totalpage"></div>
@@ -130,19 +131,19 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="box_total" data-stat-summary="total">
+                        <div class="box_total d-flex" data-stat-summary="total">
                             <div class="commonTit" >총 회의 건 수 / 평균 회의시간</div>
                             <div class="container" data-stat-display>
                                 0회 / 0시간 0분
                             </div>
                         </div>
-                        <div data-stat-summary="hosting">
+                        <div class="d-flex" data-stat-summary="hosting">
                             <div class="commonTit">내가 진행한 회의 / 총 회의시간</div>
                             <div class="container" data-stat-display>
                                 0회 / 0시간 0분
                             </div>
                         </div>                        
-                        <div data-stat-summary="attendance">
+                        <div class="d-none" data-stat-summary="attendance">
                             <div class="commonTit">참여 회의 건 수 / 총 회의시간</div>
                             <div class="container" data-stat-display>
                                 0회 / 0시간 0분

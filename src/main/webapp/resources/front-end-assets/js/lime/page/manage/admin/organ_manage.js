@@ -49,11 +49,11 @@ const DeptHandler = {
 			const $btn = Util.getElement("#deleteDeptBtn");
 			$btn.disabled = false;
 			$btn.onclick = async () => {
-				const reply = await Modal.confirm({msg: "해당 부서를 명단에서 제거하시겠습니까?", delMode: true});
+				const selectedDept = this.getSelectedDept();
+				const reply = await Modal.confirm({msg: selectedDept.deptName + " 부서를 명단에서 제거하시겠습니까?", delMode: true});
 				if(reply != "DELETE"){
 					return;
 				}
-				const selectedDept = this.getSelectedDept();
 				const result = await $ORG.Delete.deleteDeptOne(selectedDept.deptId);
 				if(result.status != 200){
 					console.log("result", result)
@@ -61,6 +61,10 @@ const DeptHandler = {
 					return;
 				}
 				await this.showDeptTree();
+				this.setSelectedDept({
+		    		deptId: 0,
+		    		deptName: "미지정"
+		    	});
 			}
 		}
 		this.disableDeptDeleteBtn = () => {
@@ -110,11 +114,19 @@ const DeptHandler = {
 			return;
 		}
 		const result = await $ORG.Post.insertDeptOne(this.getFormHelper().getFormData());
+		console.log(this.getFormHelper().getFormValues());
 		if(result.status != 200){
 			Modal.error({response: result});
 			return;
 		}else{
 			await this.showDeptTree();
+			const deptList = await OrganDataResolver.getDeptList();
+			const newDeptId = Math.max(...deptList.map((item) => item.deptId * 1));
+			const newDeptNm = this.getFormHelper().getFormValues().deptName;
+			this.setSelectedDept({
+	    		deptId: newDeptId,
+	    		deptName: newDeptNm
+	    	});
 		}
 	},
 	async showDeptTree(){
@@ -195,10 +207,12 @@ const DeptHandler = {
 		
 		const tree = $("#deptTree").fancytree("getTree");
 		const node = tree.getNodeByKey(deptId);
-		if(this.getSelectedDept().deptId == 0) $("#invalidDeptLink").css({color:"#0a58ca"});
-		else $("#invalidDeptLink").css({color:""});
-		if(node != null) node.setSelected(true);
-		else if($("#deptTree").fancytree("getActiveNode")) tree.getActiveNode().setActive(false);
+		if(this.getSelectedDept().deptId == 0) $("#invalidDeptLink").addClass("focused");
+		else $("#invalidDeptLink").removeClass("focused");
+		if(node != null) {
+			node.setSelected(true);
+			node.setActive();
+		} else if($("#deptTree").fancytree("getActiveNode")) tree.getActiveNode().setActive(false);
 		await this.showDeptMember();
 	},
 	getSelectedDept(){
@@ -424,8 +438,12 @@ const MemberHandler = {
 		if(reply != "OK"){
 			return;
 		}
+		const formVal = this.getFormHelper().getFormValues();
+		if(formVal.userName.trim == null || formVal.userName.trim == "") Modal.error({response: "이름이 비어있습니다."});
+		else if(formVal.userId.trim == null || formVal.userId.trim == "") Modal.error({response: "사번이 비어있습니다."});
 		const result = await $ORG.Post.userOne(this.getFormHelper().getFormData());
 		if(result.status != 200){
+			console.log(result);
 			Modal.error({response: result});
 			return;
 		}

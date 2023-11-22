@@ -16,7 +16,7 @@
 	style-src 'self' 'unsafe-inline'; 
 	style-src-elem 'self' https://fonts.googleapis.com; 
 	font-src 'self' https://fonts.gstatic.com">
-	<title>B-PLMS</title>
+	<title>L-MRS</title>
 	<meta name="description" content="SMART MEETING MANAGEMENT SYSTEM">
 	<meta name="author" content="BPLMS">
 	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">   

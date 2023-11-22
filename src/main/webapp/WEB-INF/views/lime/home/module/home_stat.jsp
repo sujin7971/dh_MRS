@@ -6,28 +6,17 @@
 <!DOCTYPE HTML>
 <div class="statSection margin-top-20">
     <div class="titDiv align-items-center">
-        <div class="pageTit"><span>나의 전자회의 성과 </span><span>(누적통계)</span></div>
-        <div class="help" id="statHelpBtn"></div>
+        <div class="pageTit"><span>내가 진행한 회의 / 총 회의시간 </span></div>
+        <div class="help d-none" id="statHelpBtn"></div>
     </div>
 
     <div class="container ">
-        <div class="detail">
-            <article class="paper">
-                <div class="item">A4 용지 절약</div>
-                <div class="answer w-50" data-stat="pageReduction"></div>
-            </article>
-            <article class="money">
-                <div class="item">용지비용 절약</div>
-                <div class="answer w-50" data-stat="costReduction"></div>
-            </article>
-            <article class="co2">
-                <div class="item">온실가스 감소</div>
-                <div class="answer w-50" data-stat="gasReduction"></div>
-            </article>
-            <article class="water">
-                <div class="item">물 절약</div>
-                <div class="answer w-50" data-stat="waterReduction"></div>
-            </article>
+        <div class="detail margin-h-auto">
+            <div class="" data-stat-summary="hosting">
+                <div class="container" data-stat-display>
+                    0회 / 0시간 0분
+                </div>
+            </div>
         </div>
     </div>
 </div>

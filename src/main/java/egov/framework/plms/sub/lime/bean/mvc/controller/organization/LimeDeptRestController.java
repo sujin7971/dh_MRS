@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import egov.framework.plms.main.bean.mvc.entity.organization.DeptInfoDTO;
 import egov.framework.plms.main.bean.mvc.entity.organization.DeptInfoVO;
-import egov.framework.plms.main.bean.mvc.service.organization.DeptInfoService;
+import egov.framework.plms.main.bean.mvc.entity.organization.UserInfoVO;
 import egov.framework.plms.main.core.model.response.ResponseMessage;
 import egov.framework.plms.main.core.model.response.ResponseMessage.StatusCode;
+import egov.framework.plms.sub.lime.bean.mvc.service.organization.LimeDeptInfoService;
+import egov.framework.plms.sub.lime.bean.mvc.service.organization.LimeUserInfoService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
@@ -26,7 +28,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequiredArgsConstructor
 @Profile("lime")
 public class LimeDeptRestController {
-	private final DeptInfoService deptService;
+	private final LimeDeptInfoService deptService;
+	private final LimeUserInfoService userService;
 	
 	@PostMapping("/admin/system/dept")
 	public ResponseMessage insertDeptOne(DeptInfoDTO params) {
@@ -41,9 +44,20 @@ public class LimeDeptRestController {
 	
 	@DeleteMapping("/admin/system/dept/{deptId}")
 	public ResponseMessage deleteDeptOne(@PathVariable String deptId) {
-		boolean result = deptService.updateDeptInfoOneToDelete(deptId);
-		if(result) {
-			return ResponseMessage.builder(StatusCode.OK).build();
+		boolean deptResult = deptService.updateDeptInfoOneToDelete(deptId);
+		if(deptResult) {
+			UserInfoVO vo = UserInfoVO.builder().deptId(deptId).build();
+			List<UserInfoVO> listVO = userService.selectUserInfoList(vo);
+			if(listVO.size() > 0) {
+				boolean userResult = userService.updateDeletedDeptUser(deptId);
+				if(userResult) {
+					return ResponseMessage.builder(StatusCode.OK).build();
+				}else {
+					return ResponseMessage.builder(StatusCode.BAD_REQUEST).build();
+				}				
+			} else {
+				return ResponseMessage.builder(StatusCode.OK).build();
+			}
 		}else {
 			return ResponseMessage.builder(StatusCode.BAD_REQUEST).build();
 		}

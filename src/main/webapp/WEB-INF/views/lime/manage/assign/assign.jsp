@@ -53,10 +53,10 @@
                 <div class="item"><span>기 간</span></div>
                 <div class="answer date">
                     <div data-input="startDate" id="startDateDiv">
-	                <input type="text" name="startDate" class="width100p input-md" readonly></div>
+	                <input type="text" name="startDate" class="width100p input-md" style="background-color: #fff" readonly></div>
 	                <span class="period">~</span>
 	                <div data-input="endDate" id="endDateDiv">
-	                <input type="text" name="endDate" class="width100p input-md" readonly></div>
+	                <input type="text" name="endDate" class="width100p input-md" style="background-color: #fff" readonly></div>
                 </div>
             </div>
             <div class="row d-none">

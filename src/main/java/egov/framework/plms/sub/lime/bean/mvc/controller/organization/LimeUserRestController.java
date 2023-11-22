@@ -1,6 +1,7 @@
 package egov.framework.plms.sub.lime.bean.mvc.controller.organization;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -20,7 +21,9 @@ import egov.framework.plms.main.bean.mvc.entity.organization.UserInfoVO;
 import egov.framework.plms.main.bean.mvc.service.admin.AdminRosterService;
 import egov.framework.plms.main.core.model.auth.ResourceAuthorityCollection;
 import egov.framework.plms.main.core.model.enums.user.DomainRole;
+import egov.framework.plms.main.core.model.response.ErrorMessage;
 import egov.framework.plms.main.core.model.response.ResponseMessage;
+import egov.framework.plms.main.core.model.response.ErrorMessage.MessageCode;
 import egov.framework.plms.main.core.model.response.ResponseMessage.StatusCode;
 import egov.framework.plms.sub.lime.bean.mvc.service.organization.LimeUserAccountService;
 import egov.framework.plms.sub.lime.bean.mvc.service.organization.LimeUserInfoService;
@@ -43,16 +46,26 @@ public class LimeUserRestController {
 	public ResponseMessage insertUserOne(UserInfoDTO userDTO) {
 		log.info("userDTO: {}", userDTO);
 		UserInfoVO infoParams = userDTO.convert();
-		boolean infoResult = userServ.insertUserInfoOne(infoParams);
-		if(!infoResult) {
-			return ResponseMessage.builder(StatusCode.BAD_REQUEST).build();
+		Optional<UserInfoVO> duplUser = userServ.selectUserInfoOne(infoParams.getUserId());
+		if(duplUser == null) {
+			boolean infoResult = userServ.insertUserInfoOne(infoParams);
+			if(!infoResult) {
+				return ResponseMessage.builder(StatusCode.BAD_REQUEST).build();
+			}
+			boolean accountResult = accountServ.insertUserAccount(infoParams.getUserId());
+			if(!accountResult) {
+				userServ.deleteUserInfoOne(infoParams.getUserId());
+				return ResponseMessage.builder(StatusCode.BAD_REQUEST).build();
+			}
+			return ResponseMessage.builder(StatusCode.OK).build();			
+		} else {
+			return ResponseMessage.builder(ResponseMessage.StatusCode.BAD_REQUEST)
+					.message(ResponseMessage.MessageCode.EMPLOYEE.PUT_FAIL.value())
+					.error(ErrorMessage.builder(ErrorMessage.ErrorCode.INVALID_VALUE)
+							.message(ErrorMessage.MessageCode.EMPLOYEE.CONFLICT_ID.value())
+							.build())
+					.build();
 		}
-		boolean accountResult = accountServ.insertUserAccount(infoParams.getUserId());
-		if(!accountResult) {
-			userServ.deleteUserInfoOne(infoParams.getUserId());
-			return ResponseMessage.builder(StatusCode.BAD_REQUEST).build();
-		}
-		return ResponseMessage.builder(StatusCode.OK).build();
 	}
 	
 	@PutMapping("/admin/system/user")

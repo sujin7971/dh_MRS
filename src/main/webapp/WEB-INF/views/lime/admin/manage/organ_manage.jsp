@@ -16,7 +16,7 @@
 		style-src 'self' 'unsafe-inline'; 
 		style-src-elem 'self' 'unsafe-inline' https://fonts.googleapis.com; 
 		font-src 'self' https://fonts.gstatic.com">
-	<title>B-PLMS 조직관리</title>
+	<title>L-MRS</title>
 	<meta name="description" content="SMART MEETING MANAGEMENT SYSTEM">
 	<meta name="author" content="BPLMS">
 	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -54,12 +54,15 @@
 	
 	<style>
 		.btn-edit:focus{box-shadow: none !important;}
-		#invalidDeptLink{cursor: default !important;}
-		#invalidDeptLink:hover{color: #000;}
+		#invalidDeptLink{cursor: default !important; color: #000 !important;}
+		#invalidDeptLink > span:hover{cursor: pointer !important;}
+		#invalidDeptLink.focused > span {background-color: #D4D4D4;}
+		#invalidDeptLink.focused:focus > span {color:#fff; background-color: #2667a0 !important;}
 		ul.fancytree-container {border:none !important;}
 		ul.fancytree-container * {outline:none !important;}
 		#deptTree > ul > li > span span, 
-		#deptTree > ul > li > ul li > span span {padding: 5px 5px; border-radius: 5px;}
+		#deptTree > ul > li > ul li > span span,
+		#invalidDeptLink > span {padding: 5px 5px; border-radius: 5px;}
 		#deptTree > ul > li > span span.fancytree-title, 
 		#deptTree > ul > li > ul li > span span.fancytree-title {font-family: 'Pretendard', 'malgun-gothic', sans-serif !important;}
 		ul.fancytree-container ul {padding-top:0;}
@@ -90,7 +93,9 @@
 					<li id="deptTree" class="border-0">
 					</li>
 					<li>
-						<a href="#" id="invalidDeptLink" class="nav-link"><i class="fas fa-users-slash mr-2"></i>미지정</a>
+						<a href="#" id="invalidDeptLink" class="nav-link">
+							<span><i class="fas fa-users-slash mr-2"></i>미지정</span>
+						</a>
 					</li>
 				</ul>
 				<div ></div>

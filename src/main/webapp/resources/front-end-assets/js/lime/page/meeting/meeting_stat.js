@@ -218,6 +218,7 @@ const statDataDeployer = {
 		await this.setMeetingSummaryStatForCompany();
 		await this.setTop5DepartmentForCompany();
 		await this.setMeetingMonthlyTrendForCompany();
+		await this.setMeetingSummaryStatForPersonal();
 	},
 	async setPersonalStat(){
 		await this.setPaperlessStatForPersonal();
@@ -276,7 +277,7 @@ const statElementManager = {
 			startDate,
 			endDate,
 		} = statDataManager.getPeriod();
-		const title = `${startDate} ~ ${endDate} 회의관리시스템 전체 ${targetName} 사용 분석`;
+		const title = `${startDate} ~ ${endDate} 회의실 예약 관리 시스템 사용 분석`;
 		const $titleSpan = Util.getElement("#statTitle");
 		$titleSpan.textContent = title;
 	},

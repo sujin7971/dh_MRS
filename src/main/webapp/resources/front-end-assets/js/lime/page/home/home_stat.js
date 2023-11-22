@@ -8,6 +8,17 @@ window.onload = async () => {
 	setPersonalStat();
 };
 
+
+const getPeriod = () => {
+	const nowDateM = moment();
+	const startDate = nowDateM.clone().add(-1, "y").format("YYYY-MM-DD");
+	const endDate = nowDateM.clone().add(-1, "d").format("YYYY-MM-DD");
+	return {
+		startDate: startDate,
+		endDate: endDate,
+	}
+}
+
 const getValueByStat = (paperless, stat) => {
 	  // stat 값에 따라 적절한 값을 반환하는 로직 작성
 	  switch (paperless) {
@@ -25,11 +36,40 @@ const getValueByStat = (paperless, stat) => {
 }
 
 const setPersonalStat = async () => {
-	const stat = await $MEETING.Get.paperlessStatForPersonal();
-	const statElements = Util.getElementAll("[data-stat]");
-	statElements.forEach(element => {
-	    const paperless = element.getAttribute('data-stat');
-	    const value = getValueByStat(paperless, stat); // stat에 따라 값을 가져오는 함수 호출
-	    element.textContent = value; // 값을 해당 element에 할당
+	const hostingStat = await $MEETING.Get.meetingCountAndTotalDurationStatForHosting(getPeriod());
+	const attendanceStat = await $MEETING.Get.meetingCountAndTotalDurationStatForAttendance(getPeriod());
+	showMeetingSummaryStatForPersonal({
+		hostingCount: hostingStat.statValue1,
+		hostingDuration: hostingStat.statValue2,
+		attendanceCount: attendanceStat.statValue1,
+		attendanceDuration: attendanceStat.statValue2,
+	});
+}
+
+const showMeetingSummaryStatForPersonal = (stat) => {
+	const statContainers = Util.getElementAll("[data-stat-summary]");
+	const {
+		hostingCount = 0,
+		hostingDuration = 0,
+		attendanceCount = 0,
+		attendanceDuration = 0,
+	} = stat;
+	statContainers.forEach($container => {
+	    const summary = $container.getAttribute('data-stat-summary');
+	    if(summary == "hosting"){
+	    	$container.style.display = "flex";
+	    	const hours = Math.floor(hostingDuration / 60); // 시간 계산
+			const remainingMinutes = hostingDuration % 60; // 남은 분 계산
+	    	const $display = $container.querySelector('[data-stat-display]')
+	    	$display.textContent = `${hostingCount}회 / ${hours}시간 ${remainingMinutes}분`;
+	    }else if(summary == "attendance"){
+	    	$container.style.display = "flex";
+	    	const hours = Math.floor(attendanceDuration / 60); // 시간 계산
+			const remainingMinutes = attendanceDuration % 60; // 남은 분 계산
+	    	const $display = $container.querySelector('[data-stat-display]')
+	    	$display.textContent = `${attendanceCount}회 / ${hours}시간 ${remainingMinutes}분`;
+	    }else{
+	    	$container.style.display = "none";
+	    }
 	});
 }

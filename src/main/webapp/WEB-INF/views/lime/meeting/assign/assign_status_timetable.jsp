@@ -16,7 +16,7 @@
 	style-src 'self' 'unsafe-inline'; 
 	style-src-elem 'self' https://fonts.googleapis.com; 
 	font-src 'self' https://fonts.gstatic.com">
-	<title>스마트 회의시스템</title>
+	<title>L-MRS</title>
 	<meta name="description" content="SMART MEETING MANAGEMENT SYSTEM">
 	<meta name="author" content="BPLMS">
 	<meta name="viewport" content="width=device-width, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -88,8 +88,9 @@
         </div>      
         <div class="row ml-2">
 			<div class="answer date">
+	        	<div class="item"><span>기 간</span></div>
 				<div data-input="date" id="dateDiv">
-			 		<input type="text" id="dateInput" class="width100p input-md" name="holdingDate" readonly></div>
+			 		<input type="text" id="dateInput" class="width100p input-md" name="holdingDate" style="background-color: #fff" readonly></div>
 			</div>
 		</div>
 	</form>
