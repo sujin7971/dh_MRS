@@ -149,7 +149,9 @@
             </div>
 			<ul class="modalInfo margin-top-16">
 				<li>사용신청에 등록된 사용자가 아니거나, 보안설정에 따라 공개대상이 아닌경우에는 상세내용 확인불가</li>
+				<!-- 
 				<li>종료된 기밀회의는 상세내용 확인불가</li>
+				 -->
 			</ul>
 			<div class="modalBtnDiv">
 				<div class="btn btn-md btn-blue" data-modal-btn="CLOSE">확 인</div>

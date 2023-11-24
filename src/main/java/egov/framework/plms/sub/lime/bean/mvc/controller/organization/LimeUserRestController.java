@@ -47,7 +47,10 @@ public class LimeUserRestController {
 		log.info("userDTO: {}", userDTO);
 		UserInfoVO infoParams = userDTO.convert();
 		Optional<UserInfoVO> duplUser = userServ.selectUserInfoOne(infoParams.getUserId());
-		if(duplUser == null) {
+		System.out.println("asdfasdf");
+		System.out.println(duplUser);
+		System.out.println("asdfasdf");
+		if(duplUser.isEmpty()) {
 			boolean infoResult = userServ.insertUserInfoOne(infoParams);
 			if(!infoResult) {
 				return ResponseMessage.builder(StatusCode.BAD_REQUEST).build();
@@ -60,11 +63,7 @@ public class LimeUserRestController {
 			return ResponseMessage.builder(StatusCode.OK).build();			
 		} else {
 			return ResponseMessage.builder(ResponseMessage.StatusCode.BAD_REQUEST)
-					.message(ResponseMessage.MessageCode.EMPLOYEE.PUT_FAIL.value())
-					.error(ErrorMessage.builder(ErrorMessage.ErrorCode.INVALID_VALUE)
-							.message(ErrorMessage.MessageCode.EMPLOYEE.CONFLICT_ID.value())
-							.build())
-					.build();
+					.message(ErrorMessage.MessageCode.EMPLOYEE.CONFLICT_ID.value()).build();
 		}
 	}
 	
